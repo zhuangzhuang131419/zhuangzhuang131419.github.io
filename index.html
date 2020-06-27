@@ -289,6 +289,74 @@
 
 
   
+    <article id="post-sftp服务器搭建" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/30/sftp%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA/">sftp服务器搭建</a>
+    </h1>
+  
+
+        
+        <a href="/2020/03/30/sftp%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA/" class="archive-article-date">
+  	<time datetime="2020-03-30T14:32:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="SFTP-服务器的搭建"><a href="#SFTP-服务器的搭建" class="headerlink" title="SFTP 服务器的搭建"></a>SFTP 服务器的搭建</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><h3 id="1-Linux管理员-root-修改和查看普通用户的密码"><a href="#1-Linux管理员-root-修改和查看普通用户的密码" class="headerlink" title="1. Linux管理员(root)修改和查看普通用户的密码"></a>1. Linux管理员(root)修改和查看普通用户的密码</h3><h4 id="root修改普通用户密码"><a href="#root修改普通用户密码" class="headerlink" title="root修改普通用户密码"></a>root修改普通用户密码</h4><p><code>sudo passwd user_name</code></p>
+<h4 id="root查看普通用户密码"><a href="#root查看普通用户密码" class="headerlink" title="root查看普通用户密码"></a>root查看普通用户密码</h4><p>密码是无法被查看的，即使是root也不行，因此普通用户要是遗忘了密码，可以参照上一步，让管理员使用root权限修改密码，然后再将新密码告知普通用户</p>
+<h4 id="普通用户修改自己的密码"><a href="#普通用户修改自己的密码" class="headerlink" title="普通用户修改自己的密码"></a>普通用户修改自己的密码</h4><p><code>passwd</code></p>
+<h3 id="2-查看当前用户及用户组"><a href="#2-查看当前用户及用户组" class="headerlink" title="2. 查看当前用户及用户组"></a>2. 查看当前用户及用户组</h3><p>####可以查看所有用户的列表<br><code>cat /etc/passwd</code><br>####可以查看当前活跃的用户列表<br><code>w</code><br>####查看用户组<br><code>cat /etc/group</code><br>####查看当前登录用户名<br><code>who am i</code></p>
+<h2 id="开始搭建"><a href="#开始搭建" class="headerlink" title="开始搭建"></a>开始搭建</h2><p>需求：创建三个用户，其中一个为sftp管理员，其余两个分别为指定目录的访问用户。sftp管理员对其他用户的sftp根目录下的内容具有读写权限，限制其他用户只能访问其自己的根目录且仅有读权限；相关的sftp用户不能登录到Linux系统中。<br>###1. 确认openssh的版本<br><code>ssh -V</code><br><img src="/Users/zhuangzhuang/Blog/source/images/sftp-ssh.png" alt=""><br>###2. 确认openssh的版本</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a href="https://www.jianshu.com/p/6b588a712513" target="_blank" rel="noopener">https://www.jianshu.com/p/6b588a712513</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/03/30/sftp%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
   
 
 
