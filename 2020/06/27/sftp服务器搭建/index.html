@@ -8,19 +8,22 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>sftp服务器搭建 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="SFTP 服务器的搭建背景1. Linux管理员(root)修改和查看普通用户的密码root修改普通用户密码sudo passwd user_name root查看普通用户密码密码是无法被查看的，即使是root也不行，因此普通用户要是遗忘了密码，可以参照上一步，让管理员使用root权限修改密码，然后再将新密码告知普通用户 普通用户修改自己的密码passwd 2. 查看当前用户及用户组可以查看所有用">
+  <meta name="description" content="SFTP 服务器的搭建背景1. Linux管理员(root)修改和查看普通用户的密码root修改普通用户密码-&gt; sudo passwd user_name root查看普通用户密码密码是无法被查看的，即使是root也不行，因此普通用户要是遗忘了密码，可以参照上一步，让管理员使用root权限修改密码，然后再将新密码告知普通用户 普通用户修改自己的密码-&gt; passwd 2. 查看当前用">
 <meta property="og:type" content="article">
 <meta property="og:title" content="sftp服务器搭建">
 <meta property="og:url" content="http://yoursite.com/2020/06/27/sftp%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="SFTP 服务器的搭建背景1. Linux管理员(root)修改和查看普通用户的密码root修改普通用户密码sudo passwd user_name root查看普通用户密码密码是无法被查看的，即使是root也不行，因此普通用户要是遗忘了密码，可以参照上一步，让管理员使用root权限修改密码，然后再将新密码告知普通用户 普通用户修改自己的密码passwd 2. 查看当前用户及用户组可以查看所有用">
+<meta property="og:description" content="SFTP 服务器的搭建背景1. Linux管理员(root)修改和查看普通用户的密码root修改普通用户密码-&gt; sudo passwd user_name root查看普通用户密码密码是无法被查看的，即使是root也不行，因此普通用户要是遗忘了密码，可以参照上一步，让管理员使用root权限修改密码，然后再将新密码告知普通用户 普通用户修改自己的密码-&gt; passwd 2. 查看当前用">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://yoursite.com/source/images/sftp-ssh.png">
+<meta property="og:image" content="http://yoursite.com/Users/zhuangzhuang/Blog/source/images/sftp-ssh.png">
+<meta property="og:image" content="http://yoursite.com/Users/zhuangzhuang/Blog/source/images/sftp-chown.png">
+<meta property="og:image" content="http://yoursite.com/Users/zhuangzhuang/Blog/source/images/sftp-sshd.png">
+<meta property="og:image" content="http://yoursite.com/Users/zhuangzhuang/Blog/source/images/sftp-sshd02.png">
 <meta property="article:published_time" content="2020-06-27T13:36:47.000Z">
-<meta property="article:modified_time" content="2020-06-27T13:38:13.691Z">
+<meta property="article:modified_time" content="2020-06-28T06:28:32.419Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/source/images/sftp-ssh.png">
+<meta name="twitter:image" content="http://yoursite.com/Users/zhuangzhuang/Blog/source/images/sftp-ssh.png">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -176,16 +179,85 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="SFTP-服务器的搭建"><a href="#SFTP-服务器的搭建" class="headerlink" title="SFTP 服务器的搭建"></a>SFTP 服务器的搭建</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><h3 id="1-Linux管理员-root-修改和查看普通用户的密码"><a href="#1-Linux管理员-root-修改和查看普通用户的密码" class="headerlink" title="1. Linux管理员(root)修改和查看普通用户的密码"></a>1. Linux管理员(root)修改和查看普通用户的密码</h3><h4 id="root修改普通用户密码"><a href="#root修改普通用户密码" class="headerlink" title="root修改普通用户密码"></a>root修改普通用户密码</h4><p><code>sudo passwd user_name</code></p>
+        <h1 id="SFTP-服务器的搭建"><a href="#SFTP-服务器的搭建" class="headerlink" title="SFTP 服务器的搭建"></a>SFTP 服务器的搭建</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><h3 id="1-Linux管理员-root-修改和查看普通用户的密码"><a href="#1-Linux管理员-root-修改和查看普通用户的密码" class="headerlink" title="1. Linux管理员(root)修改和查看普通用户的密码"></a>1. Linux管理员(root)修改和查看普通用户的密码</h3><h4 id="root修改普通用户密码"><a href="#root修改普通用户密码" class="headerlink" title="root修改普通用户密码"></a>root修改普通用户密码</h4><p><code>-&gt; sudo passwd user_name</code></p>
 <h4 id="root查看普通用户密码"><a href="#root查看普通用户密码" class="headerlink" title="root查看普通用户密码"></a>root查看普通用户密码</h4><p>密码是无法被查看的，即使是root也不行，因此普通用户要是遗忘了密码，可以参照上一步，让管理员使用root权限修改密码，然后再将新密码告知普通用户</p>
-<h4 id="普通用户修改自己的密码"><a href="#普通用户修改自己的密码" class="headerlink" title="普通用户修改自己的密码"></a>普通用户修改自己的密码</h4><p><code>passwd</code></p>
-<h3 id="2-查看当前用户及用户组"><a href="#2-查看当前用户及用户组" class="headerlink" title="2. 查看当前用户及用户组"></a>2. 查看当前用户及用户组</h3><h4 id="可以查看所有用户的列表"><a href="#可以查看所有用户的列表" class="headerlink" title="可以查看所有用户的列表"></a>可以查看所有用户的列表</h4><p><code>cat /etc/passwd</code></p>
-<h4 id="可以查看当前活跃的用户列表"><a href="#可以查看当前活跃的用户列表" class="headerlink" title="可以查看当前活跃的用户列表"></a>可以查看当前活跃的用户列表</h4><p><code>w</code></p>
-<h4 id="查看用户组"><a href="#查看用户组" class="headerlink" title="查看用户组"></a>查看用户组</h4><p><code>cat /etc/group</code></p>
-<h4 id="查看当前登录用户名"><a href="#查看当前登录用户名" class="headerlink" title="查看当前登录用户名"></a>查看当前登录用户名</h4><p><code>who am i</code></p>
+<h4 id="普通用户修改自己的密码"><a href="#普通用户修改自己的密码" class="headerlink" title="普通用户修改自己的密码"></a>普通用户修改自己的密码</h4><p><code>-&gt; passwd</code></p>
+<h3 id="2-查看当前用户及用户组"><a href="#2-查看当前用户及用户组" class="headerlink" title="2. 查看当前用户及用户组"></a>2. 查看当前用户及用户组</h3><h4 id="可以查看所有用户的列表"><a href="#可以查看所有用户的列表" class="headerlink" title="可以查看所有用户的列表"></a>可以查看所有用户的列表</h4><p><code>-&gt; cat /etc/passwd</code></p>
+<h4 id="可以查看当前活跃的用户列表"><a href="#可以查看当前活跃的用户列表" class="headerlink" title="可以查看当前活跃的用户列表"></a>可以查看当前活跃的用户列表</h4><p><code>-&gt; w</code></p>
+<h4 id="查看用户组"><a href="#查看用户组" class="headerlink" title="查看用户组"></a>查看用户组</h4><p><code>-&gt; cat /etc/group</code></p>
+<h4 id="查看当前登录用户名"><a href="#查看当前登录用户名" class="headerlink" title="查看当前登录用户名"></a>查看当前登录用户名</h4><p><code>-&gt; who am i</code></p>
+<h4 id="查看用户属于哪一个用户组"><a href="#查看用户属于哪一个用户组" class="headerlink" title="查看用户属于哪一个用户组"></a>查看用户属于哪一个用户组</h4><p><code>-&gt; groups username</code></p>
 <h2 id="开始搭建"><a href="#开始搭建" class="headerlink" title="开始搭建"></a>开始搭建</h2><p>需求：创建三个用户，其中一个为sftp管理员，其余两个分别为指定目录的访问用户。sftp管理员对其他用户的sftp根目录下的内容具有读写权限，限制其他用户只能访问其自己的根目录且仅有读权限；相关的sftp用户不能登录到Linux系统中。</p>
-<h3 id="1-确认openssh的版本"><a href="#1-确认openssh的版本" class="headerlink" title="1. 确认openssh的版本"></a>1. 确认openssh的版本</h3><p><code>ssh -V</code><br><img src="/source/images/sftp-ssh.png" alt=""></p>
-<h3 id="2-确认openssh的版本"><a href="#2-确认openssh的版本" class="headerlink" title="2. 确认openssh的版本"></a>2. 确认openssh的版本</h3><h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a href="https://www.jianshu.com/p/6b588a712513" target="_blank" rel="noopener">https://www.jianshu.com/p/6b588a712513</a></p>
+<h3 id="1-确认openssh的版本"><a href="#1-确认openssh的版本" class="headerlink" title="1. 确认openssh的版本"></a>1. 确认openssh的版本</h3><p><code>-&gt; ssh -V</code><br><img src="/Users/zhuangzhuang/Blog/source/images/sftp-ssh.png" alt=""></p>
+<h3 id="2-切换到管理员-root"><a href="#2-切换到管理员-root" class="headerlink" title="2. 切换到管理员(root)"></a>2. 切换到管理员(root)</h3><blockquote>
+<p>也可以不切换在下面的命令行前加<code>sudo</code></p>
+</blockquote>
+<p><code>-&gt; sudo -i</code></p>
+<h3 id="3-创建sftp管理组及用户组"><a href="#3-创建sftp管理组及用户组" class="headerlink" title="3. 创建sftp管理组及用户组"></a>3. 创建sftp管理组及用户组</h3><blockquote>
+<p>添加管理组 bytedance_admin</p>
+</blockquote>
+<p><code>-&gt; groupadd bytedance_admin</code></p>
+<blockquote>
+<p>添加用户组 bytedance</p>
+</blockquote>
+<p><code>-&gt; groupadd bytedance</code></p>
+<h3 id="4-创建sftp管理用户及普通用户"><a href="#4-创建sftp管理用户及普通用户" class="headerlink" title="4. 创建sftp管理用户及普通用户"></a>4. 创建sftp管理用户及普通用户</h3><blockquote>
+<p><code>/bin/false</code> 目的是不让用户登录 也可以使用<code>/bin/nologin</code></p>
+</blockquote>
+<p><code>-&gt; useradd -g bytedance -s /bin/false bob</code></p>
+<p><code>-&gt; useradd -g bytedance -s /bin/false john</code></p>
+<p><code>-&gt; useradd -g bytedance_admin -s /bin/false king</code></p>
+<blockquote>
+<p>为每一位用户设置密码</p>
+</blockquote>
+<p><code>-&gt; passwd king</code></p>
+<p><code>-&gt; passwd bob</code></p>
+<p><code>-&gt; passwd john</code></p>
+<h3 id="5-分别创建对应用户的bytedance根目录并指定为其家目录"><a href="#5-分别创建对应用户的bytedance根目录并指定为其家目录" class="headerlink" title="5. 分别创建对应用户的bytedance根目录并指定为其家目录"></a>5. 分别创建对应用户的bytedance根目录并指定为其家目录</h3><p><code>-&gt; mkdir -pv /usr/bytedance/{bob,john}/share</code></p>
+<h3 id="6-配置sshd-config文件"><a href="#6-配置sshd-config文件" class="headerlink" title="6. 配置sshd_config文件"></a>6. 配置sshd_config文件</h3><p><code>-&gt; vi /etc/ssh/sshd_config</code></p>
+<p>找到如下这行，用#符号注释掉，大致在文件末尾处。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"># Subsystem sftp &#x2F;usr&#x2F;libexec&#x2F;openssh&#x2F;sftp-server</span><br><span class="line"></span><br><span class="line">Subsystem sftp internal-sftp     #这行指定使用sftp服务使用系统自带的internal-sftp</span><br><span class="line"></span><br><span class="line">Match Group bytedance     #这行用来匹配bytedance组的用户，如果要匹配多个组，多个组之间用逗号分割；</span><br><span class="line"></span><br><span class="line">	ChrootDirectory &#x2F;usr&#x2F;bytedance&#x2F;%u        #用chroot将用户的根目录指定到%h，%h代表用户home目录，这样用户就只能在用户目录下活动。也可用%u，%u代表用户名。</span><br><span class="line"></span><br><span class="line">	ForceCommand internal-sftp    #指定sftp命令 </span><br><span class="line"></span><br><span class="line">	AllowTcpForwarding no</span><br><span class="line"></span><br><span class="line">	X11Forwarding no</span><br><span class="line"></span><br><span class="line">Match User bytedance_admin        #匹配用户了，多个用户名之间也是用逗号分割</span><br><span class="line"></span><br><span class="line">	ChrootDirectory &#x2F;usr&#x2F;bytedance</span><br><span class="line"></span><br><span class="line">	ForceCommand internal-sftp</span><br><span class="line"></span><br><span class="line">	AllowTcpForwarding no</span><br><span class="line"></span><br><span class="line">	X11Forwarding no</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-设置Chroot目录的权限"><a href="#7-设置Chroot目录的权限" class="headerlink" title="7. 设置Chroot目录的权限"></a>7. 设置Chroot目录的权限</h3><h4 id="chown和chmod-命令"><a href="#chown和chmod-命令" class="headerlink" title="chown和chmod 命令"></a>chown和chmod 命令</h4><blockquote>
+<p>chmod修改的是文件的读、写、执行。</p>
+<p>chown修改的是文件的用户或者组的权限。</p>
+</blockquote>
+<h4 id="具体步骤"><a href="#具体步骤" class="headerlink" title="具体步骤"></a>具体步骤</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#修改普通用户的根目录属组</span><br><span class="line"></span><br><span class="line">chown root:bytedance &#x2F;usr&#x2F;bytedance&#x2F;&#123;bob,john&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/Users/zhuangzhuang/Blog/source/images/sftp-chown.png" alt=""></p>
+<p>第一个root表示文件所有者 第二个bytedance表示文件所在的群组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#修改普通用户的根目录权限</span><br><span class="line">-&gt; chmod 755 &#x2F;usr&#x2F;bytedance&#x2F;&#123;bob,john&#125;  </span><br><span class="line"></span><br><span class="line">#修改管理员的根目录属组</span><br><span class="line">-&gt; chown root:bytedance_admin &#x2F;usr&#x2F;bytedance&#x2F;</span><br><span class="line"></span><br><span class="line">#修改管理员根目录的权限</span><br><span class="line">-&gt; chmod 755 &#x2F;usr&#x2F;bytedance&#x2F;</span><br><span class="line"></span><br><span class="line">#修改各普通用户下的share目录的属主为管理员，属组为普通用户组</span><br><span class="line">-&gt; chown king:bytedance &#x2F;usr&#x2F;bytedance&#x2F;&#123;bob,john&#125;&#x2F;share&#x2F; </span><br><span class="line"></span><br><span class="line">#各share目录管理员的权限为读写，普通bytedance组仅有读权限，其他用户没有权限访问</span><br><span class="line">-&gt; chmod 750 &#x2F;usr&#x2F;bytedance&#x2F;&#123;bob,john&#125;&#x2F;share&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>chmod 后面的数字含义参考</p>
+<p><a href="https://chmodcommand.com/" target="_blank" rel="noopener">https://chmodcommand.com/</a></p>
+<h3 id="8-关闭selinux"><a href="#8-关闭selinux" class="headerlink" title="8. 关闭selinux"></a>8. 关闭selinux</h3><p><code>-&gt; vim /etc/selinux/config</code></p>
+<p><code>SELINUX=permissive</code></p>
+<p><code>-&gt; setenforce 0</code></p>
+<p>如果提示 <code>setenforce: command not found</code></p>
+<p>解决方案:</p>
+<ul>
+<li><p><code>apt-get install selinux-utils</code></p>
+</li>
+<li><p>添加环境变量<br><code>/usr/sbin/setenforce</code></p>
+</li>
+</ul>
+<h3 id="9-重启sshd服务"><a href="#9-重启sshd服务" class="headerlink" title="9. 重启sshd服务"></a>9. 重启sshd服务</h3><p><code>-&gt; service sshd restart</code></p>
+<p>如果提示<br><code>Job for ssh.service failed because the control process exited with error codesee systemctl status ssh.service and journalctl -xe for details.</code><br>解决方案：</p>
+<ul>
+<li>按照提示<code>systemctl status ssh.service</code><ul>
+<li><img src="/Users/zhuangzhuang/Blog/source/images/sftp-sshd.png" alt=""></li>
+</ul>
+</li>
+<li><code>/usr/sbin/sshd -T</code><ul>
+<li>根据具体情况分析</li>
+<li><img src="/Users/zhuangzhuang/Blog/source/images/sftp-sshd02.png" alt=""></li>
+<li>这里我的情况是把Match User写到了前面，导致后面的参数读取失败</li>
+</ul>
+</li>
+</ul>
+<p><strong>Tips:</strong><br>请务必解决上述问题，不然sshd重启出错将会导致之后本地无法通过ssh连接开发机</p>
+<h3 id="10-验证sftp登录"><a href="#10-验证sftp登录" class="headerlink" title="10. 验证sftp登录"></a>10. 验证sftp登录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#管理员登录，能对share目录下的文件进行读写操作</span><br><span class="line"></span><br><span class="line">-&gt; sftp king@127.0.0.1</span><br><span class="line"></span><br><span class="line">Connecting to 127.0.0.1...</span><br><span class="line">king@127.0.0.1&#39;s password: </span><br><span class="line">#输入之前的密码</span><br><span class="line"></span><br><span class="line">sftp&gt; </span><br><span class="line"></span><br><span class="line">#普通用户登录，对share目录下的文件只能进行读操作</span><br><span class="line"></span><br><span class="line">-&gt; sftp bob@127.0.0.1</span><br><span class="line"></span><br><span class="line">bob@127.0.0.1&#39;s password: </span><br><span class="line"></span><br><span class="line">sftp&gt; ls</span><br><span class="line">share</span><br></pre></td></tr></table></figure>
+<p>验证登录出现<code>sftp&gt;</code> 基本就说明了sftp服务器搭建成功了，剩下需要注意的就是权限问题了。此时也可以通过相关的ftp client 如：FileZilla FTP Client 和xftp 来连接到对应的sftp服务器了。</p>
+<h2 id="设置记录sftp服务器的登录及操作日志"><a href="#设置记录sftp服务器的登录及操作日志" class="headerlink" title="设置记录sftp服务器的登录及操作日志"></a>设置记录sftp服务器的登录及操作日志</h2><h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a href="https://www.jianshu.com/p/6b588a712513" target="_blank" rel="noopener">https://www.jianshu.com/p/6b588a712513</a></p>
 
       
 
