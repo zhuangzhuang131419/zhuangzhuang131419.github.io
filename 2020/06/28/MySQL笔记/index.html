@@ -6,24 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>sftp服务器搭建 | Hexo</title>
+  <title>MySQL笔记 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="SFTP 服务器的搭建背景1. Linux管理员(root)修改和查看普通用户的密码root修改普通用户密码-&gt; sudo passwd user_name root查看普通用户密码密码是无法被查看的，即使是root也不行，因此普通用户要是遗忘了密码，可以参照上一步，让管理员使用root权限修改密码，然后再将新密码告知普通用户 普通用户修改自己的密码-&gt; passwd 2. 查看当前用">
+  <meta name="description" content="MySQL笔记MySQL事务隔离级别数据库事务隔离级别    脏读 不可重复读 幻读    Read Uncommitted 可能 可能 可能   Read Committed 不可能 可能 可能   Repeatable Read 不可能 不可能 可能   Serializable 不可能 不可能 不可能   脏读、不可重复读、幻读 脏读   脏读就是指当一个事务正在访问数据，并且对数据进行了修">
 <meta property="og:type" content="article">
-<meta property="og:title" content="sftp服务器搭建">
-<meta property="og:url" content="http://yoursite.com/2020/06/27/sftp%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA/index.html">
+<meta property="og:title" content="MySQL笔记">
+<meta property="og:url" content="http://yoursite.com/2020/06/28/MySQL%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="SFTP 服务器的搭建背景1. Linux管理员(root)修改和查看普通用户的密码root修改普通用户密码-&gt; sudo passwd user_name root查看普通用户密码密码是无法被查看的，即使是root也不行，因此普通用户要是遗忘了密码，可以参照上一步，让管理员使用root权限修改密码，然后再将新密码告知普通用户 普通用户修改自己的密码-&gt; passwd 2. 查看当前用">
+<meta property="og:description" content="MySQL笔记MySQL事务隔离级别数据库事务隔离级别    脏读 不可重复读 幻读    Read Uncommitted 可能 可能 可能   Read Committed 不可能 可能 可能   Repeatable Read 不可能 不可能 可能   Serializable 不可能 不可能 不可能   脏读、不可重复读、幻读 脏读   脏读就是指当一个事务正在访问数据，并且对数据进行了修">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://yoursite.com/Users/zhuangzhuang/Blog/source/images/sftp-ssh.png">
-<meta property="og:image" content="http://yoursite.com/Users/zhuangzhuang/Blog/source/images/sftp-chown.png">
-<meta property="og:image" content="http://yoursite.com/Users/zhuangzhuang/Blog/source/images/sftp-sshd.png">
-<meta property="og:image" content="http://yoursite.com/Users/zhuangzhuang/Blog/source/images/sftp-sshd02.png">
-<meta property="article:published_time" content="2020-06-27T13:36:47.000Z">
-<meta property="article:modified_time" content="2020-06-28T06:28:32.419Z">
+<meta property="article:published_time" content="2020-06-28T09:38:47.000Z">
+<meta property="article:modified_time" content="2020-06-28T14:24:55.362Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/Users/zhuangzhuang/Blog/source/images/sftp-ssh.png">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -159,105 +154,85 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-sftp服务器搭建" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-MySQL笔记" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      sftp服务器搭建
+      MySQL笔记
     </h1>
   
 
         
-        <a href="/2020/06/27/sftp%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA/" class="archive-article-date">
-  	<time datetime="2020-06-27T13:36:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-27</time>
+        <a href="/2020/06/28/MySQL%E7%AC%94%E8%AE%B0/" class="archive-article-date">
+  	<time datetime="2020-06-28T09:38:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-28</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="SFTP-服务器的搭建"><a href="#SFTP-服务器的搭建" class="headerlink" title="SFTP 服务器的搭建"></a>SFTP 服务器的搭建</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><h3 id="1-Linux管理员-root-修改和查看普通用户的密码"><a href="#1-Linux管理员-root-修改和查看普通用户的密码" class="headerlink" title="1. Linux管理员(root)修改和查看普通用户的密码"></a>1. Linux管理员(root)修改和查看普通用户的密码</h3><h4 id="root修改普通用户密码"><a href="#root修改普通用户密码" class="headerlink" title="root修改普通用户密码"></a>root修改普通用户密码</h4><p><code>-&gt; sudo passwd user_name</code></p>
-<h4 id="root查看普通用户密码"><a href="#root查看普通用户密码" class="headerlink" title="root查看普通用户密码"></a>root查看普通用户密码</h4><p>密码是无法被查看的，即使是root也不行，因此普通用户要是遗忘了密码，可以参照上一步，让管理员使用root权限修改密码，然后再将新密码告知普通用户</p>
-<h4 id="普通用户修改自己的密码"><a href="#普通用户修改自己的密码" class="headerlink" title="普通用户修改自己的密码"></a>普通用户修改自己的密码</h4><p><code>-&gt; passwd</code></p>
-<h3 id="2-查看当前用户及用户组"><a href="#2-查看当前用户及用户组" class="headerlink" title="2. 查看当前用户及用户组"></a>2. 查看当前用户及用户组</h3><h4 id="可以查看所有用户的列表"><a href="#可以查看所有用户的列表" class="headerlink" title="可以查看所有用户的列表"></a>可以查看所有用户的列表</h4><p><code>-&gt; cat /etc/passwd</code></p>
-<h4 id="可以查看当前活跃的用户列表"><a href="#可以查看当前活跃的用户列表" class="headerlink" title="可以查看当前活跃的用户列表"></a>可以查看当前活跃的用户列表</h4><p><code>-&gt; w</code></p>
-<h4 id="查看用户组"><a href="#查看用户组" class="headerlink" title="查看用户组"></a>查看用户组</h4><p><code>-&gt; cat /etc/group</code></p>
-<h4 id="查看当前登录用户名"><a href="#查看当前登录用户名" class="headerlink" title="查看当前登录用户名"></a>查看当前登录用户名</h4><p><code>-&gt; who am i</code></p>
-<h4 id="查看用户属于哪一个用户组"><a href="#查看用户属于哪一个用户组" class="headerlink" title="查看用户属于哪一个用户组"></a>查看用户属于哪一个用户组</h4><p><code>-&gt; groups username</code></p>
-<h2 id="开始搭建"><a href="#开始搭建" class="headerlink" title="开始搭建"></a>开始搭建</h2><p>需求：创建三个用户，其中一个为sftp管理员，其余两个分别为指定目录的访问用户。sftp管理员对其他用户的sftp根目录下的内容具有读写权限，限制其他用户只能访问其自己的根目录且仅有读权限；相关的sftp用户不能登录到Linux系统中。</p>
-<h3 id="1-确认openssh的版本"><a href="#1-确认openssh的版本" class="headerlink" title="1. 确认openssh的版本"></a>1. 确认openssh的版本</h3><p><code>-&gt; ssh -V</code><br><img src="/Users/zhuangzhuang/Blog/source/images/sftp-ssh.png" alt=""></p>
-<h3 id="2-切换到管理员-root"><a href="#2-切换到管理员-root" class="headerlink" title="2. 切换到管理员(root)"></a>2. 切换到管理员(root)</h3><blockquote>
-<p>也可以不切换在下面的命令行前加<code>sudo</code></p>
+        <h1 id="MySQL笔记"><a href="#MySQL笔记" class="headerlink" title="MySQL笔记"></a>MySQL笔记</h1><h2 id="MySQL事务隔离级别"><a href="#MySQL事务隔离级别" class="headerlink" title="MySQL事务隔离级别"></a>MySQL事务隔离级别</h2><h3 id="数据库事务隔离级别"><a href="#数据库事务隔离级别" class="headerlink" title="数据库事务隔离级别"></a>数据库事务隔离级别</h3><table>
+<thead>
+<tr>
+<th></th>
+<th>脏读</th>
+<th>不可重复读</th>
+<th>幻读</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Read Uncommitted</td>
+<td>可能</td>
+<td>可能</td>
+<td>可能</td>
+</tr>
+<tr>
+<td>Read Committed</td>
+<td>不可能</td>
+<td>可能</td>
+<td>可能</td>
+</tr>
+<tr>
+<td>Repeatable Read</td>
+<td>不可能</td>
+<td>不可能</td>
+<td>可能</td>
+</tr>
+<tr>
+<td>Serializable</td>
+<td>不可能</td>
+<td>不可能</td>
+<td>不可能</td>
+</tr>
+</tbody></table>
+<h3 id="脏读、不可重复读、幻读"><a href="#脏读、不可重复读、幻读" class="headerlink" title="脏读、不可重复读、幻读"></a>脏读、不可重复读、幻读</h3><ul>
+<li><p>脏读</p>
+<p>  脏读就是指当一个事务正在访问数据，并且对数据进行了修改，而这种修改还没有提交到数据库中，这时，另外一个事务也访问这个数据，然后使用了这个数据。</p>
+</li>
+<li><p>不可重复读</p>
+<p>  是指在一个事务内，多次读同一数据。在这个事务还没有结束时，另外一个事务也访问该同一数据。那么，在第一个事务中的两次读数据之间，由于第二个事务的修改，那么第一个事务两次读到的的数据可能是不一样的。这样就发生了在一个事务内两次读到的数据是不一样的，因此称为是不可重复读。（即不能读到相同的数据内容）</p>
+<p>  例如，一个编辑人员两次读取同一文档，但在两次读取之间，作者重写了该文档。当编辑人员第二次读取文档时，文档已更改。原始读取不可重复。如果只有在作者全部完成编写后编辑人员才可以读取文档，则可以避免该问题。</p>
+</li>
+<li><p>幻读</p>
+<p>  是指当事务不是独立执行时发生的一种现象，例如第一个事务对一个表中的数据进行了修改，这种修改涉及到表中的全部数据行。同时，第二个事务也修改这个表中的数据，这种修改是向表中插入一行新数据。那么，以后就会发生操作第一个事务的用户发现表中还有没有修改的数据行，就好象发生了幻觉一样。</p>
+<p>  例如，一个编辑人员更改作者提交的文档，但当生产部门将其更改内容合并到该文档的主复本时，发现作者已将未编辑的新材料添加到该文档中。如果在编辑人员和生产部门完成对原始文档的处理之前，任何人都不能将新材料添加到文档中，则可以避免该问题。</p>
+</li>
+</ul>
+<h3 id="四种隔离级别的解读"><a href="#四种隔离级别的解读" class="headerlink" title="四种隔离级别的解读"></a>四种隔离级别的解读</h3><blockquote>
+<p>Read Uncommitted<br>最差的隔离级别，一个事务可以读到另一个事务没有commit时的数据</p>
 </blockquote>
-<p><code>-&gt; sudo -i</code></p>
-<h3 id="3-创建sftp管理组及用户组"><a href="#3-创建sftp管理组及用户组" class="headerlink" title="3. 创建sftp管理组及用户组"></a>3. 创建sftp管理组及用户组</h3><blockquote>
-<p>添加管理组 bytedance_admin</p>
-</blockquote>
-<p><code>-&gt; groupadd bytedance_admin</code></p>
 <blockquote>
-<p>添加用户组 bytedance</p>
+<p>Read Committed<br>当隔离级别设置为Read committed 时，一个事务虽然不能读未commit的数据，但是别的事务可以修改当前读过的数据，造成前后不一致。大多数数据库的默认级别就是Read committed，比如Sql Server , Oracle。</p>
 </blockquote>
-<p><code>-&gt; groupadd bytedance</code></p>
-<h3 id="4-创建sftp管理用户及普通用户"><a href="#4-创建sftp管理用户及普通用户" class="headerlink" title="4. 创建sftp管理用户及普通用户"></a>4. 创建sftp管理用户及普通用户</h3><blockquote>
-<p><code>/bin/false</code> 目的是不让用户登录 也可以使用<code>/bin/nologin</code></p>
-</blockquote>
-<p><code>-&gt; useradd -g bytedance -s /bin/false bob</code></p>
-<p><code>-&gt; useradd -g bytedance -s /bin/false john</code></p>
-<p><code>-&gt; useradd -g bytedance_admin -s /bin/false king</code></p>
 <blockquote>
-<p>为每一位用户设置密码</p>
+<p>Repeatable Read<br>虽然Repeatable read避免了不可重复读，但还有可能出现幻读 。</p>
 </blockquote>
-<p><code>-&gt; passwd king</code></p>
-<p><code>-&gt; passwd bob</code></p>
-<p><code>-&gt; passwd john</code></p>
-<h3 id="5-分别创建对应用户的bytedance根目录并指定为其家目录"><a href="#5-分别创建对应用户的bytedance根目录并指定为其家目录" class="headerlink" title="5. 分别创建对应用户的bytedance根目录并指定为其家目录"></a>5. 分别创建对应用户的bytedance根目录并指定为其家目录</h3><p><code>-&gt; mkdir -pv /usr/bytedance/{bob,john}/share</code></p>
-<h3 id="6-配置sshd-config文件"><a href="#6-配置sshd-config文件" class="headerlink" title="6. 配置sshd_config文件"></a>6. 配置sshd_config文件</h3><p><code>-&gt; vi /etc/ssh/sshd_config</code></p>
-<p>找到如下这行，用#符号注释掉，大致在文件末尾处。 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"># Subsystem sftp &#x2F;usr&#x2F;libexec&#x2F;openssh&#x2F;sftp-server</span><br><span class="line"></span><br><span class="line">Subsystem sftp internal-sftp     #这行指定使用sftp服务使用系统自带的internal-sftp</span><br><span class="line"></span><br><span class="line">Match Group bytedance     #这行用来匹配bytedance组的用户，如果要匹配多个组，多个组之间用逗号分割；</span><br><span class="line"></span><br><span class="line">	ChrootDirectory &#x2F;usr&#x2F;bytedance&#x2F;%u        #用chroot将用户的根目录指定到%h，%h代表用户home目录，这样用户就只能在用户目录下活动。也可用%u，%u代表用户名。</span><br><span class="line"></span><br><span class="line">	ForceCommand internal-sftp    #指定sftp命令 </span><br><span class="line"></span><br><span class="line">	AllowTcpForwarding no</span><br><span class="line"></span><br><span class="line">	X11Forwarding no</span><br><span class="line"></span><br><span class="line">Match User bytedance_admin        #匹配用户了，多个用户名之间也是用逗号分割</span><br><span class="line"></span><br><span class="line">	ChrootDirectory &#x2F;usr&#x2F;bytedance</span><br><span class="line"></span><br><span class="line">	ForceCommand internal-sftp</span><br><span class="line"></span><br><span class="line">	AllowTcpForwarding no</span><br><span class="line"></span><br><span class="line">	X11Forwarding no</span><br></pre></td></tr></table></figure>
-
-<h3 id="7-设置Chroot目录的权限"><a href="#7-设置Chroot目录的权限" class="headerlink" title="7. 设置Chroot目录的权限"></a>7. 设置Chroot目录的权限</h3><h4 id="chown和chmod-命令"><a href="#chown和chmod-命令" class="headerlink" title="chown和chmod 命令"></a>chown和chmod 命令</h4><blockquote>
-<p>chmod修改的是文件的读、写、执行。</p>
-<p>chown修改的是文件的用户或者组的权限。</p>
+<blockquote>
+<p>Serializable<br>Serializable 是最高的事务隔离级别，同时代价也花费最高，性能很低，一般很少使用，在该级别下，事务顺序执行，不仅可以避免脏读、不可重复读，还避免了幻像读。</p>
 </blockquote>
-<h4 id="具体步骤"><a href="#具体步骤" class="headerlink" title="具体步骤"></a>具体步骤</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#修改普通用户的根目录属组</span><br><span class="line"></span><br><span class="line">chown root:bytedance &#x2F;usr&#x2F;bytedance&#x2F;&#123;bob,john&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="/Users/zhuangzhuang/Blog/source/images/sftp-chown.png" alt=""></p>
-<p>第一个root表示文件所有者 第二个bytedance表示文件所在的群组</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#修改普通用户的根目录权限</span><br><span class="line">-&gt; chmod 755 &#x2F;usr&#x2F;bytedance&#x2F;&#123;bob,john&#125;  </span><br><span class="line"></span><br><span class="line">#修改管理员的根目录属组</span><br><span class="line">-&gt; chown root:bytedance_admin &#x2F;usr&#x2F;bytedance&#x2F;</span><br><span class="line"></span><br><span class="line">#修改管理员根目录的权限</span><br><span class="line">-&gt; chmod 755 &#x2F;usr&#x2F;bytedance&#x2F;</span><br><span class="line"></span><br><span class="line">#修改各普通用户下的share目录的属主为管理员，属组为普通用户组</span><br><span class="line">-&gt; chown king:bytedance &#x2F;usr&#x2F;bytedance&#x2F;&#123;bob,john&#125;&#x2F;share&#x2F; </span><br><span class="line"></span><br><span class="line">#各share目录管理员的权限为读写，普通bytedance组仅有读权限，其他用户没有权限访问</span><br><span class="line">-&gt; chmod 750 &#x2F;usr&#x2F;bytedance&#x2F;&#123;bob,john&#125;&#x2F;share&#x2F;</span><br></pre></td></tr></table></figure>
-
-<p>chmod 后面的数字含义参考</p>
-<p><a href="https://chmodcommand.com/" target="_blank" rel="noopener">https://chmodcommand.com/</a></p>
-<h3 id="8-关闭selinux"><a href="#8-关闭selinux" class="headerlink" title="8. 关闭selinux"></a>8. 关闭selinux</h3><p><code>-&gt; vim /etc/selinux/config</code></p>
-<p><code>SELINUX=permissive</code></p>
-<p><code>-&gt; setenforce 0</code></p>
-<p>如果提示 <code>setenforce: command not found</code></p>
-<p>解决方案:</p>
-<ul>
-<li><p><code>apt-get install selinux-utils</code></p>
-</li>
-<li><p>添加环境变量<br><code>/usr/sbin/setenforce</code></p>
-</li>
-</ul>
-<h3 id="9-重启sshd服务"><a href="#9-重启sshd服务" class="headerlink" title="9. 重启sshd服务"></a>9. 重启sshd服务</h3><p><code>-&gt; service sshd restart</code></p>
-<p>如果提示<br><code>Job for ssh.service failed because the control process exited with error codesee systemctl status ssh.service and journalctl -xe for details.</code><br>解决方案：</p>
-<ul>
-<li>按照提示<code>systemctl status ssh.service</code><ul>
-<li><img src="/Users/zhuangzhuang/Blog/source/images/sftp-sshd.png" alt=""></li>
-</ul>
-</li>
-<li><code>/usr/sbin/sshd -T</code><ul>
-<li>根据具体情况分析</li>
-<li><img src="/Users/zhuangzhuang/Blog/source/images/sftp-sshd02.png" alt=""></li>
-<li>这里我的情况是把Match User写到了前面，导致后面的参数读取失败</li>
-</ul>
-</li>
-</ul>
-<p><strong>Tips:</strong><br>请务必解决上述问题，不然sshd重启出错将会导致之后本地无法通过ssh连接开发机</p>
-<h3 id="10-验证sftp登录"><a href="#10-验证sftp登录" class="headerlink" title="10. 验证sftp登录"></a>10. 验证sftp登录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#管理员登录，能对share目录下的文件进行读写操作</span><br><span class="line"></span><br><span class="line">-&gt; sftp king@127.0.0.1</span><br><span class="line"></span><br><span class="line">Connecting to 127.0.0.1...</span><br><span class="line">king@127.0.0.1&#39;s password: </span><br><span class="line">#输入之前的密码</span><br><span class="line"></span><br><span class="line">sftp&gt; </span><br><span class="line"></span><br><span class="line">#普通用户登录，对share目录下的文件只能进行读操作</span><br><span class="line"></span><br><span class="line">-&gt; sftp bob@127.0.0.1</span><br><span class="line"></span><br><span class="line">bob@127.0.0.1&#39;s password: </span><br><span class="line"></span><br><span class="line">sftp&gt; ls</span><br><span class="line">share</span><br></pre></td></tr></table></figure>
-<p>验证登录出现<code>sftp&gt;</code> 基本就说明了sftp服务器搭建成功了，剩下需要注意的就是权限问题了。此时也可以通过相关的ftp client 如：FileZilla FTP Client 和xftp 来连接到对应的sftp服务器了。</p>
-<h2 id="设置记录sftp服务器的登录及操作日志"><a href="#设置记录sftp服务器的登录及操作日志" class="headerlink" title="设置记录sftp服务器的登录及操作日志"></a>设置记录sftp服务器的登录及操作日志</h2><h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a href="https://www.jianshu.com/p/6b588a712513" target="_blank" rel="noopener">https://www.jianshu.com/p/6b588a712513</a></p>
 
       
 
@@ -337,7 +312,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/06/27/sftp%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/06/28/MySQL%E7%AC%94%E8%AE%B0/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -351,18 +326,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2020/06/28/MySQL%E7%AC%94%E8%AE%B0/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          MySQL笔记
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/06/27/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E6%96%87/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">我的第一篇博文</div>
+    <a href="/2020/06/27/sftp%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">sftp服务器搭建</div>
       <i class="icon-circle-right"></i>
     </a>
   
