@@ -314,14 +314,22 @@
 </li>
 <li>list<ul>
 <li>List 列表是简单的字符串列表，按照插入顺序排序。可以添加一个元素到列表的头部（左边）或者尾部（右边） 常用命令：lpush、rpush、lpop、rpop、lrange（获取列表片段）等。</li>
+<li>双向列表</li>
 </ul>
 </li>
-<li>set</li>
-<li>sorted list</li>
+<li>set<ul>
+<li>集合是通过 hashtable 实现的。Set 中的元素是没有顺序的，而且是没有重复的。常用命令：sdd、spop、smembers、sunion 等。</li>
+</ul>
+</li>
+<li>sorted list<ul>
+<li>和 Set 相比，Sorted Set关联了一个 Double 类型权重的参数 Score，使得集合中的元素能够按照 Score 进行有序排列，Redis 正是通过分数来为集合中的成员进行从小到大的排序。</li>
+<li>Redis Sorted Set 的内部使用 HashMap 和跳跃表（skipList）来保证数据的存储和有序，HashMap 里放的是成员到 Score 的映射。</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>编码方式 encoding<ul>
-<li>raw</li>
+<li>raw </li>
 <li>int</li>
 <li>ht</li>
 <li>zipmap</li>
@@ -336,7 +344,118 @@
 </ul>
 <p>使用<strong>一个</strong> redisObject 对象来表示<strong>所有</strong>的 key 和 value</p>
 <h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>type 表示一个 value 对象具体是何种数据类型，encoding 是不同数据类型在 Redis 内部的存储方式。</p>
+<h2 id="Redis缓存"><a href="#Redis缓存" class="headerlink" title="Redis缓存"></a>Redis缓存</h2><p>//todo</p>
+<h3 id="Redis雪崩"><a href="#Redis雪崩" class="headerlink" title="Redis雪崩"></a>Redis雪崩</h3><p><strong>举个栗子</strong>：如果首页所有 Key 的失效时间都是 12 小时，中午 12 点刷新的，我零点有个大促活动大量用户涌入，假设每秒 6000 个请求，本来缓存可以抗住每秒 5000 个请求，但是缓存中所有 Key 都失效了。</p>
+<p><strong>解决方案</strong>：在批量往 Redis 存数据的时候，把每个 Key 的失效时间都加个随机值就好了，这样可以保证数据不会再同一时间大面积失效。</p>
+<h3 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h3><p>缓存穿透是指缓存和数据库中都没有的数据，而用户（黑客）不断发起请求。</p>
+<p><strong>举个栗子</strong>：我们数据库的 id 都是从 1 自增的，如果发起 id=-1 的数据或者 id 特别大不存在的数据，这样的不断攻击导致数据库压力很大，严重会击垮数据库。</p>
+<p><strong>解决方案</strong></p>
+<ul>
+<li>缓存穿透我会在接口层增加校验，比如用户鉴权，参数做校验，不合法的校验直接 return，比如 id 做基础校验，id&lt;=0 直接拦截。</li>
+<li><strong>布隆过滤器</strong><ul>
+<li>快速剔除一些不在数据库的值</li>
+<li>布隆过滤器是一个 bit 向量或者说 bit 数组，如果我们要映射一个值到布隆过滤器中，我们需要使用多个不同的哈希函数生成多个哈希值，并对每个生成的哈希值指向的 bit 位置 1。</li>
+<li>如果查询的时候对应bit是 0，那么可以确定一定不在。但如果都是1，只能说明可能存在。</li>
+<li><a href="https://zhuanlan.zhihu.com/p/43263751" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/43263751</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h3><p>缓存击穿是指一个 Key 非常热点，在不停地扛着大量的请求，大并发集中对这一个点进行访问，当这个 Key 在失效的瞬间，持续的大并发直接落到了数据库上，就在这个 Key 的点上击穿了缓存。</p>
+<p><strong>解决方案</strong>：设置热点数据永不过期，或者加上互斥锁就搞定了。</p>
+<h2 id="Redis性能分析"><a href="#Redis性能分析" class="headerlink" title="Redis性能分析"></a>Redis性能分析</h2><p>Redis 是单进程单线程的模型，因为 Redis 完全是基于内存的操作，CPU 不是 Redis 的瓶颈，Redis 的瓶颈最有可能是机器内存的大小或者网络带宽。</p>
+<h3 id="Redis速度快的原因分析"><a href="#Redis速度快的原因分析" class="headerlink" title="Redis速度快的原因分析"></a>Redis速度快的原因分析</h3><ul>
+<li><p>Redis 完全基于内存，绝大部分请求是纯粹的内存操作，非常迅速，数据存在内存中，类似于 HashMap，HashMap 的优势就是查找和操作的时间复杂度是 O(1)。</p>
+</li>
+<li><p>数据结构简单，对数据操作也简单。</p>
+</li>
+<li><p>采用单线程，避免了不必要的上下文切换和竞争条件，不存在多线程导致的 CPU 切换，不用去考虑各种锁的问题，不存在加锁释放锁操作，没有死锁问题导致的性能消耗。</p>
+</li>
+<li><p>使用多路复用 IO 模型，非阻塞 IO。//todo</p>
+</li>
+</ul>
+<h3 id="Redis-vs-Memcached"><a href="#Redis-vs-Memcached" class="headerlink" title="Redis vs. Memcached"></a>Redis vs. Memcached</h3><ul>
+<li><p>存储方式上：Memcache 会把数据全部存在内存之中，断电后会挂掉，数据不能超过内存大小。Redis 有部分数据存在硬盘上，这样能保证数据的持久性。</p>
+</li>
+<li><p>数据支持类型上：Memcache 对数据类型的支持简单，只支持简单的 key-value，，而 Redis 支持五种数据类型。</p>
+</li>
+<li><p>使用底层模型不同：它们之间底层实现方式以及与客户端之间通信的应用协议不一样。Redis 直接自己构建了 VM 机制，因为一般的系统调用系统函数的话，会浪费一定的时间去移动和请求。</p>
+</li>
+<li><p>Value 的大小：Redis 可以达到 1GB，而 Memcache 只有 1MB。</p>
+</li>
+</ul>
+<h3 id="Redis-淘汰策略"><a href="#Redis-淘汰策略" class="headerlink" title="Redis 淘汰策略"></a>Redis 淘汰策略</h3><table>
+<thead>
+<tr>
+<th>策略</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>volatile-lru</td>
+<td>从已设置过期时间的KV集中优先对最近最少使用的数据 (less recently usesd) 淘汰</td>
+</tr>
+<tr>
+<td>volatile-ttl</td>
+<td>从已设置过期时间的KV集中优先对剩余时间短的数据 (time to live) 淘汰</td>
+</tr>
+<tr>
+<td>volatile-random</td>
+<td>从已设置过期时间的KV集中随机淘汰</td>
+</tr>
+<tr>
+<td>allKeys-lru</td>
+<td>从所有KV集中优先对最近最少使用的数据 (less recently usesd) 淘汰</td>
+</tr>
+<tr>
+<td>allKeys-random</td>
+<td>从所有KV集中随机淘汰</td>
+</tr>
+<tr>
+<td>noeviction</td>
+<td>不淘汰，若超过最大内存，返回错误信息</td>
+</tr>
+</tbody></table>
+<h2 id="Redis持久化机制"><a href="#Redis持久化机制" class="headerlink" title="Redis持久化机制"></a>Redis持久化机制</h2><p>Redis 为了保证效率，数据缓存在了内存中，但是会周期性的把更新的数据写入磁盘或者把修改操作写入追加的记录文件中，以保证数据的持久化。当 Redis 重启的时候，它会优先使用 AOF 文件来还原数据集，因为 AOF 文件保存的数据集通常比 RDB 文件所保存的数据集更完整。</p>
+<h3 id="AOF-Append-Only-File"><a href="#AOF-Append-Only-File" class="headerlink" title="AOF (Append Only File)"></a>AOF (Append Only File)</h3><p>把所有的对 Redis 的服务器进行修改的<strong>命令</strong>都存到一个文件里，命令的集合。Redis 默认是快照 RDB 的持久化方式。</p>
+<ul>
+<li>工作方式<ul>
+<li>使用 AOF 做持久化，每一个写命令都通过 write 函数追加到 appendonly.aof 中</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">appendfsync yes</span><br><span class="line">appendfsync always     #每次有数据修改发生时都会写入AOF文件。</span><br><span class="line">appendfsync everysec   #每秒钟同步一次，该策略为AOF的缺省策略。</span><br></pre></td></tr></table></figure>
 
+<p>AOF 可以做到全程持久化，只需要在配置中开启 appendonly yes。这样 Redis 每执行一个修改数据的命令，都会把它添加到 AOF 文件中，当 Redis 重启时，将会读取 AOF 文件进行重放，恢复到 Redis 关闭前的最后时刻。</p>
+<ul>
+<li><p>优点</p>
+<ul>
+<li>让 Redis 变得非常耐久。可以设置不同的 Fsync 策略，AOF的默认策略是每秒钟 Fsync 一次，在这种配置下，就算发生故障停机，也最多丢失一秒钟的数据。</li>
+</ul>
+</li>
+<li><p>缺点</p>
+<ul>
+<li>对于相同的数据集来说，AOF 的文件体积通常要大于 RDB 文件的体积。根据所使用的 Fsync 策略，AOF 的速度可能会慢于 RDB。</li>
+</ul>
+</li>
+</ul>
+<h3 id="RDB-Redis-Database"><a href="#RDB-Redis-Database" class="headerlink" title="RDB (Redis Database)"></a>RDB (Redis Database)</h3><p>快照形式是直接把内存中的数据保存到一个 dump 的文件中，定时保存，保存策略。</p>
+<ul>
+<li>工作方式<ul>
+<li>当 Redis 需要做持久化时，Redis 会 fork 一个子进程，子进程将数据写到磁盘上一个临时 RDB 文件中。</li>
+<li>当子进程完成写临时文件后，将原来的 RDB 替换掉，这样的好处是可以 copy-on-write。</li>
+</ul>
+</li>
+<li>优点<ul>
+<li>这种文件非常适合用于备份：比如，你可以在最近的 24 小时内，每小时备份一次，并且在每个月的每一天也备份一个 RDB 文件。RDB 非常适合灾难恢复。</li>
+</ul>
+</li>
+<li>缺点<ul>
+<li>如果你需要尽量避免在服务器故障时丢失数据，那么RDB不合适你。 </li>
+</ul>
+</li>
+</ul>
+<p>如果你非常关心你的数据，但仍然可以承受数分钟内的数据丢失，那么可以额只使用 RDB 持久。AOF 将 Redis 执行的每一条命令追加到磁盘中，处理巨大的写入会降低Redis的性能，不知道你是否可以接受。数据库备份和灾难恢复：定时生成 RDB 快照非常便于进行数据库备份，并且 RDB 恢复数据集的速度也要比 AOF 恢复的速度快。当然了，Redis 支持同时开启 RDB 和 AOF，系统重启后，Redis 会优先使用 AOF 来恢复数据，这样丢失的数据会最少。</p>
+<h2 id="主从复制"><a href="#主从复制" class="headerlink" title="主从复制"></a>主从复制</h2>
       
 
       
