@@ -6,13 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2020/6 | Hexo</title>
+  <title>面试那些事 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/2020/06/index.html">
+  <meta name="description" content="面经字节跳动岗位：后端开发工程师地点：杭州一面 go里面线程，进程，协程的区别 完全二叉树与搜索二叉树的概念 Java中JVM 内存，垃圾回收机制。（面试官抠的比较细，要求讲到复制算法适用新生代，标记清楚算法适用年老代） MySQL的索引原理 b树与b+树的区别 InnoDB 和 MyISAM的区别  (聚簇索引和非聚簇索引) Redis的基本数据结构(string, hash, set, lis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面试那些事">
+<meta property="og:url" content="http://yoursite.com/2020/07/03/%E9%9D%A2%E8%AF%95%E9%82%A3%E4%BA%9B%E4%BA%8B/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="面经字节跳动岗位：后端开发工程师地点：杭州一面 go里面线程，进程，协程的区别 完全二叉树与搜索二叉树的概念 Java中JVM 内存，垃圾回收机制。（面试官抠的比较细，要求讲到复制算法适用新生代，标记清楚算法适用年老代） MySQL的索引原理 b树与b+树的区别 InnoDB 和 MyISAM的区别  (聚簇索引和非聚簇索引) Redis的基本数据结构(string, hash, set, lis">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-07-03T09:39:00.000Z">
+<meta property="article:modified_time" content="2020-07-03T10:05:38.187Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -158,130 +162,203 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-面试那些事" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      面试那些事
+    </h1>
+  
+
+        
+        <a href="/2020/07/03/%E9%9D%A2%E8%AF%95%E9%82%A3%E4%BA%9B%E4%BA%8B/" class="archive-article-date">
+  	<time datetime="2020-07-03T09:39:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-03</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="面经"><a href="#面经" class="headerlink" title="面经"></a>面经</h1><h2 id="字节跳动"><a href="#字节跳动" class="headerlink" title="字节跳动"></a>字节跳动</h2><h3 id="岗位：后端开发工程师"><a href="#岗位：后端开发工程师" class="headerlink" title="岗位：后端开发工程师"></a>岗位：后端开发工程师</h3><h3 id="地点：杭州"><a href="#地点：杭州" class="headerlink" title="地点：杭州"></a>地点：杭州</h3><h4 id="一面"><a href="#一面" class="headerlink" title="一面"></a>一面</h4><ol>
+<li>go里面线程，进程，协程的区别</li>
+<li>完全二叉树与搜索二叉树的概念</li>
+<li>Java中JVM 内存，垃圾回收机制。（面试官抠的比较细，要求讲到复制算法适用新生代，标记清楚算法适用年老代）</li>
+<li>MySQL的索引原理</li>
+<li>b树与b+树的区别</li>
+<li>InnoDB 和 MyISAM的区别  (聚簇索引和非聚簇索引)</li>
+<li>Redis的基本数据结构(string, hash, set, list zset)</li>
+<li>讲一下跳表的原理（因为我前面提到了zset底层实现原理是skip list）</li>
+<li>TCP/UDP 网络模型一共有几层</li>
+<li>TCP和UDP的区别</li>
+<li>从应用层到网络层各层的header都有什么不同的功能。（绝了，不知道咋讲。。说了存放地址和端口）</li>
+<li>算法题<ul>
+<li>通过给定的tree，判断是不是搜索二叉树和完全二叉树</li>
+<li>tips:用中序遍历和广度优先法 </li>
+</ul>
+</li>
+</ol>
+<h4 id="二面"><a href="#二面" class="headerlink" title="二面"></a>二面</h4><ol>
+<li>算法题<ul>
+<li>给定一个随意的正整数数组，求最长的连续数字长度</li>
+<li>eg. [3, 8, 9, 4, 6, 7] =&gt; 4 (6789)</li>
+<li>刚开始用了桶排序，后面在面试官的提示下用map优化了一下</li>
+</ul>
+</li>
+<li>Redis删除key的机制 （还问了一个很神奇的，为什么要删除 从来没想过这个问题）</li>
+<li>Redis和MySQL存储数据的区别</li>
+<li>Java中String为什么要声明成不可变的</li>
+<li>如果自己设计一个不可变的类，有哪些步骤</li>
+<li>说一个设计模式 （说了观察者模式）</li>
+<li>为什么需要回调 （大概讲了因为一直监控耗费性能，但好像不是面试官特别想要的答案:-&lt;）</li>
+<li>聊了一下之前在腾讯做过的项目</li>
+</ol>
+<h4 id="三面"><a href="#三面" class="headerlink" title="三面"></a>三面</h4><ol>
+<li>算法题<ul>
+<li>给定一个数组和一个数s，找到最短的子数组加起来的和超过s</li>
+<li>用两个指针去遍历 讲了一遍思路 面试官让我开始写 写了十分钟还有bug 面试官让我先跳过了（真是想吐槽一下牛客的IDE）</li>
+</ul>
+</li>
+<li>聊了一下暑假在字节做的项目<ul>
+<li>总结了一篇新人文档</li>
+<li>一个权限管理的平台 （封装了一些后端的接口）</li>
+<li>一个对齐员工进度的表 （全栈）</li>
+</ul>
+</li>
+</ol>
+<p>主要还是在聊项目，没有考别的基础知识了</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>总的来说，面试的时候还是有很多的不足，每次面试都是一次学习的过程。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/06/29/LeetCode%E9%82%A3%E4%BA%9B%E4%BA%8B/" class="archive-article-date">
-  	<time datetime="2020-06-29T05:47:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/06/29/LeetCode%E9%82%A3%E4%BA%9B%E4%BA%8B/">LeetCode那些事</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/07/03/%E9%9D%A2%E8%AF%95%E9%82%A3%E4%BA%9B%E4%BA%8B/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/06/28/MySQL%E7%AC%94%E8%AE%B0/" class="archive-article-date">
-  	<time datetime="2020-06-28T09:38:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-28</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2020/07/03/Redis/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Redis</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/06/28/MySQL%E7%AC%94%E8%AE%B0/">MySQL笔记</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/06/27/sftp%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA/" class="archive-article-date">
-  	<time datetime="2020-06-27T13:36:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/06/27/sftp%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA/">sftp服务器搭建</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/06/27/hello-world/" class="archive-article-date">
-  	<time datetime="2020-06-27T07:36:02.766Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/06/27/hello-world/">Hello World</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -304,8 +381,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
