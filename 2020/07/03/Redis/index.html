@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zhuangzhuang131419.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Redis什么是Redis Redis 是 C 语言开发的一个开源的（遵从 BSD 协议）高性能键值对（key-value）的内存数据库，可以用作数据库、缓存、消息中间件等。 它是一种 NoSQL（not-only sql，泛指非关系型数据库）的数据库。（MySQL是一种关系型数据库） 性能优秀，数据在内存中，读写速度非常快，支持并发 10W QPS。 单进程单线程，是线程安全的，采用 IO 多路">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis">
+<meta property="og:url" content="https://zhuangzhuang131419.github.io/2020/07/03/Redis/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Redis什么是Redis Redis 是 C 语言开发的一个开源的（遵从 BSD 协议）高性能键值对（key-value）的内存数据库，可以用作数据库、缓存、消息中间件等。 它是一种 NoSQL（not-only sql，泛指非关系型数据库）的数据库。（MySQL是一种关系型数据库） 性能优秀，数据在内存中，读写速度非常快，支持并发 10W QPS。 单进程单线程，是线程安全的，采用 IO 多路">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-07-03T08:52:39.000Z">
+<meta property="article:modified_time" content="2020-07-04T06:24:04.623Z">
+<meta property="article:author" content="zhuangzhuang">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://zhuangzhuang131419.github.io/2020/07/03/Redis/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Redis | Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://zhuangzhuang131419.github.io/2020/07/03/Redis/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zhuangzhuang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Redis
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-07-03 16:52:39" itemprop="dateCreated datePublished" datetime="2020-07-03T16:52:39+08:00">2020-07-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-07-04 14:24:04" itemprop="dateModified" datetime="2020-07-04T14:24:04+08:00">2020-07-04</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><h2 id="什么是Redis"><a href="#什么是Redis" class="headerlink" title="什么是Redis"></a>什么是Redis</h2><ul>
+<li>Redis 是 C 语言开发的一个开源的（遵从 BSD 协议）高性能键值对（key-value）的内存数据库，可以用作数据库、缓存、消息中间件等。</li>
+<li>它是一种 NoSQL（not-only sql，泛指非关系型数据库）的数据库。（MySQL是一种关系型数据库）</li>
+<li>性能优秀，数据在内存中，读写速度非常快，支持并发 10W QPS。</li>
+<li>单进程单线程，是线程安全的，采用 IO 多路复用机制。</li>
+<li>丰富的数据类型，支持字符串（strings）、散列（hashes）、列表（lists）、集合（sets）、有序集合（sorted sets）等。</li>
+<li>支持数据持久化。可以将内存中数据保存在磁盘中，重启时加载。</li>
+<li>主从复制，哨兵，高可用。</li>
+<li>可以用作分布式锁。</li>
+<li>可以作为消息中间件使用，支持发布订阅。</li>
+</ul>
+<h2 id="Redis的五种数据类型"><a href="#Redis的五种数据类型" class="headerlink" title="Redis的五种数据类型"></a>Redis的五种数据类型</h2><h3 id="Redis-核心对象-redisObject"><a href="#Redis-核心对象-redisObject" class="headerlink" title="Redis 核心对象 (redisObject)"></a>Redis 核心对象 (redisObject)</h3><ul>
+<li>数据类型 type<ul>
+<li>string<ul>
+<li>可以理解成与 Memcached一模一样的类型，一个 Key 对应一个 Value。Value 不仅是 String，也可以是数字。</li>
+<li>String 类型是二进制安全的，意思是 Redis 的 String 类型可以包含任何数据，比如 jpg 图片或者序列化的对象。String 类型的值最大能存储 512M。</li>
+</ul>
+</li>
+<li>hash<ul>
+<li>Hash是一个键值（key-value）的集合。Redis 的 Hash 是一个 String 的 Key 和 Value 的映射表，Hash 特别适合存储对象。常用命令：hget，hset，hgetall 等。</li>
+</ul>
+</li>
+<li>list<ul>
+<li>List 列表是简单的字符串列表，按照插入顺序排序。可以添加一个元素到列表的头部（左边）或者尾部（右边） 常用命令：lpush、rpush、lpop、rpop、lrange（获取列表片段）等。</li>
+<li>双向列表</li>
+</ul>
+</li>
+<li>set<ul>
+<li>集合是通过 hashtable 实现的。Set 中的元素是没有顺序的，而且是没有重复的。常用命令：sdd、spop、smembers、sunion 等。</li>
+</ul>
+</li>
+<li>sorted list<ul>
+<li>和 Set 相比，Sorted Set关联了一个 Double 类型权重的参数 Score，使得集合中的元素能够按照 Score 进行有序排列，Redis 正是通过分数来为集合中的成员进行从小到大的排序。</li>
+<li>Redis Sorted Set 的内部使用 HashMap 和跳跃表（skipList）来保证数据的存储和有序，HashMap 里放的是成员到 Score 的映射。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>编码方式 encoding<ul>
+<li>raw </li>
+<li>int</li>
+<li>ht</li>
+<li>zipmap</li>
+<li>linkedlist</li>
+<li>ziplist</li>
+<li>intest</li>
+</ul>
+</li>
+<li>数据指针</li>
+<li>虚拟内存</li>
+<li>其他</li>
+</ul>
+<p>使用<strong>一个</strong> redisObject 对象来表示<strong>所有</strong>的 key 和 value</p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>type 表示一个 value 对象具体是何种数据类型，encoding 是不同数据类型在 Redis 内部的存储方式。</p>
+<h2 id="Redis缓存"><a href="#Redis缓存" class="headerlink" title="Redis缓存"></a>Redis缓存</h2><p>//todo</p>
+<h3 id="Redis雪崩"><a href="#Redis雪崩" class="headerlink" title="Redis雪崩"></a>Redis雪崩</h3><p><strong>举个栗子</strong>：如果首页所有 Key 的失效时间都是 12 小时，中午 12 点刷新的，我零点有个大促活动大量用户涌入，假设每秒 6000 个请求，本来缓存可以抗住每秒 5000 个请求，但是缓存中所有 Key 都失效了。</p>
+<p><strong>解决方案</strong>：在批量往 Redis 存数据的时候，把每个 Key 的失效时间都加个随机值就好了，这样可以保证数据不会再同一时间大面积失效。</p>
+<h3 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h3><p>缓存穿透是指缓存和数据库中都没有的数据，而用户（黑客）不断发起请求。</p>
+<p><strong>举个栗子</strong>：我们数据库的 id 都是从 1 自增的，如果发起 id=-1 的数据或者 id 特别大不存在的数据，这样的不断攻击导致数据库压力很大，严重会击垮数据库。</p>
+<p><strong>解决方案</strong></p>
+<ul>
+<li>缓存穿透我会在接口层增加校验，比如用户鉴权，参数做校验，不合法的校验直接 return，比如 id 做基础校验，id&lt;=0 直接拦截。</li>
+<li><strong>布隆过滤器</strong><ul>
+<li>快速剔除一些不在数据库的值</li>
+<li>布隆过滤器是一个 bit 向量或者说 bit 数组，如果我们要映射一个值到布隆过滤器中，我们需要使用多个不同的哈希函数生成多个哈希值，并对每个生成的哈希值指向的 bit 位置 1。</li>
+<li>如果查询的时候对应bit是 0，那么可以确定一定不在。但如果都是1，只能说明可能存在。</li>
+<li><a href="https://zhuanlan.zhihu.com/p/43263751" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/43263751</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h3><p>缓存击穿是指一个 Key 非常热点，在不停地扛着大量的请求，大并发集中对这一个点进行访问，当这个 Key 在失效的瞬间，持续的大并发直接落到了数据库上，就在这个 Key 的点上击穿了缓存。</p>
+<p><strong>解决方案</strong>：设置热点数据永不过期，或者加上互斥锁就搞定了。</p>
+<h2 id="Redis性能分析"><a href="#Redis性能分析" class="headerlink" title="Redis性能分析"></a>Redis性能分析</h2><p>Redis 是单进程单线程的模型，因为 Redis 完全是基于内存的操作，CPU 不是 Redis 的瓶颈，Redis 的瓶颈最有可能是机器内存的大小或者网络带宽。</p>
+<h3 id="Redis速度快的原因分析"><a href="#Redis速度快的原因分析" class="headerlink" title="Redis速度快的原因分析"></a>Redis速度快的原因分析</h3><ul>
+<li><p>Redis 完全基于内存，绝大部分请求是纯粹的内存操作，非常迅速，数据存在内存中，类似于 HashMap，HashMap 的优势就是查找和操作的时间复杂度是 O(1)。</p>
+</li>
+<li><p>数据结构简单，对数据操作也简单。</p>
+</li>
+<li><p>采用单线程，避免了不必要的上下文切换和竞争条件，不存在多线程导致的 CPU 切换，不用去考虑各种锁的问题，不存在加锁释放锁操作，没有死锁问题导致的性能消耗。</p>
+</li>
+<li><p>使用多路复用 IO 模型，非阻塞 IO。//todo</p>
+</li>
+</ul>
+<h3 id="Redis-vs-Memcached"><a href="#Redis-vs-Memcached" class="headerlink" title="Redis vs. Memcached"></a>Redis vs. Memcached</h3><ul>
+<li><p>存储方式上：Memcache 会把数据全部存在内存之中，断电后会挂掉，数据不能超过内存大小。Redis 有部分数据存在硬盘上，这样能保证数据的持久性。</p>
+</li>
+<li><p>数据支持类型上：Memcache 对数据类型的支持简单，只支持简单的 key-value，，而 Redis 支持五种数据类型。</p>
+</li>
+<li><p>使用底层模型不同：它们之间底层实现方式以及与客户端之间通信的应用协议不一样。Redis 直接自己构建了 VM 机制，因为一般的系统调用系统函数的话，会浪费一定的时间去移动和请求。</p>
+</li>
+<li><p>Value 的大小：Redis 可以达到 1GB，而 Memcache 只有 1MB。</p>
+</li>
+</ul>
+<h3 id="Redis-淘汰策略"><a href="#Redis-淘汰策略" class="headerlink" title="Redis 淘汰策略"></a>Redis 淘汰策略</h3><table>
+<thead>
+<tr>
+<th>策略</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>volatile-lru</td>
+<td>从已设置过期时间的KV集中优先对最近最少使用的数据 (less recently usesd) 淘汰</td>
+</tr>
+<tr>
+<td>volatile-ttl</td>
+<td>从已设置过期时间的KV集中优先对剩余时间短的数据 (time to live) 淘汰</td>
+</tr>
+<tr>
+<td>volatile-random</td>
+<td>从已设置过期时间的KV集中随机淘汰</td>
+</tr>
+<tr>
+<td>allKeys-lru</td>
+<td>从所有KV集中优先对最近最少使用的数据 (less recently usesd) 淘汰</td>
+</tr>
+<tr>
+<td>allKeys-random</td>
+<td>从所有KV集中随机淘汰</td>
+</tr>
+<tr>
+<td>noeviction</td>
+<td>不淘汰，若超过最大内存，返回错误信息</td>
+</tr>
+</tbody></table>
+<h2 id="Redis持久化机制"><a href="#Redis持久化机制" class="headerlink" title="Redis持久化机制"></a>Redis持久化机制</h2><p>Redis 为了保证效率，数据缓存在了内存中，但是会周期性的把更新的数据写入磁盘或者把修改操作写入追加的记录文件中，以保证数据的持久化。当 Redis 重启的时候，它会优先使用 AOF 文件来还原数据集，因为 AOF 文件保存的数据集通常比 RDB 文件所保存的数据集更完整。</p>
+<h3 id="AOF-Append-Only-File"><a href="#AOF-Append-Only-File" class="headerlink" title="AOF (Append Only File)"></a>AOF (Append Only File)</h3><p>把所有的对 Redis 的服务器进行修改的<strong>命令</strong>都存到一个文件里，命令的集合。Redis 默认是快照 RDB 的持久化方式。</p>
+<ul>
+<li>工作方式<ul>
+<li>使用 AOF 做持久化，每一个写命令都通过 write 函数追加到 appendonly.aof 中</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">appendfsync yes</span><br><span class="line">appendfsync always     #每次有数据修改发生时都会写入AOF文件。</span><br><span class="line">appendfsync everysec   #每秒钟同步一次，该策略为AOF的缺省策略。</span><br></pre></td></tr></table></figure>
+
+<p>AOF 可以做到全程持久化，只需要在配置中开启 appendonly yes。这样 Redis 每执行一个修改数据的命令，都会把它添加到 AOF 文件中，当 Redis 重启时，将会读取 AOF 文件进行重放，恢复到 Redis 关闭前的最后时刻。</p>
+<ul>
+<li><p>优点</p>
+<ul>
+<li>让 Redis 变得非常耐久。可以设置不同的 Fsync 策略，AOF的默认策略是每秒钟 Fsync 一次，在这种配置下，就算发生故障停机，也最多丢失一秒钟的数据。</li>
+</ul>
+</li>
+<li><p>缺点</p>
+<ul>
+<li>对于相同的数据集来说，AOF 的文件体积通常要大于 RDB 文件的体积。根据所使用的 Fsync 策略，AOF 的速度可能会慢于 RDB。</li>
+</ul>
+</li>
+</ul>
+<h3 id="RDB-Redis-Database"><a href="#RDB-Redis-Database" class="headerlink" title="RDB (Redis Database)"></a>RDB (Redis Database)</h3><p>快照形式是直接把内存中的数据保存到一个 dump 的文件中，定时保存，保存策略。</p>
+<ul>
+<li>工作方式<ul>
+<li>当 Redis 需要做持久化时，Redis 会 fork 一个子进程，子进程将数据写到磁盘上一个临时 RDB 文件中。</li>
+<li>当子进程完成写临时文件后，将原来的 RDB 替换掉，这样的好处是可以 copy-on-write。</li>
+</ul>
+</li>
+<li>优点<ul>
+<li>这种文件非常适合用于备份：比如，你可以在最近的 24 小时内，每小时备份一次，并且在每个月的每一天也备份一个 RDB 文件。RDB 非常适合灾难恢复。</li>
+</ul>
+</li>
+<li>缺点<ul>
+<li>如果你需要尽量避免在服务器故障时丢失数据，那么RDB不合适你。 </li>
+</ul>
+</li>
+</ul>
+<p>如果你非常关心你的数据，但仍然可以承受数分钟内的数据丢失，那么可以额只使用 RDB 持久。AOF 将 Redis 执行的每一条命令追加到磁盘中，处理巨大的写入会降低Redis的性能，不知道你是否可以接受。数据库备份和灾难恢复：定时生成 RDB 快照非常便于进行数据库备份，并且 RDB 恢复数据集的速度也要比 AOF 恢复的速度快。当然了，Redis 支持同时开启 RDB 和 AOF，系统重启后，Redis 会优先使用 AOF 来恢复数据，这样丢失的数据会最少。</p>
+<h2 id="主从复制"><a href="#主从复制" class="headerlink" title="主从复制"></a>主从复制</h2><h3 id="整体步骤"><a href="#整体步骤" class="headerlink" title="整体步骤"></a>整体步骤</h3><ul>
+<li>从节点执行 slaveof[masterIP][masterPort]，保存主节点信息。</li>
+<li>从节点中的定时任务发现主节点信息，建立和主节点的 Socket 连接。</li>
+<li>从节点发送 Ping 信号，主节点返回 Pong，两边能互相通信。</li>
+<li>连接建立后，主节点将所有数据发送给从节点（数据同步）。</li>
+<li>主节点把当前的数据同步给从节点后，便完成了复制的建立过程。接下来，主节点就会持续的把写命令发送给从节点，保证主从数据一致性。</li>
+</ul>
+<h3 id="数据同步"><a href="#数据同步" class="headerlink" title="数据同步"></a>数据同步</h3><h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4><ul>
+<li>runId：每个 Redis 节点启动都会生成唯一的 uuid，每次 Redis 重启后，runId 都会发生变化。</li>
+<li>offset：主节点和从节点都各自维护自己的主从复制偏移量 offset，当主节点有写入命令时，offset=offset+命令的字节长度。<br>从节点在收到主节点发送的命令后，也会增加自己的 offset，并把自己的 offset 发送给主节点。<br>这样，主节点同时保存自己的 offset 和从节点的 offset，<strong>通过对比 offset 来判断主从节点数据是否一致</strong>。</li>
+<li>repl_backlog_size：保存在主节点上的一个固定长度的先进先出队列，默认大小是 1MB。</li>
+</ul>
+<h3 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h3><ul>
+<li>Redis 2.8 之前使用 sync[runId][offset] 同步命令，Redis 2.8 之后使用 psync[runId][offset] 命令。</li>
+<li>两者不同在于，Sync 命令仅支持全量复制过程，Psync 支持全量和部分复制。</li>
+</ul>
+<h3 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h3><h4 id="全量复制"><a href="#全量复制" class="headerlink" title="全量复制"></a>全量复制</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">graph RL;</span><br><span class="line">  从Redis-- 发送sync命令 --&gt;主Redis</span><br><span class="line">  主Redis-- 发送RDB文件 --&gt;从Redis</span><br><span class="line">  主Redis-- 发送缓冲获得所有写命令 --&gt;从Redis</span><br></pre></td></tr></table></figure>
+<ul>
+<li>复制过程：<ul>
+<li>slave 服务启动，slave 会建立和 master 的连接，发送 sync 命令。</li>
+<li>master 启动一个后台进程将数据库快照保存到 RDB 文件中<ul>
+<li>注意：此时如果生成 RDB 文件过程中存在写数据操作会导致 RDB 文件和当前主 redis 数据不一致，所以此时 master 主进程会开始收集写命令并缓存起来。</li>
+</ul>
+</li>
+<li>master 就发送 RDB 文件给 slave</li>
+<li>slave 将文件保存到磁盘上，然后加载到内存恢复</li>
+<li>master 把缓存的命令转发给 slave<ul>
+<li>注意：后续 master 收到的写命令都会通过开始建立的连接发送给 slave。</li>
+</ul>
+</li>
+<li>当 master 和 slave 的连接断开时 slave 可以自动重新建立连接。如果 master 同时收到多个 slave 发来的同步连接命令，只会启动一个进程来写数据库镜像，然后发送给所有 slave。</li>
+</ul>
+</li>
+<li>问题</li>
+</ul>
+<h4 id="部分复制"><a href="#部分复制" class="headerlink" title="部分复制"></a>部分复制</h4><p>首次同步</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">graph RL;</span><br><span class="line">  从Redis-- 发送psync命令 --&gt;主Redis</span><br><span class="line">  主Redis-- 发送RDB文件 --&gt;从Redis</span><br><span class="line">  主Redis-- 发送缓冲获得所有写命令 --&gt;从Redis</span><br></pre></td></tr></table></figure>
+
+<p>非首次同步</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">graph RL;</span><br><span class="line">  从Redis-- 发送psync命令 --&gt;主Redis</span><br><span class="line">  主Redis-- 发送部分非同步数据文件 --&gt;从Redis</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>复制过程<ul>
+<li>从机连接主机后，会主动发起 PSYNC 命令，从机会提供 master 的 runid(机器标识，随机生成的一个串) 和 offset（数据偏移量，如果offset主从不一致则说明数据不同步）</li>
+<li>主机验证 runid 和 offset 是否有效，runid 相当于主机身份验证码，用来验证从机上一次连接的主机<ul>
+<li>如果 runid 验证未通过则，则进行全同步，如果验证通过则说明曾经同步过，根据 offset 同步部分数据。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p><a href="https://www.kancloud.cn/mayan0718/php/515287" target="_blank" rel="noopener">https://www.kancloud.cn/mayan0718/php/515287</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/29/LeetCode%E9%82%A3%E4%BA%9B%E4%BA%8B/" rel="prev" title="LeetCode那些事">
+      <i class="fa fa-chevron-left"></i> LeetCode那些事
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/07/03/%E9%9D%A2%E8%AF%95%E9%82%A3%E4%BA%9B%E4%BA%8B/" rel="next" title="面试那些事">
+      面试那些事 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis"><span class="nav-number">1.</span> <span class="nav-text">Redis</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Redis"><span class="nav-number">1.1.</span> <span class="nav-text">什么是Redis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis的五种数据类型"><span class="nav-number">1.2.</span> <span class="nav-text">Redis的五种数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis-核心对象-redisObject"><span class="nav-number">1.2.1.</span> <span class="nav-text">Redis 核心对象 (redisObject)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意事项"><span class="nav-number">1.2.2.</span> <span class="nav-text">注意事项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis缓存"><span class="nav-number">1.3.</span> <span class="nav-text">Redis缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis雪崩"><span class="nav-number">1.3.1.</span> <span class="nav-text">Redis雪崩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缓存穿透"><span class="nav-number">1.3.2.</span> <span class="nav-text">缓存穿透</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缓存击穿"><span class="nav-number">1.3.3.</span> <span class="nav-text">缓存击穿</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis性能分析"><span class="nav-number">1.4.</span> <span class="nav-text">Redis性能分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis速度快的原因分析"><span class="nav-number">1.4.1.</span> <span class="nav-text">Redis速度快的原因分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis-vs-Memcached"><span class="nav-number">1.4.2.</span> <span class="nav-text">Redis vs. Memcached</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis-淘汰策略"><span class="nav-number">1.4.3.</span> <span class="nav-text">Redis 淘汰策略</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis持久化机制"><span class="nav-number">1.5.</span> <span class="nav-text">Redis持久化机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AOF-Append-Only-File"><span class="nav-number">1.5.1.</span> <span class="nav-text">AOF (Append Only File)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RDB-Redis-Database"><span class="nav-number">1.5.2.</span> <span class="nav-text">RDB (Redis Database)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主从复制"><span class="nav-number">1.6.</span> <span class="nav-text">主从复制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#整体步骤"><span class="nav-number">1.6.1.</span> <span class="nav-text">整体步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据同步"><span class="nav-number">1.6.2.</span> <span class="nav-text">数据同步</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本概念"><span class="nav-number">1.6.2.1.</span> <span class="nav-text">基本概念</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#过程"><span class="nav-number">1.6.3.</span> <span class="nav-text">过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#复制"><span class="nav-number">1.6.4.</span> <span class="nav-text">复制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#全量复制"><span class="nav-number">1.6.4.1.</span> <span class="nav-text">全量复制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#部分复制"><span class="nav-number">1.6.4.2.</span> <span class="nav-text">部分复制</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文献"><span class="nav-number">1.6.5.</span> <span class="nav-text">参考文献</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">zhuangzhuang</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhuangzhuang</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>
