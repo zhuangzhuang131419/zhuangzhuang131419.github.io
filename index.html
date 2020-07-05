@@ -357,7 +357,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-05 18:30:42" itemprop="dateModified" datetime="2020-07-05T18:30:42+08:00">2020-07-05</time>
+                <time title="Modified: 2020-07-05 18:31:59" itemprop="dateModified" datetime="2020-07-05T18:31:59+08:00">2020-07-05</time>
               </span>
 
           
@@ -590,7 +590,8 @@
 <h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a href="https://www.kancloud.cn/mayan0718/php/515287" target="_blank" rel="noopener">https://www.kancloud.cn/mayan0718/php/515287</a></p>
 <h1 id="Sentinel-哨兵机制"><a href="#Sentinel-哨兵机制" class="headerlink" title="Sentinel 哨兵机制"></a>Sentinel 哨兵机制</h1><h2 id="哨兵机制简介"><a href="#哨兵机制简介" class="headerlink" title="哨兵机制简介"></a>哨兵机制简介</h2><ul>
 <li>Sentinel(哨兵) 进程是用于监控 Redis 集群中 Master 主服务器工作的状态</li>
-<li>在 Master 主服务器发生故障的时候，可以实现 Master 和 Slave 服务器的切换，保证系统的高可用（High Availability）<h2 id="哨兵进程的作用"><a href="#哨兵进程的作用" class="headerlink" title="哨兵进程的作用"></a>哨兵进程的作用</h2></li>
+<li>在 Master 主服务器发生故障的时候，可以实现 Master 和 Slave 服务器的切换，保证系统的高可用（High Availability）</li>
+<li>Sentinel 本身没有主从之分，只有 Redis 服务节点有主从之分。<h2 id="哨兵进程的作用"><a href="#哨兵进程的作用" class="headerlink" title="哨兵进程的作用"></a>哨兵进程的作用</h2></li>
 <li>监控(Monitoring)：哨兵(sentinel) 会不断地检查你的 Master 和 Slave 是否运作正常。</li>
 <li>提醒(Notification)：当被监控的某个Redis节点出现问题时, 哨兵(sentinel) 可以通过 API 向管理员或者其他应用程序发送通知。（使用较少）</li>
 <li>自动故障迁移(Automatic failover)：当一个 Master 不能正常工作时，哨兵(sentinel) 会开始一次自动故障迁移操作。具体操作如下：<ul>
