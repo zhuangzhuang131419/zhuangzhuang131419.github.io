@@ -145,6 +145,236 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://zhuangzhuang131419.github.io/2020/07/10/IO%E9%82%A3%E4%BA%9B%E4%BA%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zhuangzhuang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/10/IO%E9%82%A3%E4%BA%9B%E4%BA%8B/" class="post-title-link" itemprop="url">IO那些事</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-07-10 12:43:01 / Modified: 15:52:38" itemprop="dateCreated datePublished" datetime="2020-07-10T12:43:01+08:00">2020-07-10</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>本来计划七月OKR了解一下经常面经中看到但是不很了解的“I/O多路复用”，发现自己在整理序列化，反序列化的时候连基本的I/O也没有整明白，于是搜集资料准备好好梳理一下</p>
+<h1 id="为什么使用I-O"><a href="#为什么使用I-O" class="headerlink" title="为什么使用I/O"></a>为什么使用I/O</h1><ul>
+<li>当我们的程序需要从硬盘，网络，或其他应用程序中读取或写入数据时候，数据传输量可能很大，而我们的内存或带宽有限，<strong>无法一次性读取获取写入大量数据</strong>。</li>
+<li>而流（Stream）可以实现一点一点的逐步传输数据。</li>
+<li>想想我们是怎样下载一个大文件的, 下载软件(例如x雷)并不会占用你内存很大的空间, 而只是在内存划分一个缓冲区, 一点一点地下载到自己的内存(缓冲区满了再写到硬盘)。</li>
+</ul>
+<h1 id="I-O在Java中的架构"><a href="#I-O在Java中的架构" class="headerlink" title="I/O在Java中的架构"></a>I/O在Java中的架构</h1><h2 id="I-O-的分类"><a href="#I-O-的分类" class="headerlink" title="I/O 的分类"></a>I/O 的分类</h2><h3 id="从流的方向划分"><a href="#从流的方向划分" class="headerlink" title="从流的方向划分"></a>从流的方向划分</h3><ul>
+<li><p>输入流 (I)</p>
+<ul>
+<li>  <img src="/2020/07/10/IO%E9%82%A3%E4%BA%9B%E4%BA%8B/Input.jpg" class="" title="Input"></li>
+</ul>
+</li>
+<li><p>输出流 (O)</p>
+<ul>
+<li>  <img src="/2020/07/10/IO%E9%82%A3%E4%BA%9B%E4%BA%8B/Output.jpg" class="" title="Output">
+<h3 id="从流的传输单位来分"><a href="#从流的传输单位来分" class="headerlink" title="从流的传输单位来分"></a>从流的传输单位来分</h3></li>
+</ul>
+</li>
+<li><p>字节流 (8位字节)</p>
+<ul>
+<li>每次读取（写出）一个字节，当传输资源有中文时，就会出现乱码。</li>
+<li>具体参见 为什么会乱码 // TODO</li>
+</ul>
+</li>
+<li><p>字符流 (16位字节)</p>
+<ul>
+<li>每次读取（写出）两个字节，有中文时，使用流程就可以正确传输显示中文。<h2 id="Java中的分类"><a href="#Java中的分类" class="headerlink" title="Java中的分类"></a>Java中的分类</h2></li>
+</ul>
+</li>
+<li><p>四大基本类型</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>输入流</th>
+<th>输出流</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>字节流</td>
+<td>InputStream 字节输入流</td>
+<td>OutputStream 字符输出流</td>
+</tr>
+<tr>
+<td>字符流</td>
+<td>Reader 字符输入流</td>
+<td>Writer 字符输出流</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>各自的子类都以父类作为自己的后缀，比如文件的字节输出流：FileOutputStream</p>
+<h2 id="Java中的架构"><a href="#Java中的架构" class="headerlink" title="Java中的架构"></a>Java中的架构</h2></li>
+<li><img src="/2020/07/10/IO%E9%82%A3%E4%BA%9B%E4%BA%8B/JavaIO%E4%BD%93%E7%B3%BB%E6%9E%B6%E6%9E%84%E5%9B%BE.png" class="" title="JavaIO体系架构图"></li>
+<li><p>流的选择</p>
+<ul>
+<li>选用输入流还是输出流，根据具体的使用场景判断，如果是写程序到别的地方，那么就使用输出流。反之就是输入流。</li>
+<li>如果传输的数据有中文，那么选择字符流。</li>
+<li>再根据额外需要的功能具体选择。<h2 id="Java底层实现"><a href="#Java底层实现" class="headerlink" title="Java底层实现"></a>Java底层实现</h2><h3 id="字节输入流-InputStream"><a href="#字节输入流-InputStream" class="headerlink" title="字节输入流 InputStream"></a>字节输入流 InputStream</h3></li>
+</ul>
+</li>
+<li>  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">InputStream</span> <span class="keyword">implements</span> <span class="title">Closeable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Reads the next byte of data from the input stream.</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Closes this stream and releases any system resources associated with it.</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    Skips over and discards n bytes of data from this inputstream.</span></span><br><span class="line"><span class="comment">    <span class="doctag">@return</span>     the actual number of bytes skipped.</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">skip</span><span class="params">(<span class="keyword">long</span> n)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Returns an estimate of the number of bytes that can be read (or skipped over) from this input stream without blocking by the next invocation of a method for this input stream.</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">available</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;###</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Marks the current position in this input stream</span></span><br><span class="line">    <span class="comment">// 如果从标记处开始往后，已经获取或者跳过了readLimit个字节，那么这个标记失效，不允许再重新通过reset回到这个位置。</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">mark</span><span class="params">(<span class="keyword">int</span> readlimit)</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">reset</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IOException(<span class="string">"mark/reset not supported"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="ByteArrayInputStream"><a href="#ByteArrayInputStream" class="headerlink" title="ByteArrayInputStream"></a>ByteArrayInputStream</h4><p>字节数组输入流，该类的功能就是从字节数组 byte[] 中进行以字节为单位的读取，也就是将资源文件都以字节形式存入到该类中的字节数组中去，我们拿数据也是从这个字节数组中拿。</p>
+<h4 id="PipedInputStream"><a href="#PipedInputStream" class="headerlink" title="PipedInputStream"></a>PipedInputStream</h4><p>管道字节输入流，它和 PipedOutputStream 一起使用，能实现多线程间的管道通信。</p>
+<h4 id="FilterInputStream"><a href="#FilterInputStream" class="headerlink" title="FilterInputStream"></a>FilterInputStream</h4><p>装饰者模式中充当装饰者的角色，具体的装饰者都要继承它，所以在该类的子类下都是用来装饰别的流的，也就是处理类。</p>
+<h4 id="BufferedInputStream"><a href="#BufferedInputStream" class="headerlink" title="BufferedInputStream"></a>BufferedInputStream</h4><p>缓冲流，对处理流进行装饰、增强，内部会有一个缓冲区，用来存放字节，每次都是将缓冲区存满然后发送，而不是一个字节或两个字节这样发送，效率更高。</p>
+<h4 id="DataInputStream"><a href="#DataInputStream" class="headerlink" title="DataInputStream"></a>DataInputStream</h4><p>数据输入流，用来装饰其他输入流，它允许通过数据流来读写Java基本类型。</p>
+<h4 id="FileInputStream"><a href="#FileInputStream" class="headerlink" title="FileInputStream"></a>FileInputStream</h4><p>文件输入流，通常用于对文件进行读取操作。</p>
+<h4 id="File"><a href="#File" class="headerlink" title="File"></a>File</h4><p>对指定目录的文件进行操作。</p>
+<h4 id="ObjectInputStream"><a href="#ObjectInputStream" class="headerlink" title="ObjectInputStream"></a>ObjectInputStream</h4><p>对象输入流，用来提供对“基本数据或对象”的持久存储。通俗点讲，就是能直接传输Java对象（序列化、反序列化用。</p>
+<h3 id="字节输出流-OutputStream"><a href="#字节输出流-OutputStream" class="headerlink" title="字节输出流 OutputStream"></a>字节输出流 OutputStream</h3></li>
+<li>  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">OutputStream</span> <span class="keyword">implements</span> <span class="title">Closeable</span>, <span class="title">Flushable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Writes the specified byte to this output stream.</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(<span class="keyword">byte</span> b[])</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Flushes this stream by writing any buffered output to the underlying stream.</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">flush</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Closes this stream and releases any system resources associated with it.</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="缓冲区的作用"><a href="#缓冲区的作用" class="headerlink" title="缓冲区的作用"></a>缓冲区的作用</h4><p>为了<strong>加快数据传输速度</strong>，<strong>提高数据输出效率</strong>，又是输出数据流会在提交数据之前把所要输出的数据先暂时保存在内存缓冲区中，然后成批进行输出，每次传输过程都以某特定数据长度为单位进行传输，在这种方式下，数据的末尾一般都会有一部分数据由于数量不够一个批次，而存留在缓冲区里，调用 flush() 方法可以将这部分数据强制提交。</p>
+</li>
+</ul>
+<h3 id="字符输入流-Reader"><a href="#字符输入流-Reader" class="headerlink" title="字符输入流 Reader"></a>字符输入流 Reader</h3><img src="/2020/07/10/IO%E9%82%A3%E4%BA%9B%E4%BA%8B/%E5%AD%97%E7%AC%A6%E8%BE%93%E5%85%A5%E6%B5%81.png" class="" title="字符输入流">
+<p>Reader 中各个类的用途和使用方法基本和InputStream 中的类使用一致。</p>
+<h3 id="字符输出流-Writer"><a href="#字符输出流-Writer" class="headerlink" title="字符输出流 Writer"></a>字符输出流 Writer</h3><img src="/2020/07/10/IO%E9%82%A3%E4%BA%9B%E4%BA%8B/%E5%AD%97%E7%AC%A6%E8%BE%93%E5%87%BA%E6%B5%81.png" class="" title="字符输出流">
+
+<h2 id="字节流与字符流的区别"><a href="#字节流与字符流的区别" class="headerlink" title="字节流与字符流的区别"></a>字节流与字符流的区别</h2><ul>
+<li>字节流操作的基本单元为字节；字符流操作的基本单元为Unicode码元。</li>
+<li>字节流默认不使用缓冲区；字符流使用缓冲区。</li>
+<li>字节流通常用于处理二进制数据，实际上它可以处理任意类型的数据，但它不支持直接写入或读取Unicode码元；字符流通常处理文本数据，它支持写入及读取Unicode码元。</li>
+</ul>
+<h2 id="字节流与字符流使用场景"><a href="#字节流与字符流使用场景" class="headerlink" title="字节流与字符流使用场景"></a>字节流与字符流使用场景</h2><ul>
+<li>字节流：图像，视频，PPT, Word, 纯文本</li>
+<li>字符流：纯文本类型（TXT), 不能处理图像视频等非文本类型的文件</li>
+</ul>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p><a href="https://juejin.im/post/5d4ee73ae51d4561c94b0f9d" target="_blank" rel="noopener">https://juejin.im/post/5d4ee73ae51d4561c94b0f9d</a><br><a href="https://zhuanlan.zhihu.com/p/109941007" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/109941007</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://zhuangzhuang131419.github.io/2020/07/10/%E5%BA%8F%E5%88%97%E5%8C%96%E5%92%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zhuangzhuang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/10/%E5%BA%8F%E5%88%97%E5%8C%96%E5%92%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" class="post-title-link" itemprop="url">序列化和反序列化</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-07-10 11:43:25 / Modified: 12:33:45" itemprop="dateCreated datePublished" datetime="2020-07-10T11:43:25+08:00">2020-07-10</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>鉴于面试的时候被这个问题虐的实在太惨了，每次都只能说自己只是使用过，遂今天深挖一下这个底层的实现原理。</p>
+<p>序列化与反序列化是一个标准，它是编程语言的一种共性，只是有些编程语言是内置的（如Java，PHP等），有些语言是通过第三方库来实现的（如C/C++）。</p>
+<h1 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h1><ul>
+<li>对象的持久化（将对象内容保存到数据库或文件中）</li>
+<li>远程数据传输（将对象发送给其他计算机系统）</li>
+</ul>
+<h1 id="Java中的序列化与反序列化"><a href="#Java中的序列化与反序列化" class="headerlink" title="Java中的序列化与反序列化"></a>Java中的序列化与反序列化</h1><h2 id="实现Serializable接口的类"><a href="#实现Serializable接口的类" class="headerlink" title="实现Serializable接口的类"></a>实现Serializable接口的类</h2><p>jdk会自动帮我们序列化该类所有的信息，但如果用户定义了writeObject和readObject方法，那么在序列化和反序列化的时候会通过反射优先调用自定义的方法。默认情况会跳过transient修饰的对象。</p>
+<h2 id="实现Externalizable接口的类"><a href="#实现Externalizable接口的类" class="headerlink" title="实现Externalizable接口的类"></a>实现Externalizable接口的类</h2><p>需要用户自定义序列化和反序列化的逻辑，分别重写writeExternal和readExternal方法。</p>
+<h2 id="序列化具体步骤"><a href="#序列化具体步骤" class="headerlink" title="序列化具体步骤"></a>序列化具体步骤</h2><ol>
+<li>创建一个对象输出流，它可以包装一个其它类型的目标输出流，如文件输出流：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ObjectOutputStream oos = <span class="keyword">new</span> ObjectOutputStream(<span class="keyword">new</span> FileOutputStream(<span class="string">"D:\object.out"</span>));</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>通过对象输出流的writeObject()方法写对象：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">oos.writeObject(<span class="keyword">new</span> User(<span class="string">"xuliugen"</span>, <span class="string">"123456"</span>, <span class="string">"male"</span>));</span><br></pre></td></tr></table></figure>
+
+<h2 id="反序列化的具体步骤"><a href="#反序列化的具体步骤" class="headerlink" title="反序列化的具体步骤"></a>反序列化的具体步骤</h2><ol>
+<li>创建一个对象输入流，它可以包装一个其它类型输入流，如文件输入流：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ObjectInputStream ois= <span class="keyword">new</span> ObjectInputStream(<span class="keyword">new</span> FileInputStream(<span class="string">"object.out"</span>));</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>通过对象输出流的readObject()方法读取对象：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">User user = (User) ois.readObject();</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://zhuangzhuang131419.github.io/2020/07/05/%E8%BF%9B%E7%A8%8B%E9%97%B4%E7%9A%84%E9%80%9A%E4%BF%A1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1127,7 +1357,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
