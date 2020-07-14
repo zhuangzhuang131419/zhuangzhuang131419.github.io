@@ -20,19 +20,17 @@
     var CONFIG = {"hostname":"zhuangzhuang131419.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Q146 LRU CacheDesign and implement a data structure for Least Recently Used (LRU) cache. It should support the following operations: get and put. get(key) - Get the value (will always be positive) of">
-<meta property="og:type" content="article">
-<meta property="og:title" content="LeetCode那些事">
-<meta property="og:url" content="https://zhuangzhuang131419.github.io/2020/06/29/LeetCode%E9%82%A3%E4%BA%9B%E4%BA%8B/index.html">
+  <meta property="og:type" content="article">
+<meta property="og:title" content="kite框架和gin框架">
+<meta property="og:url" content="https://zhuangzhuang131419.github.io/2020/07/13/kite%E6%A1%86%E6%9E%B6%E5%92%8Cgin%E6%A1%86%E6%9E%B6/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Q146 LRU CacheDesign and implement a data structure for Least Recently Used (LRU) cache. It should support the following operations: get and put. get(key) - Get the value (will always be positive) of">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-06-29T05:47:40.000Z">
-<meta property="article:modified_time" content="2020-07-04T08:47:56.669Z">
+<meta property="article:published_time" content="2020-07-13T06:04:23.000Z">
+<meta property="article:modified_time" content="2020-07-13T06:04:23.462Z">
 <meta property="article:author" content="zhuangzhuang">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://zhuangzhuang131419.github.io/2020/06/29/LeetCode%E9%82%A3%E4%BA%9B%E4%BA%8B/">
+<link rel="canonical" href="https://zhuangzhuang131419.github.io/2020/07/13/kite%E6%A1%86%E6%9E%B6%E5%92%8Cgin%E6%A1%86%E6%9E%B6/">
 
 
 <script id="page-configurations">
@@ -45,7 +43,7 @@
   };
 </script>
 
-  <title>LeetCode那些事 | Hexo</title>
+  <title>kite框架和gin框架 | Hexo</title>
   
 
 
@@ -150,7 +148,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://zhuangzhuang131419.github.io/2020/06/29/LeetCode%E9%82%A3%E4%BA%9B%E4%BA%8B/">
+    <link itemprop="mainEntityOfPage" href="https://zhuangzhuang131419.github.io/2020/07/13/kite%E6%A1%86%E6%9E%B6%E5%92%8Cgin%E6%A1%86%E6%9E%B6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -163,7 +161,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          LeetCode那些事
+          kite框架和gin框架
         </h1>
 
         <div class="post-meta">
@@ -173,15 +171,8 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-06-29 13:47:40" itemprop="dateCreated datePublished" datetime="2020-06-29T13:47:40+08:00">2020-06-29</time>
+              <time title="Created: 2020-07-13 14:04:23" itemprop="dateCreated datePublished" datetime="2020-07-13T14:04:23+08:00">2020-07-13</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-04 16:47:56" itemprop="dateModified" datetime="2020-07-04T16:47:56+08:00">2020-07-04</time>
-              </span>
 
           
 
@@ -194,23 +185,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="Q146-LRU-Cache"><a href="#Q146-LRU-Cache" class="headerlink" title="Q146 LRU Cache"></a>Q146 LRU Cache</h1><p>Design and implement a data structure for Least Recently Used (LRU) cache. It should support the following operations: get and put.</p>
-<p>get(key) - Get the value (will always be positive) of the key if the key exists in the cache, otherwise return -1.<br>put(key, value) - Set or insert the value if the key is not already present. When the cache reached its capacity, it should invalidate the least recently used item before inserting a new item.</p>
-<p>The cache is initialized with a positive capacity.</p>
-<h2 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h2><h3 id="LinkedHashMap"><a href="#LinkedHashMap" class="headerlink" title="LinkedHashMap"></a>LinkedHashMap</h3><h4 id="LinkedHashMap-vs-HashMap"><a href="#LinkedHashMap-vs-HashMap" class="headerlink" title="LinkedHashMap vs. HashMap"></a>LinkedHashMap vs. HashMap</h4><p>大多数情况下，只要不涉及线程安全问题，Map基本都可以使用HashMap，不过HashMap有一个问题，就是迭代HashMap的顺序并不是HashMap放置的顺序，也就是无序。HashMap的这一缺点往往会带来困扰，因为有些场景，我们期待一个<strong>有序</strong>的Map.</p>
-<ul>
-<li><p>LinkedHashMap = LinkedList + HashMap</p>
-</li>
-<li><p>accessOrder   </p>
-<ul>
-<li>false： 基于插入顺序    </li>
-<li>true：  基于访问顺序 </li>
-</ul>
-</li>
-</ul>
-<h4 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h4><p><a href="https://juejin.im/post/5a4b433b6fb9a0451705916f" target="_blank" rel="noopener">https://juejin.im/post/5a4b433b6fb9a0451705916f</a></p>
-<h3 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LRUCache</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> capacity;</span><br><span class="line">    <span class="keyword">private</span> LinkedHashMap&lt;Integer, Integer&gt; map;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LRUCache</span><span class="params">(<span class="keyword">int</span> capacity)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.capacity = capacity;</span><br><span class="line">        map = <span class="keyword">new</span> LinkedHashMap&lt;&gt;(capacity, <span class="number">1</span>, <span class="keyword">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">get</span><span class="params">(<span class="keyword">int</span> key)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!map.containsKey(key)) &#123;</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> map.get(key);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(<span class="keyword">int</span> key, <span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!map.containsKey(key)) &#123;</span><br><span class="line">            <span class="keyword">if</span> (map.size() &gt;= capacity) &#123;</span><br><span class="line">                <span class="keyword">for</span> (Map.Entry&lt;Integer, Integer&gt; entry : map.entrySet()) &#123;</span><br><span class="line">                    map.remove(entry.getKey());</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        map.put(key, value);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+        
     </div>
 
     
@@ -225,12 +200,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/06/28/MySQL%E7%AC%94%E8%AE%B0/" rel="prev" title="MySQL笔记">
-      <i class="fa fa-chevron-left"></i> MySQL笔记
+    <a href="/2020/07/11/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" rel="prev" title="字符编码">
+      <i class="fa fa-chevron-left"></i> 字符编码
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/07/03/Redis/" rel="next" title="Redis">
-      Redis <i class="fa fa-chevron-right"></i>
+    <a href="/2020/07/14/http%E5%92%8Chttps%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/" rel="next" title="http和https的那些事">
+      http和https的那些事 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -290,7 +265,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Q146-LRU-Cache"><span class="nav-number">1.</span> <span class="nav-text">Q146 LRU Cache</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#算法实现"><span class="nav-number">1.1.</span> <span class="nav-text">算法实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LinkedHashMap"><span class="nav-number">1.1.1.</span> <span class="nav-text">LinkedHashMap</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#LinkedHashMap-vs-HashMap"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">LinkedHashMap vs. HashMap</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考文献"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">参考文献</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具体实现"><span class="nav-number">1.1.2.</span> <span class="nav-text">具体实现</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
