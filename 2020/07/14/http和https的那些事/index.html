@@ -20,19 +20,19 @@
     var CONFIG = {"hostname":"zhuangzhuang131419.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="HTTPHTTP 1.0 &#x2F; 1.1 &#x2F; 2.0HTTPSHTTPS 的加密方式加密方式 对称加密 非对称加密对称加密     定义 需要对加密和解密使用相同密钥的加密算法。所谓对称，就是采用这种加密方法的双方使用方式用同样的密钥进行加密和解密。密钥是控制加密及解密过程的指令。算法是一组规则，规定如何进行加密和解密。   算法实现 可以参见https:&#x2F;&#x2F;juejin.im&#x2F;post&#x2F;5b48b0">
+  <meta name="description" content="HTTPHTTP（超文本传输协议，HyperText Transfer Protocol)是互联网上应用最为广泛的一种网络协议。所有的WWW文件都必须遵守这个标准。设计HTTP最初的目的是为了提供一种发布和接收HTML页面的方法。是用于从WWW服务器传输超文本到本地浏览器的传输协议。默认使用80端口，HTTP客户端发起一个请求，建立一个到服务器指定端口（默认是80端口）的TCP连接，但是具体的通信">
 <meta property="og:type" content="article">
 <meta property="og:title" content="http和https的那些事">
 <meta property="og:url" content="https://zhuangzhuang131419.github.io/2020/07/14/http%E5%92%8Chttps%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="HTTPHTTP 1.0 &#x2F; 1.1 &#x2F; 2.0HTTPSHTTPS 的加密方式加密方式 对称加密 非对称加密对称加密     定义 需要对加密和解密使用相同密钥的加密算法。所谓对称，就是采用这种加密方法的双方使用方式用同样的密钥进行加密和解密。密钥是控制加密及解密过程的指令。算法是一组规则，规定如何进行加密和解密。   算法实现 可以参见https:&#x2F;&#x2F;juejin.im&#x2F;post&#x2F;5b48b0">
+<meta property="og:description" content="HTTPHTTP（超文本传输协议，HyperText Transfer Protocol)是互联网上应用最为广泛的一种网络协议。所有的WWW文件都必须遵守这个标准。设计HTTP最初的目的是为了提供一种发布和接收HTML页面的方法。是用于从WWW服务器传输超文本到本地浏览器的传输协议。默认使用80端口，HTTP客户端发起一个请求，建立一个到服务器指定端口（默认是80端口）的TCP连接，但是具体的通信">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://zhuangzhuang131419.github.io/2020/07/14/http%E5%92%8Chttps%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86.png">
 <meta property="og:image" content="https://zhuangzhuang131419.github.io/2020/07/14/http%E5%92%8Chttps%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86.png">
 <meta property="og:image" content="https://zhuangzhuang131419.github.io/2020/07/14/http%E5%92%8Chttps%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6_%E6%9C%8D%E5%8A%A1%E7%AB%AF.png">
 <meta property="og:image" content="https://zhuangzhuang131419.github.io/2020/07/14/http%E5%92%8Chttps%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6_%E5%AE%A2%E6%88%B7%E7%AB%AF.png">
 <meta property="article:published_time" content="2020-07-14T01:56:28.000Z">
-<meta property="article:modified_time" content="2020-07-14T03:40:43.785Z">
+<meta property="article:modified_time" content="2020-07-15T02:25:08.586Z">
 <meta property="article:author" content="zhuangzhuang">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://zhuangzhuang131419.github.io/2020/07/14/http%E5%92%8Chttps%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86.png">
@@ -177,10 +177,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-07-14 09:56:28 / Modified: 11:40:43" itemprop="dateCreated datePublished" datetime="2020-07-14T09:56:28+08:00">2020-07-14</time>
+              <time title="Created: 2020-07-14 09:56:28" itemprop="dateCreated datePublished" datetime="2020-07-14T09:56:28+08:00">2020-07-14</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-07-15 10:25:08" itemprop="dateModified" datetime="2020-07-15T10:25:08+08:00">2020-07-15</time>
+              </span>
 
           
 
@@ -193,7 +199,23 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h1><h2 id="HTTP-1-0-1-1-2-0"><a href="#HTTP-1-0-1-1-2-0" class="headerlink" title="HTTP 1.0 / 1.1 / 2.0"></a>HTTP 1.0 / 1.1 / 2.0</h2><h1 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h1><h2 id="HTTPS-的加密方式"><a href="#HTTPS-的加密方式" class="headerlink" title="HTTPS 的加密方式"></a>HTTPS 的加密方式</h2><h3 id="加密方式"><a href="#加密方式" class="headerlink" title="加密方式"></a>加密方式</h3><ul>
+        <h1 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h1><p>HTTP（超文本传输协议，HyperText Transfer Protocol)是互联网上应用最为广泛的一种网络协议。所有的WWW文件都必须遵守这个标准。设计HTTP最初的目的是为了提供一种发布和接收HTML页面的方法。是用于从WWW服务器传输超文本到本地浏览器的传输协议。默认使用80端口，HTTP客户端发起一个请求，建立一个到服务器指定端口（默认是80端口）的TCP连接，但是具体的通信不是在80端口。HTTP协议和TCP协议是不冲突的，HTTP定义在七层协议中的应用层，TCP解决的是传输层的逻辑。HTTP使用TCP而不是UDP的原因在于（打开）一个网页必须传送很多数据，而TCP协议提供传输控制，按顺序组织数据，和错误纠正。</p>
+<p><b>HTTP协议的瓶颈及其优化技巧都是基于TCP协议本身的特性。</b>如TCP建立连接时三次握手有1.5个RTT（round-trip time）的延迟，为了避免每次请求的都经历握手带来的延迟，应用层会选择不同策略的http长链接方案。(长连接和短连接会在下文中补充)又如TCP在建立连接的初期有慢启动（slow start）的特性，所以连接的重用总是比新建连接性能要好。</p>
+<p>HTTP连接使用的是“请求—响应”的方式，不仅在请求时需要先建立连接，而且需要客户端向服务器发出请求后，服务器端才能回复数据。HTTP/1.0是第一个在通讯中指定版本号的HTTP 协议版本，至今仍被广泛采用，特别是在代理服务器中。HTTP/1.1是当前版本，持久连接被默认采用，并能很好地配合代理服务器工作，还支持以管道方式同时发送多个请求，以便降低线路负载，提高传输速度。HTTP／2.0在HTTP 1.x的基础上，大幅度的提高了web性能，减少了网络延迟。HTTP1.0和1.1在之后很长的一段时间内会一直并存，这是由于网络基础设施更新缓慢所决定的。</p>
+<h2 id="HTTP-1-0"><a href="#HTTP-1-0" class="headerlink" title="HTTP 1.0"></a>HTTP 1.0</h2><p>HTTP 协议老的标准是HTTP/1.0，为了提高系统的效率，HTTP 1.0规定浏览器与服务器只保持<b>短暂的连接</b>，浏览器的每次请求都需要与服务器建立一个TCP连接，服务器完成请求处理后立即断开TCP连接，服务器不跟踪每个客户也不记录过去的请求。但是，这也造成了一些性能上的缺陷，例如，一个包含有许多图像的网页文件中并没有包含真正的图像数据内容，而只是指明了这些图像的URL地址，当WEB浏览器访问这个网页文件时，浏览器首先要发出针对该网页文件的请求，当浏览器解析WEB服务器返回的该网页文档中的HTML内容时，发现其中的图像标签后，浏览器将根据标签中的src属性所指定的URL地址再次向服务器发出下载图像数据的请求。显 然，访问一个包含有许多图像的网页文件的整个过程包含了多次请求和响应，每次请求和响应都需要建立一个单独的连接，每次连接只是传输一个文档和图像，上一次和下一次请求完全分离。即使图像文件都很小，但是客户端和服务器端每次建立和关闭连接却是一个相对比较费时的过程，并且会严重影响客户机和服务器的性能。当一个网页文件中包含JavaScript文件，CSS文件等内容时，也会出现类似上述的情况。</p>
+<p>同时，带宽和延迟也是影响一个网络请求的重要因素。在网络基础建设已经使得带宽得到极大的提升的当下，大部分时候都是延迟在于响应速度。基于此会发现，http1.0被抱怨最多的就是<b>连接无法复用</b>，和<b>head of line blocking</b>这两个问题。理解这两个问题有一个十分重要的前提：客户端是依据域名来向服务器建立连接，一般PC端浏览器会针对单个域名的server同时建立6～8个连接，手机端的连接数则一般控制在4～6个。显然连接数并不是越多越好，资源开销和整体延迟都会随之增大。连接无法复用会导致每次请求都经历三次握手和慢启动。（多个连接的请求每次都要重新来）三次握手在高延迟的场景下影响较明显，慢启动则对文件类大请求影响较大。head of line blocking会导致带宽无法被充分利用，以及后续健康请求被阻塞。</p>
+<p>head of line blocking(holb)会导致健康的请求会被不健康的请求影响，而且这种体验的损耗受网络环境影响，出现随机且难以监控。为了解决holb带来的延迟，协议设计者设计了一种新的pipelining机制。pipelining只能适用于http1.1,而且由于使用苛刻，很多浏览器厂商并不支持。</p>
+<p>tips: head of line blocking是队头阻塞，是指一列的第一个数据包（队头）受阻而导致整列数据报受阻。</p>
+<h2 id="HTTP-1-1"><a href="#HTTP-1-1" class="headerlink" title="HTTP 1.1"></a>HTTP 1.1</h2><p>为了克服HTTP 1.0的这个缺陷，HTTP 1.1支持持久连接（HTTP/1.1的默认模式使用带流水线的持久连接），在一个TCP连接上可以传送多个HTTP请求和响应，减少了建立和关闭连接的消耗和延迟。一个包含有许多图像的网页文件的多个请求和应答可以在一个连接中传输，但每个单独的网页文件的请求和应答仍然需要使用各自的连接。HTTP 1.1还允许客户端不用等待上一次请求结果返回，就可以发出下一次请求，但服务器端必须按照接收到客户端请求的先后顺序依次回送响应结果，以保证客户端能够区分出每次请求的响应内容，这样也显著地减少了整个下载过程所需要的时间。</p>
+<p>在http1.1，request和reponse头中都有可能出现一个connection的头，此header的含义是当client和server通信时对于长链接如何进行处理。<br>在http1.1中，client和server都是默认对方支持长链接的， 如果client使用http1.1协议，但又不希望使用长链接，则需要在header中指明connection的值为close；如果server方也不想支持长链接，则在response中也需要明确说明connection的值为close。不论request还是response的header中包含了值为close的connection，都表明当前正在使用的tcp链接在当天请求处理完毕后会被断掉。以后client再进行新的请求时就必须创建新的tcp链接了。</p>
+<p>HTTP 1.1在继承了HTTP 1.0优点的基础上，也克服了HTTP 1.0的性能问题。HTTP 1.1通过增加更多的请求头和响应头来改进和扩充HTTP 1.0的功能。</p>
+<ul>
+<li>如，HTTP 1.0不支持Host请求头字段，WEB浏览器无法使用主机头名来明确表示要访问服务器上的哪个WEB站点，这样就无法使用WEB服务器在同一个IP地址和端口号上配置多个虚拟WEB站点。在HTTP 1.1中增加Host请求头字段后，WEB浏览器可以使用主机头名来明确表示要访问服务器上的哪个WEB站点，这才实现了在一台WEB服务器上可以在同一个IP地址和端口号上使用不同的主机名来创建多个虚拟WEB站点。</li>
+<li>HTTP 1.1的持续连接，也需要增加新的请求头来帮助实现，例如，Connection请求头的值为Keep-Alive时，客户端通知服务器返回本次请求结果后保持连接；Connection请求头的值为close时，客户端通知服务器返回本次请求结果后关闭连接。HTTP 1.1还提供了与身份认证、状态管理和Cache缓存等机制相关的请求头和响应头。</li>
+<li>HTTP/1.0不支持文件断点续传，<code>RANGE:bytes</code>是HTTP/1.1新增内容，HTTP/1.0每次传送文件都是从文件头开始，即0字节处开始。<code>RANGE:bytes=XXXX</code>表示要求服务器从文件XXXX字节处开始传送，这就是我们平时所说的断点续传！</li>
+</ul>
+<h2 id="HTTP-1-0-相较于-HTTP-1-1的主要区别"><a href="#HTTP-1-0-相较于-HTTP-1-1的主要区别" class="headerlink" title="HTTP 1.0 相较于 HTTP 1.1的主要区别"></a>HTTP 1.0 相较于 HTTP 1.1的主要区别</h2><h2 id="HTTP-2-0"><a href="#HTTP-2-0" class="headerlink" title="HTTP 2.0"></a>HTTP 2.0</h2><h3 id="多路复用"><a href="#多路复用" class="headerlink" title="多路复用"></a>多路复用</h3><h3 id="二进制分振"><a href="#二进制分振" class="headerlink" title="二进制分振"></a>二进制分振</h3><h3 id="首部压缩"><a href="#首部压缩" class="headerlink" title="首部压缩"></a>首部压缩</h3><h3 id="服务端推送"><a href="#服务端推送" class="headerlink" title="服务端推送"></a>服务端推送</h3><h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a href="https://www.jianshu.com/p/52d86558ca57" target="_blank" rel="noopener">https://www.jianshu.com/p/52d86558ca57</a></p>
+<h1 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h1><h2 id="HTTPS-的加密方式"><a href="#HTTPS-的加密方式" class="headerlink" title="HTTPS 的加密方式"></a>HTTPS 的加密方式</h2><h3 id="加密方式"><a href="#加密方式" class="headerlink" title="加密方式"></a>加密方式</h3><ul>
 <li>对称加密</li>
 <li>非对称加密<h4 id="对称加密"><a href="#对称加密" class="headerlink" title="对称加密"></a>对称加密</h4></li>
 </ul>
@@ -239,7 +261,7 @@
 <p>客户端如何获得CA的公钥, 服务器又怎么会有CA的私钥</p>
 </blockquote>
 <p>其实，(有些)服务器一开始就向认证中心申请了这些证书了(有没有看过没有证书的网站在地址栏会被标出警告？)，而客户端是，也会内置这些证书。当客户端收到服务器传输过来的数据数字证书时，就会在内置的证书列表里，查看是否有解开该数字证书的公钥。</p>
-<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p><a href="https://segmentfault.com/a/1190000019687184" target="_blank" rel="noopener">https://segmentfault.com/a/1190000019687184</a></p>
+<h3 id="参考文献-1"><a href="#参考文献-1" class="headerlink" title="参考文献"></a>参考文献</h3><p><a href="https://segmentfault.com/a/1190000019687184" target="_blank" rel="noopener">https://segmentfault.com/a/1190000019687184</a></p>
 
     </div>
 
@@ -317,7 +339,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#HTTP"><span class="nav-number">1.</span> <span class="nav-text">HTTP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP-1-0-1-1-2-0"><span class="nav-number">1.1.</span> <span class="nav-text">HTTP 1.0 &#x2F; 1.1 &#x2F; 2.0</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HTTPS"><span class="nav-number">2.</span> <span class="nav-text">HTTPS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTPS-的加密方式"><span class="nav-number">2.1.</span> <span class="nav-text">HTTPS 的加密方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#加密方式"><span class="nav-number">2.1.1.</span> <span class="nav-text">加密方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#对称加密"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">对称加密</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#非对称加密"><span class="nav-number">2.1.1.2.</span> <span class="nav-text">非对称加密</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化"><span class="nav-number">2.2.</span> <span class="nav-text">优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#对称加密-非对称加密："><span class="nav-number">2.2.1.</span> <span class="nav-text">对称加密+非对称加密：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#风险"><span class="nav-number">2.2.2.</span> <span class="nav-text">风险</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数字证书"><span class="nav-number">2.3.</span> <span class="nav-text">数字证书</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文献"><span class="nav-number">2.3.1.</span> <span class="nav-text">参考文献</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#HTTP"><span class="nav-number">1.</span> <span class="nav-text">HTTP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP-1-0"><span class="nav-number">1.1.</span> <span class="nav-text">HTTP 1.0</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP-1-1"><span class="nav-number">1.2.</span> <span class="nav-text">HTTP 1.1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP-1-0-相较于-HTTP-1-1的主要区别"><span class="nav-number">1.3.</span> <span class="nav-text">HTTP 1.0 相较于 HTTP 1.1的主要区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP-2-0"><span class="nav-number">1.4.</span> <span class="nav-text">HTTP 2.0</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#多路复用"><span class="nav-number">1.4.1.</span> <span class="nav-text">多路复用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二进制分振"><span class="nav-number">1.4.2.</span> <span class="nav-text">二进制分振</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#首部压缩"><span class="nav-number">1.4.3.</span> <span class="nav-text">首部压缩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务端推送"><span class="nav-number">1.4.4.</span> <span class="nav-text">服务端推送</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">1.5.</span> <span class="nav-text">参考文献</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HTTPS"><span class="nav-number">2.</span> <span class="nav-text">HTTPS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTPS-的加密方式"><span class="nav-number">2.1.</span> <span class="nav-text">HTTPS 的加密方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#加密方式"><span class="nav-number">2.1.1.</span> <span class="nav-text">加密方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#对称加密"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">对称加密</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#非对称加密"><span class="nav-number">2.1.1.2.</span> <span class="nav-text">非对称加密</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化"><span class="nav-number">2.2.</span> <span class="nav-text">优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#对称加密-非对称加密："><span class="nav-number">2.2.1.</span> <span class="nav-text">对称加密+非对称加密：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#风险"><span class="nav-number">2.2.2.</span> <span class="nav-text">风险</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数字证书"><span class="nav-number">2.3.</span> <span class="nav-text">数字证书</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文献-1"><span class="nav-number">2.3.1.</span> <span class="nav-text">参考文献</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

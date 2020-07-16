@@ -20,16 +20,19 @@
     var CONFIG = {"hostname":"zhuangzhuang131419.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="MySQL事务隔离级别数据库事务隔离级别    脏读 不可重复读 幻读    Read Uncommitted 可能 可能 可能   Read Committed 不可能 可能 可能   Repeatable Read 不可能 不可能 可能   Serializable 不可能 不可能 不可能   脏读、不可重复读、幻读 脏读   脏读就是指当一个事务正在访问数据，并且对数据进行了修改，而这种修改">
+  <meta name="description" content="数据库ACID特性原子性 Atomicity一致性 Consistency隔离性 IsolationMySQL事务隔离级别数据库事务隔离级别    脏读 不可重复读 幻读    Read Uncommitted 可能 可能 可能   Read Committed 不可能 可能 可能   Repeatable Read 不可能 不可能 可能   Serializable 不可能 不可能 不可能">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL笔记">
 <meta property="og:url" content="https://zhuangzhuang131419.github.io/2020/06/28/MySQL%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="MySQL事务隔离级别数据库事务隔离级别    脏读 不可重复读 幻读    Read Uncommitted 可能 可能 可能   Read Committed 不可能 可能 可能   Repeatable Read 不可能 不可能 可能   Serializable 不可能 不可能 不可能   脏读、不可重复读、幻读 脏读   脏读就是指当一个事务正在访问数据，并且对数据进行了修改，而这种修改">
+<meta property="og:description" content="数据库ACID特性原子性 Atomicity一致性 Consistency隔离性 IsolationMySQL事务隔离级别数据库事务隔离级别    脏读 不可重复读 幻读    Read Uncommitted 可能 可能 可能   Read Committed 不可能 可能 可能   Repeatable Read 不可能 不可能 可能   Serializable 不可能 不可能 不可能">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://zhuangzhuang131419.github.io/2020/06/28/MySQL%E7%AC%94%E8%AE%B0/B+Tree.png">
+<meta property="og:image" content="https://zhuangzhuang131419.github.io/2020/06/28/MySQL%E7%AC%94%E8%AE%B0/%E6%9C%80%E5%B7%A6%E5%8C%B9%E9%85%8D%E5%8E%9F%E7%90%86.png">
+<meta property="og:image" content="https://zhuangzhuang131419.github.io/2020/06/28/MySQL%E7%AC%94%E8%AE%B0/MySQL%E9%80%BB%E8%BE%91%E6%9E%B6%E6%9E%84.png">
+<meta property="og:image" content="https://zhuangzhuang131419.github.io/2020/06/28/MySQL%E7%AC%94%E8%AE%B0/MySQL%E6%9F%A5%E8%AF%A2%E8%BF%87%E7%A8%8B.png">
 <meta property="article:published_time" content="2020-06-28T09:38:47.000Z">
-<meta property="article:modified_time" content="2020-07-12T14:16:54.918Z">
+<meta property="article:modified_time" content="2020-07-16T02:35:24.023Z">
 <meta property="article:author" content="zhuangzhuang">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://zhuangzhuang131419.github.io/2020/06/28/MySQL%E7%AC%94%E8%AE%B0/B+Tree.png">
@@ -182,7 +185,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-12 22:16:54" itemprop="dateModified" datetime="2020-07-12T22:16:54+08:00">2020-07-12</time>
+                <time title="Modified: 2020-07-16 10:35:24" itemprop="dateModified" datetime="2020-07-16T10:35:24+08:00">2020-07-16</time>
               </span>
 
           
@@ -196,7 +199,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="MySQL事务隔离级别"><a href="#MySQL事务隔离级别" class="headerlink" title="MySQL事务隔离级别"></a>MySQL事务隔离级别</h1><h2 id="数据库事务隔离级别"><a href="#数据库事务隔离级别" class="headerlink" title="数据库事务隔离级别"></a>数据库事务隔离级别</h2><table>
+        <h1 id="数据库ACID特性"><a href="#数据库ACID特性" class="headerlink" title="数据库ACID特性"></a>数据库ACID特性</h1><h2 id="原子性-Atomicity"><a href="#原子性-Atomicity" class="headerlink" title="原子性 Atomicity"></a>原子性 Atomicity</h2><h2 id="一致性-Consistency"><a href="#一致性-Consistency" class="headerlink" title="一致性 Consistency"></a>一致性 Consistency</h2><h2 id="隔离性-Isolation"><a href="#隔离性-Isolation" class="headerlink" title="隔离性 Isolation"></a>隔离性 Isolation</h2><h3 id="MySQL事务隔离级别"><a href="#MySQL事务隔离级别" class="headerlink" title="MySQL事务隔离级别"></a>MySQL事务隔离级别</h3><h4 id="数据库事务隔离级别"><a href="#数据库事务隔离级别" class="headerlink" title="数据库事务隔离级别"></a>数据库事务隔离级别</h4><table>
 <thead>
 <tr>
 <th></th>
@@ -230,7 +233,7 @@
 <td>不可能</td>
 </tr>
 </tbody></table>
-<h2 id="脏读、不可重复读、幻读"><a href="#脏读、不可重复读、幻读" class="headerlink" title="脏读、不可重复读、幻读"></a>脏读、不可重复读、幻读</h2><ul>
+<h4 id="脏读、不可重复读、幻读"><a href="#脏读、不可重复读、幻读" class="headerlink" title="脏读、不可重复读、幻读"></a>脏读、不可重复读、幻读</h4><ul>
 <li><p>脏读</p>
 <p>  脏读就是指当一个事务正在访问数据，并且对数据进行了修改，而这种修改还没有提交到数据库中，这时，另外一个事务也访问这个数据，然后使用了这个数据。</p>
 </li>
@@ -243,7 +246,7 @@
 <p>  例如，一个编辑人员更改作者提交的文档，但当生产部门将其更改内容合并到该文档的主复本时，发现作者已将未编辑的新材料添加到该文档中。如果在编辑人员和生产部门完成对原始文档的处理之前，任何人都不能将新材料添加到文档中，则可以避免该问题。</p>
 </li>
 </ul>
-<h2 id="四种隔离级别的解读"><a href="#四种隔离级别的解读" class="headerlink" title="四种隔离级别的解读"></a>四种隔离级别的解读</h2><blockquote>
+<h4 id="四种隔离级别的解读"><a href="#四种隔离级别的解读" class="headerlink" title="四种隔离级别的解读"></a>四种隔离级别的解读</h4><blockquote>
 <p>Read Uncommitted<br>最差的隔离级别，一个事务可以读到另一个事务没有commit时的数据</p>
 </blockquote>
 <blockquote>
@@ -255,7 +258,7 @@
 <blockquote>
 <p>Serializable<br>Serializable 是最高的事务隔离级别，同时代价也花费最高，性能很低，一般很少使用，在该级别下，事务顺序执行，不仅可以避免脏读、不可重复读，还避免了幻像读。</p>
 </blockquote>
-<hr>
+<h2 id="持久性-Durability"><a href="#持久性-Durability" class="headerlink" title="持久性 Durability"></a>持久性 Durability</h2><hr>
 <h1 id="数据库三大范式"><a href="#数据库三大范式" class="headerlink" title="数据库三大范式"></a>数据库三大范式</h1><h2 id="第一范式"><a href="#第一范式" class="headerlink" title="第一范式"></a>第一范式</h2><p>每个列都不可以再拆分</p>
 <h2 id="第二范式"><a href="#第二范式" class="headerlink" title="第二范式"></a>第二范式</h2><p>第一范式 + 非主键完全依赖于主键，而不能是依赖于主键的一部分</p>
 <h2 id="第三范式"><a href="#第三范式" class="headerlink" title="第三范式"></a>第三范式</h2><p>第二范式 + 非主键列只依赖于主键，不依赖于其他非主键</p>
@@ -323,7 +326,96 @@
 <h3 id="唯一索引"><a href="#唯一索引" class="headerlink" title="唯一索引"></a>唯一索引</h3><p>与“普通索引”类似，不同的就是：索引列的值必须唯一，但允许有空值。</p>
 <h3 id="普通索引"><a href="#普通索引" class="headerlink" title="普通索引"></a>普通索引</h3><p>最基本的索引，没有任何限制。</p>
 <h3 id="全文索引"><a href="#全文索引" class="headerlink" title="全文索引"></a>全文索引</h3><p>仅可用于MyISAM和InnoDB，针对较大的数据，生成全文索引很耗时耗空间。</p>
-<h3 id="组合索引"><a href="#组合索引" class="headerlink" title="组合索引"></a>组合索引</h3><p>为了更多的提高mysql效率可建立组合索引，遵循”最左前缀”原则。创建复合索引应该将最常用（频率）做限制条件的列放在最左边，一次递减。组合索引最左字段用in是可以用到索引的。相当于建立了col1, col1col2, col1col2col3三个索引。</p>
+<h3 id="组合索引"><a href="#组合索引" class="headerlink" title="组合索引"></a>组合索引</h3><p>为了更多的提高mysql效率可建立组合索引，遵循”最左前缀”原则。创建复合索引应该将最常用（频率）做限制条件的列放在最左边，一次递减。组合索引最左字段用in是可以用到索引的。</p>
+<h4 id="最左匹配原则"><a href="#最左匹配原则" class="headerlink" title="最左匹配原则"></a>最左匹配原则</h4><p>最左匹配原则就是指在联合索引中，如果你的 SQL 语句中用到了联合索引中的最左边的索引，那么这条 SQL 语句就可以利用这个联合索引去进行匹配。</p>
+<blockquote>
+<p>示例1 </p>
+</blockquote>
+<p>假设有索引(a,b,c)</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> t <span class="keyword">where</span> a=<span class="number">1</span> <span class="keyword">and</span> b=<span class="number">1</span> <span class="keyword">and</span> c =<span class="number">1</span>;     <span class="comment">#这样可以利用到定义的索引（a,b,c）</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> t <span class="keyword">where</span> a=<span class="number">1</span> <span class="keyword">and</span> b=<span class="number">1</span>;     <span class="comment">#这样可以利用到定义的索引（a,b,c）</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 借助mysql查询优化器explain，explain会纠正sql语句该以什么样的顺序执行效率最高，最后才生成真正的执行计划。</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> t <span class="keyword">where</span> b=<span class="number">1</span> <span class="keyword">and</span> a=<span class="number">1</span>;     <span class="comment">#这样可以利用到定义的索引（a,b,c）</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> t <span class="keyword">where</span> a=<span class="number">1</span>;     <span class="comment">#这样也可以利用到定义的索引（a,b,c）</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> t <span class="keyword">where</span> b=<span class="number">1</span> <span class="keyword">and</span> c=<span class="number">1</span>;     <span class="comment">#这样不可以利用到定义的索引（a,b,c）</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> t <span class="keyword">where</span> a=<span class="number">1</span> <span class="keyword">and</span> c=<span class="number">1</span>;     <span class="comment">#这样不可以利用到定义的索引（a,b,c）</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 当遇到范围查询(&gt;、&lt;、between、like)就会停止匹配</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> t <span class="keyword">where</span> a=<span class="number">1</span> <span class="keyword">and</span> b&gt;<span class="number">1</span> <span class="keyword">and</span> c =<span class="number">1</span>;     <span class="comment">#这样a,b可以用到（a,b,c），c不可以</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>示例2</p>
+</blockquote>
+<p>假设对列<code>col1</code>,<code>col2</code>,<code>col3</code>建立一个联合索引</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">KEY test_col1_col2_col3 on test(col1,col2,col3)</span><br></pre></td></tr></table></figure>
+<p>联合索引<code>test_col1_col2_col3</code>实际上建立了<code>(col1)</code>,<code>(col1,col2)</code>,<code>(col1,col2,col3)</code>三个索引</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> <span class="keyword">test</span> <span class="keyword">WHERE</span> col1=“<span class="number">1</span>” <span class="keyword">AND</span> clo2=“<span class="number">2</span>” <span class="keyword">AND</span> clo4=“<span class="number">4</span>”</span><br></pre></td></tr></table></figure>
+<p>上面这个查询语句执行时会依照最左前缀匹配的原则，检索时会使用索引<code>(col1,col2)</code>进行数据匹配</p>
+<h4 id="最左匹配原则的原理"><a href="#最左匹配原则的原理" class="headerlink" title="最左匹配原则的原理"></a>最左匹配原则的原理</h4><p>因为构建一颗B+树只能根据一个值来构建，因此数据库依据联合索引最左的字段来构建B+树</p>
+<blockquote>
+<p>示例</p>
+</blockquote>
+<p>假如创建一个(a,b,c)的联合索引</p>
+<img src="/2020/06/28/MySQL%E7%AC%94%E8%AE%B0/%E6%9C%80%E5%B7%A6%E5%8C%B9%E9%85%8D%E5%8E%9F%E7%90%86.png" class="" title="最左匹配原理">
+
+<p>该图就是一个形如(a,b,c)联合索引的 b+ 树，其中的非叶子节点存储的是第一个关键字的索引 a，而叶子节点存储的是三个关键字的数据。这里可以看出 a 是有序的，而 b，c 都是无序的。但是当在 a 相同的时候，b 是有序的，b 相同的时候，c 又是有序的。通过对联合索引的结构的了解，那么就可以很好的了解为什么最左匹配原则中如果遇到范围查询就会停止了。以 <code>select * from t where a=5 and b&gt;0 and c =1;</code>这样a,b可以用到（a,b,c），c不可以 为例子，当查询到 b 的值以后（这是一个范围值），c 是无序的。所以就不能根据联合索引来确定到低该取哪一行。</p>
+<h1 id="MySQL优化"><a href="#MySQL优化" class="headerlink" title="MySQL优化"></a>MySQL优化</h1><h2 id="MySQL逻辑架构"><a href="#MySQL逻辑架构" class="headerlink" title="MySQL逻辑架构"></a>MySQL逻辑架构</h2><img src="/2020/06/28/MySQL%E7%AC%94%E8%AE%B0/MySQL%E9%80%BB%E8%BE%91%E6%9E%B6%E6%9E%84.png" class="" title="MySQL逻辑架构">
+
+<p>MySQL逻辑架构整体分为三层，最上层为客户端层，并非MySQL所独有，诸如：连接处理、授权认证、安全等功能均在这一层处理。</p>
+<p>MySQL大多数核心服务均在中间这一层，包括查询解析、分析、优化、缓存、内置函数(比如：时间、数学、加密等函数)。所有的跨存储引擎的功能也在这一层实现：存储过程、触发器、视图等。</p>
+<p>最下层为存储引擎，其负责MySQL中的数据存储和提取。和Linux下的文件系统类似，每种存储引擎都有其优势和劣势。中间的服务层通过API与存储引擎通信，这些API接口屏蔽了不同存储引擎间的差异。</p>
+<h2 id="MySQL查询过程"><a href="#MySQL查询过程" class="headerlink" title="MySQL查询过程"></a>MySQL查询过程</h2><p>当我们向MySQL发送一个请求，MySQL内部具体流程</p>
+<img src="/2020/06/28/MySQL%E7%AC%94%E8%AE%B0/MySQL%E6%9F%A5%E8%AF%A2%E8%BF%87%E7%A8%8B.png" class="" title="MySQL查询过程">
+<h3 id="客户端-服务端通信协议"><a href="#客户端-服务端通信协议" class="headerlink" title="客户端/服务端通信协议"></a>客户端/服务端通信协议</h3><p>MySQL客户端/服务端通信协议是“半双工”的：在任一时刻，要么是服务器向客户端发送数据，要么是客户端向服务器发送数据，这两个动作不能同时发生。一旦一端开始发送消息，另一端要接收完整个消息才能响应它，所以我们无法也无须将一个消息切成小块独立发送，也没有办法进行流量控制。</p>
+<p>客户端用一个单独的数据包将查询请求发送给服务器，所以当查询语句很长的时候，需要设置max_allowed_packet参数。但是需要注意的是，如果查询实在是太大，服务端会拒绝接收更多数据并抛出异常。</p>
+<p>与之相反的是，服务器响应给用户的数据通常会很多，由多个数据包组成。但是当服务器响应客户端请求时，客户端必须完整的接收整个返回结果，而不能简单的只取前面几条结果，然后让服务器停止发送。因而在实际开发中，尽量保持查询简单且只返回必需的数据，减小通信间数据包的大小和数量是一个非常好的习惯，这也是查询中尽量避免使用SELECT *以及加上LIMIT限制的原因之一。</p>
+<h3 id="查询缓存"><a href="#查询缓存" class="headerlink" title="查询缓存"></a>查询缓存</h3><p>在解析一个查询语句前，如果查询缓存是打开的，那么MySQL会检查这个查询语句是否命中查询缓存中的数据。如果当前查询恰好命中查询缓存，在检查一次用户权限后直接返回缓存中的结果。这种情况下，查询不会被解析，也不会生成执行计划，更不会执行。</p>
+<p>MySQL将缓存存放在一个引用表（不要理解成table，可以认为是类似于HashMap的数据结构），通过一个哈希值索引，这个哈希值通过查询本身、当前要查询的数据库、客户端协议版本号等一些可能影响结果的信息计算得来。所以两个查询在任何字符上的不同（例如：空格、注释），都会导致缓存不会命中。</p>
+<p>如果查询中包含任何用户自定义函数、存储函数、用户变量、临时表、MySQL库中的系统表，其查询结果都不会被缓存。比如函数NOW()或者CURRENT_DATE()会因为不同的查询时间，返回不同的查询结果，再比如包含CURRENT_USER或者CONNECION_ID()的查询语句会因为不同的用户而返回不同的结果，将这样的查询结果缓存起来没有任何的意义。</p>
+<p>既然是缓存，就会失效，那查询缓存何时失效呢？MySQL的查询缓存系统会跟踪查询中涉及的每个表，如果这些表（数据或结构）发生变化，那么和这张表相关的所有缓存数据都将失效。正因为如此，在任何的写操作时，MySQL必须将对应表的所有缓存都设置为失效。如果查询缓存非常大或者碎片很多，这个操作就可能带来很大的系统消耗，甚至导致系统僵死一会儿。而且查询缓存对系统的额外消耗也不仅仅在写操作，读操作也不例外：</p>
+<ul>
+<li>任何的查询语句在开始之前都必须经过检查，即使这条SQL语句永远不会命中缓存</li>
+<li>如果查询结果可以被缓存，那么执行完成后，会将结果存入缓存，也会带来额外的系统消耗</li>
+</ul>
+<p>基于此，我们要知道并不是什么情况下查询缓存都会提高系统性能，缓存和失效都会带来额外消耗，只有当缓存带来的资源节约大于其本身消耗的资源时，才会给系统带来性能提升。但要如何评估打开缓存是否能够带来性能提升是一件非常困难的事情，也不在本文讨论的范畴内。如果系统确实存在一些性能问题，可以尝试打开查询缓存，并在数据库设计上做一些优化，比如：</p>
+<ul>
+<li>用多个小表代替一个大表，注意不要过度设计</li>
+<li>批量插入代替循环单条插入</li>
+<li>合理控制缓存空间大小，一般来说其大小设置为几十兆比较合适</li>
+<li>可以通过SQL_CACHE和SQL_NO_CACHE来控制某个查询语句是否需要进行缓存</li>
+</ul>
+<p>最后的忠告是不要轻易打开查询缓存，特别是写密集型应用。如果你实在是忍不住，可以将query_cache_type设置为DEMAND，这时只有加入SQL_CACHE的查询才会走缓存，其他查询则不会，这样可以非常自由地控制哪些查询需要被缓存。</p>
+<h4 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h4><ul>
+<li>缓存是如何让使用内存的</li>
+<li>如何控制内存的碎片化</li>
+<li>事务对查询缓存有何影响</li>
+</ul>
+<h3 id="语法解析和预处理"><a href="#语法解析和预处理" class="headerlink" title="语法解析和预处理"></a>语法解析和预处理</h3><p>MySQL通过关键字将SQL语句进行解析，并生成一颗对应的解析树。这个过程解析器主要通过语法规则来验证和解析。比如SQL中是否使用了错误的关键字或者关键字的顺序是否正确等等。预处理则会根据MySQL规则进一步检查解析树是否合法。比如检查要查询的数据表和数据列是否存在等。</p>
+<h3 id="查询优化"><a href="#查询优化" class="headerlink" title="查询优化"></a>查询优化</h3><p>经过前面的步骤生成的语法树被认为是合法的了，并且由优化器将其转化成查询计划。多数情况下，一条查询可以有很多种执行方式，最后都返回相应的结果。优化器的作用就是找到这其中最好的执行计划。</p>
+<p>MySQL使用基于成本的优化器，它尝试预测一个查询使用某种执行计划时的成本，并选择其中成本最小的一个。在MySQL可以通过查询当前会话的last_query_cost的值来得到其计算当前查询的成本。</p>
+<p>有非常多的原因会导致MySQL选择错误的执行计划，比如统计信息不准确、不会考虑不受其控制的操作成本（用户自定义函数、存储过程）、MySQL认为的最优跟我们想的不一样（我们希望执行时间尽可能短，但MySQL值选择它认为成本小的，但成本小并不意味着执行时间短）等等。</p>
+<p>MySQL的查询优化器是一个非常复杂的部件，它使用了非常多的优化策略来生成一个最优的执行计划：</p>
+<ul>
+<li>重新定义表的关联顺序（多张表关联查询时，并不一定按照SQL中指定的顺序进行，但有一些技巧可以指定关联顺序）</li>
+<li>优化MIN()和MAX()函数（找某列的最小值，如果该列有索引，只需要查找B+Tree索引最左端，反之则可以找到最大值，具体原理见下文）</li>
+<li>提前终止查询（比如：使用Limit时，查找到满足数量的结果集后会立即终止查询）</li>
+<li>优化排序（在老版本MySQL会使用两次传输排序，即先读取行指针和需要排序的字段在内存中对其排序，然后再根据排序结果去读取数据行，而新版本采用的是单次传输排序，也就是一次读取所有的数据行，然后根据给定的列排序。对于I/O密集型应用，效率会高很多）</li>
+</ul>
+<h3 id="查询执行引擎"><a href="#查询执行引擎" class="headerlink" title="查询执行引擎"></a>查询执行引擎</h3><p>在完成解析和优化阶段以后，MySQL会生成对应的执行计划，查询执行引擎根据执行计划给出的指令逐步执行得出结果。整个执行过程的大部分操作均是通过调用存储引擎实现的接口来完成，这些接口被称为handler API。查询过程中的每一张表由一个handler实例表示。实际上，MySQL在查询优化阶段就为每一张表创建了一个handler实例，优化器可以根据这些实例的接口来获取表的相关信息，包括表的所有列名、索引统计信息等。存储引擎接口提供了非常丰富的功能，但其底层仅有几十个接口，这些接口像搭积木一样完成了一次查询的大部分操作。</p>
+<h3 id="返回结果给客户端"><a href="#返回结果给客户端" class="headerlink" title="返回结果给客户端"></a>返回结果给客户端</h3><p>查询执行的最后一个阶段就是将结果返回给客户端。即使查询不到数据，MySQL仍然会返回这个查询的相关信息，比如该查询影响到的行数以及执行时间等。</p>
+<p>如果查询缓存被打开且这个查询可以被缓存，MySQL也会将结果存放到缓存中。</p>
+<p>结果集返回客户端是一个增量且逐步返回的过程。有可能MySQL在生成第一条结果时，就开始向客户端逐步返回结果集了。这样服务端就无须存储太多结果而消耗过多内存，也可以让客户端第一时间获得返回结果。需要注意的是，结果集中的每一行都会以一个满足①中所描述的通信协议的数据包发送，再通过TCP协议进行传输，在传输过程中，可能对MySQL的数据包进行缓存然后批量发送。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
+<li>客户端向MySQL服务器发送一条查询请求</li>
+<li>服务器首先检查查询缓存，如果命中缓存，则立刻返回存储在缓存中的结果。否则进入下一阶段</li>
+<li>服务器进行SQL解析、预处理、再由优化器生成对应的执行计划</li>
+<li>MySQL根据执行计划，调用存储引擎的API来执行查询</li>
+<li>将结果返回给客户端，同时缓存查询结果</li>
+</ol>
+<h2 id="性能优化建议"><a href="#性能优化建议" class="headerlink" title="性能优化建议"></a>性能优化建议</h2><h3 id="Schema设计与数据类型优化"><a href="#Schema设计与数据类型优化" class="headerlink" title="Schema设计与数据类型优化"></a>Schema设计与数据类型优化</h3><p>选择数据类型只要遵循小而简单的原则就好，越小的数据类型通常会更快，占用更少的磁盘、内存，处理时需要的CPU周期也更少。越简单的数据类型在计算时需要更少的CPU周期，比如，整型就比字符操作代价低，因而会使用整型来存储ip地址，使用DATETIME来存储时间，而不是使用字符串。</p>
+<ul>
+<li>通常来说把可为NULL的列改为NOT NULL不会对性能提升有多少帮助，只是如果计划在列上创建索引，就应该将该列设置为NOT NULL。</li>
+<li>对整数类型指定宽度，比如INT(11)，没有任何卵用。INT使用32位（4个字节）存储空间，那么它的表示范围已经确定，所以INT(1)和INT(20)对于存储和计算是相同的。</li>
+<li>UNSIGNED表示不允许负值，大致可以使正数的上限提高一倍。比如TINYINT存储范围是-128 ~ 127，而UNSIGNED TINYINT存储的范围却是0 - 255。</li>
+<li>通常来讲，没有太大的必要使用DECIMAL数据类型。即使是在需要存储财务数据时，仍然可以使用BIGINT。比如需要精确到万分之一，那么可以将数据乘以一百万然后使用BIGINT存储。这样可以避免浮点数计算不准确和DECIMAL精确计算代价高的问题。</li>
+<li>TIMESTAMP使用4个字节存储空间，DATETIME使用8个字节存储空间。因而，TIMESTAMP只能表示1970 - 2038年，比DATETIME表示的范围小得多，而且TIMESTAMP的值因时区不同而不同。</li>
+<li>大多数情况下没有使用枚举类型的必要，其中一个缺点是枚举的字符串列表是固定的，添加和删除字符串（枚举选项）必须使用ALTER TABLE（如果只只是在列表末尾追加元素，不需要重建表）。</li>
+<li>schema的列不要太多。原因是存储引擎的API工作时需要在服务器层和存储引擎层之间通过行缓冲格式拷贝数据，然后在服务器层将缓冲内容解码成各个列，这个转换过程的代价是非常高的。如果列太多而实际使用的列又很少的话，有可能会导致CPU占用过高。</li>
+<li>大表ALTER TABLE非常耗时，MySQL执行大部分修改表结果操作的方法是用新的结构创建一个张空表，从旧表中查出所有的数据插入新表，然后再删除旧表。尤其当内存不足而表又很大，而且还有很大索引的情况下，耗时更久。当然有一些奇技淫巧可以解决这个问题，有兴趣可自行查阅。</li>
+</ul>
+<h3 id="创建高性能索引"><a href="#创建高性能索引" class="headerlink" title="创建高性能索引"></a>创建高性能索引</h3><p>索引是提高MySQL查询性能的一个重要途径，但过多的索引可能会导致过高的磁盘使用率以及过高的内存占用，从而影响应用程序的整体性能。应当尽量避免事后才想起添加索引，因为事后可能需要监控大量的SQL才能定位到问题所在，而且添加索引的时间肯定是远大于初始添加索引所需要的时间，可见索引的添加也是非常有技术含量的。</p>
+<h2 id="参考文献-1"><a href="#参考文献-1" class="headerlink" title="参考文献"></a>参考文献</h2><p><a href="https://dbaplus.cn/news-155-1531-1.html" target="_blank" rel="noopener">https://dbaplus.cn/news-155-1531-1.html</a></p>
 
     </div>
 
@@ -404,7 +496,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MySQL事务隔离级别"><span class="nav-number">1.</span> <span class="nav-text">MySQL事务隔离级别</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库事务隔离级别"><span class="nav-number">1.1.</span> <span class="nav-text">数据库事务隔离级别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#脏读、不可重复读、幻读"><span class="nav-number">1.2.</span> <span class="nav-text">脏读、不可重复读、幻读</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四种隔离级别的解读"><span class="nav-number">1.3.</span> <span class="nav-text">四种隔离级别的解读</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据库三大范式"><span class="nav-number">2.</span> <span class="nav-text">数据库三大范式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一范式"><span class="nav-number">2.1.</span> <span class="nav-text">第一范式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二范式"><span class="nav-number">2.2.</span> <span class="nav-text">第二范式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三范式"><span class="nav-number">2.3.</span> <span class="nav-text">第三范式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#聚簇索引与非聚簇索引"><span class="nav-number">3.</span> <span class="nav-text">聚簇索引与非聚簇索引</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#B树和B-树"><span class="nav-number">4.</span> <span class="nav-text">B树和B+树</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#索引"><span class="nav-number">5.</span> <span class="nav-text">索引</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">5.1.</span> <span class="nav-text">参考文献</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL索引主要有两种结构：B-Tree索引和Hash索引"><span class="nav-number">5.2.</span> <span class="nav-text">MySQL索引主要有两种结构：B+Tree索引和Hash索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hash索引"><span class="nav-number">5.2.1.</span> <span class="nav-text">Hash索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#B-Tree索引"><span class="nav-number">5.2.2.</span> <span class="nav-text">B+Tree索引</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是索引"><span class="nav-number">5.3.</span> <span class="nav-text">什么是索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选择索引的数据结构"><span class="nav-number">5.4.</span> <span class="nav-text">选择索引的数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#链表"><span class="nav-number">5.4.1.</span> <span class="nav-text">链表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#树"><span class="nav-number">5.4.2.</span> <span class="nav-text">树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#平衡二叉树"><span class="nav-number">5.4.2.1.</span> <span class="nav-text">平衡二叉树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#B树"><span class="nav-number">5.4.2.2.</span> <span class="nav-text">B树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#B-树"><span class="nav-number">5.4.2.3.</span> <span class="nav-text">B+树</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#B-Tree-的查找过程"><span class="nav-number">5.4.2.3.1.</span> <span class="nav-text">B+Tree 的查找过程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#B-树的性质"><span class="nav-number">5.4.2.3.2.</span> <span class="nav-text">B+树的性质</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL-常见索引"><span class="nav-number">5.5.</span> <span class="nav-text">MySQL 常见索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主键索引"><span class="nav-number">5.5.1.</span> <span class="nav-text">主键索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#唯一索引"><span class="nav-number">5.5.2.</span> <span class="nav-text">唯一索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#普通索引"><span class="nav-number">5.5.3.</span> <span class="nav-text">普通索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全文索引"><span class="nav-number">5.5.4.</span> <span class="nav-text">全文索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组合索引"><span class="nav-number">5.5.5.</span> <span class="nav-text">组合索引</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数据库ACID特性"><span class="nav-number">1.</span> <span class="nav-text">数据库ACID特性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#原子性-Atomicity"><span class="nav-number">1.1.</span> <span class="nav-text">原子性 Atomicity</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一致性-Consistency"><span class="nav-number">1.2.</span> <span class="nav-text">一致性 Consistency</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#隔离性-Isolation"><span class="nav-number">1.3.</span> <span class="nav-text">隔离性 Isolation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL事务隔离级别"><span class="nav-number">1.3.1.</span> <span class="nav-text">MySQL事务隔离级别</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数据库事务隔离级别"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">数据库事务隔离级别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#脏读、不可重复读、幻读"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">脏读、不可重复读、幻读</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四种隔离级别的解读"><span class="nav-number">1.3.1.3.</span> <span class="nav-text">四种隔离级别的解读</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#持久性-Durability"><span class="nav-number">1.4.</span> <span class="nav-text">持久性 Durability</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据库三大范式"><span class="nav-number">2.</span> <span class="nav-text">数据库三大范式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一范式"><span class="nav-number">2.1.</span> <span class="nav-text">第一范式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二范式"><span class="nav-number">2.2.</span> <span class="nav-text">第二范式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三范式"><span class="nav-number">2.3.</span> <span class="nav-text">第三范式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#聚簇索引与非聚簇索引"><span class="nav-number">3.</span> <span class="nav-text">聚簇索引与非聚簇索引</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#B树和B-树"><span class="nav-number">4.</span> <span class="nav-text">B树和B+树</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#索引"><span class="nav-number">5.</span> <span class="nav-text">索引</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">5.1.</span> <span class="nav-text">参考文献</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL索引主要有两种结构：B-Tree索引和Hash索引"><span class="nav-number">5.2.</span> <span class="nav-text">MySQL索引主要有两种结构：B+Tree索引和Hash索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hash索引"><span class="nav-number">5.2.1.</span> <span class="nav-text">Hash索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#B-Tree索引"><span class="nav-number">5.2.2.</span> <span class="nav-text">B+Tree索引</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是索引"><span class="nav-number">5.3.</span> <span class="nav-text">什么是索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选择索引的数据结构"><span class="nav-number">5.4.</span> <span class="nav-text">选择索引的数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#链表"><span class="nav-number">5.4.1.</span> <span class="nav-text">链表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#树"><span class="nav-number">5.4.2.</span> <span class="nav-text">树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#平衡二叉树"><span class="nav-number">5.4.2.1.</span> <span class="nav-text">平衡二叉树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#B树"><span class="nav-number">5.4.2.2.</span> <span class="nav-text">B树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#B-树"><span class="nav-number">5.4.2.3.</span> <span class="nav-text">B+树</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#B-Tree-的查找过程"><span class="nav-number">5.4.2.3.1.</span> <span class="nav-text">B+Tree 的查找过程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#B-树的性质"><span class="nav-number">5.4.2.3.2.</span> <span class="nav-text">B+树的性质</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL-常见索引"><span class="nav-number">5.5.</span> <span class="nav-text">MySQL 常见索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主键索引"><span class="nav-number">5.5.1.</span> <span class="nav-text">主键索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#唯一索引"><span class="nav-number">5.5.2.</span> <span class="nav-text">唯一索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#普通索引"><span class="nav-number">5.5.3.</span> <span class="nav-text">普通索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全文索引"><span class="nav-number">5.5.4.</span> <span class="nav-text">全文索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组合索引"><span class="nav-number">5.5.5.</span> <span class="nav-text">组合索引</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#最左匹配原则"><span class="nav-number">5.5.5.1.</span> <span class="nav-text">最左匹配原则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最左匹配原则的原理"><span class="nav-number">5.5.5.2.</span> <span class="nav-text">最左匹配原则的原理</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MySQL优化"><span class="nav-number">6.</span> <span class="nav-text">MySQL优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL逻辑架构"><span class="nav-number">6.1.</span> <span class="nav-text">MySQL逻辑架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL查询过程"><span class="nav-number">6.2.</span> <span class="nav-text">MySQL查询过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#客户端-服务端通信协议"><span class="nav-number">6.2.1.</span> <span class="nav-text">客户端&#x2F;服务端通信协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询缓存"><span class="nav-number">6.2.2.</span> <span class="nav-text">查询缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#拓展"><span class="nav-number">6.2.2.1.</span> <span class="nav-text">拓展</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#语法解析和预处理"><span class="nav-number">6.2.3.</span> <span class="nav-text">语法解析和预处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询优化"><span class="nav-number">6.2.4.</span> <span class="nav-text">查询优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询执行引擎"><span class="nav-number">6.2.5.</span> <span class="nav-text">查询执行引擎</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#返回结果给客户端"><span class="nav-number">6.2.6.</span> <span class="nav-text">返回结果给客户端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">6.2.7.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#性能优化建议"><span class="nav-number">6.3.</span> <span class="nav-text">性能优化建议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Schema设计与数据类型优化"><span class="nav-number">6.3.1.</span> <span class="nav-text">Schema设计与数据类型优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建高性能索引"><span class="nav-number">6.3.2.</span> <span class="nav-text">创建高性能索引</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献-1"><span class="nav-number">6.4.</span> <span class="nav-text">参考文献</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
