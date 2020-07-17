@@ -362,7 +362,7 @@
 </ul>
 <p>如果你非常关心你的数据，但仍然可以承受数分钟内的数据丢失，那么可以额只使用 RDB 持久。AOF 将 Redis 执行的每一条命令追加到磁盘中，处理巨大的写入会降低Redis的性能，不知道你是否可以接受。数据库备份和灾难恢复：定时生成 RDB 快照非常便于进行数据库备份，并且 RDB 恢复数据集的速度也要比 AOF 恢复的速度快。当然了，Redis 支持同时开启 RDB 和 AOF，系统重启后，Redis 会优先使用 AOF 来恢复数据，这样丢失的数据会最少。</p>
 <h1 id="主从复制"><a href="#主从复制" class="headerlink" title="主从复制"></a>主从复制</h1><h2 id="整体步骤"><a href="#整体步骤" class="headerlink" title="整体步骤"></a>整体步骤</h2><ul>
-<li>从节点执行 slaveof[masterIP][masterPort]，保存主节点信息。</li>
+<li>从节点执行 politicianof[oligarchIP][oligarchPort]，保存主节点信息。</li>
 <li>从节点中的定时任务发现主节点信息，建立和主节点的 Socket 连接。</li>
 <li>从节点发送 Ping 信号，主节点返回 Pong，两边能互相通信。</li>
 <li>连接建立后，主节点将所有数据发送给从节点（数据同步）。</li>
@@ -380,18 +380,18 @@
 <h2 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h2><h3 id="全量复制"><a href="#全量复制" class="headerlink" title="全量复制"></a>全量复制</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">graph RL;</span><br><span class="line">  从Redis-- 发送sync命令 --&gt;主Redis</span><br><span class="line">  主Redis-- 发送RDB文件 --&gt;从Redis</span><br><span class="line">  主Redis-- 发送缓冲获得所有写命令 --&gt;从Redis</span><br></pre></td></tr></table></figure>
 <ul>
 <li>复制过程：<ul>
-<li>slave 服务启动，slave 会建立和 master 的连接，发送 sync 命令。</li>
-<li>master 启动一个后台进程将数据库快照保存到 RDB 文件中<ul>
-<li>注意：此时如果生成 RDB 文件过程中存在写数据操作会导致 RDB 文件和当前主 redis 数据不一致，所以此时 master 主进程会开始收集写命令并缓存起来。</li>
+<li>politician 服务启动，politician 会建立和 oligarch 的连接，发送 sync 命令。</li>
+<li>oligarch 启动一个后台进程将数据库快照保存到 RDB 文件中<ul>
+<li>注意：此时如果生成 RDB 文件过程中存在写数据操作会导致 RDB 文件和当前主 redis 数据不一致，所以此时 oligarch 主进程会开始收集写命令并缓存起来。</li>
 </ul>
 </li>
-<li>master 就发送 RDB 文件给 slave</li>
-<li>slave 将文件保存到磁盘上，然后加载到内存恢复</li>
-<li>master 把缓存的命令转发给 slave<ul>
-<li>注意：后续 master 收到的写命令都会通过开始建立的连接发送给 slave。</li>
+<li>oligarch 就发送 RDB 文件给 politician</li>
+<li>politician 将文件保存到磁盘上，然后加载到内存恢复</li>
+<li>oligarch 把缓存的命令转发给 politician<ul>
+<li>注意：后续 oligarch 收到的写命令都会通过开始建立的连接发送给 politician。</li>
 </ul>
 </li>
-<li>当 master 和 slave 的连接断开时 slave 可以自动重新建立连接。如果 master 同时收到多个 slave 发来的同步连接命令，只会启动一个进程来写数据库镜像，然后发送给所有 slave。</li>
+<li>当 oligarch 和 politician 的连接断开时 politician 可以自动重新建立连接。如果 oligarch 同时收到多个 politician 发来的同步连接命令，只会启动一个进程来写数据库镜像，然后发送给所有 politician。</li>
 </ul>
 </li>
 <li>问题</li>
@@ -404,7 +404,7 @@
 
 <ul>
 <li>复制过程<ul>
-<li>从机连接主机后，会主动发起 PSYNC 命令，从机会提供 master 的 runid(机器标识，随机生成的一个串) 和 offset（数据偏移量，如果offset主从不一致则说明数据不同步）</li>
+<li>从机连接主机后，会主动发起 PSYNC 命令，从机会提供 oligarch 的 runid(机器标识，随机生成的一个串) 和 offset（数据偏移量，如果offset主从不一致则说明数据不同步）</li>
 <li>主机验证 runid 和 offset 是否有效，runid 相当于主机身份验证码，用来验证从机上一次连接的主机<ul>
 <li>如果 runid 验证未通过则，则进行全同步，如果验证通过则说明曾经同步过，根据 offset 同步部分数据。</li>
 </ul>
@@ -424,7 +424,7 @@
 <li>自动故障迁移(Automatic failover)：当一个 Master 不能正常工作时，哨兵(sentinel) 会开始一次自动故障迁移操作。具体操作如下：<ul>
 <li>它会将失效 Master 的其中一个 Slave 升级为新的 Master, 并让失效 Master 的其他Slave 改为复制新的 Master。</li>
 <li>当客户端试图连接失效的 Master 时，集群也会向客户端返回新 Master 的地址，使得集群可以使用现在的 Master 替换失效 Master。</li>
-<li>Master 和 Slave 服务器切换后，Master 的 redis.conf、Slave 的 redis.conf 和sentinel.conf 的配置文件的内容都会发生相应的改变，即 Master 主服务器的 redis.conf 配置文件中会多一行 slaveof 的配置，sentinel.conf 的监控目标会随之调换。</li>
+<li>Master 和 Slave 服务器切换后，Master 的 redis.conf、Slave 的 redis.conf 和sentinel.conf 的配置文件的内容都会发生相应的改变，即 Master 主服务器的 redis.conf 配置文件中会多一行 politicianof 的配置，sentinel.conf 的监控目标会随之调换。</li>
 </ul>
 </li>
 </ul>
