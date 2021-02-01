@@ -1,0 +1,496 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="zhuangzhuang">
+  <meta name="keywords" content="">
+  <title>nginx那些事 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"zhuangzhuang131419.github.io","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="nginx那些事">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-08-25 10:40" pubdate>
+        2020年8月25日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      15
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">nginx那些事</h1>
+            
+            <div class="markdown-body">
+              <h1 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h1><p>在介绍什么是 nginx 之前，我们先了解两个概念</p>
+<h2 id="web服务器"><a href="#web服务器" class="headerlink" title="web服务器"></a>web服务器</h2><blockquote>
+<p>负责处理和响应用户请求，一般也称为http服务器，如 Apache, IIS, Nginx</p>
+</blockquote>
+<h2 id="应用服务器"><a href="#应用服务器" class="headerlink" title="应用服务器"></a>应用服务器</h2><blockquote>
+<p>存放和运行系统程序的服务器，负责处理程序中的业务逻辑，如 Tomcat, Weblogic, Jboss</p>
+</blockquote>
+<p>总结一下, nginx 就是</p>
+<ul>
+<li>一种轻量级的 web 服务器</li>
+<li>采用事件驱动的异步非阻塞处理方式框架</li>
+<li>占用内存少，启动速度快，并发能力强</li>
+</ul>
+<h2 id="Nginx的四大应用"><a href="#Nginx的四大应用" class="headerlink" title="Nginx的四大应用"></a>Nginx的四大应用</h2><h3 id="动静分离"><a href="#动静分离" class="headerlink" title="动静分离"></a>动静分离</h3><img src="/2020/08/25/nginx%E9%82%A3%E4%BA%9B%E4%BA%8B/%E5%8A%A8%E9%9D%99%E5%88%86%E7%A6%BB.png" srcset="/img/loading.gif" class="" title="动静分离">
+
+<p>通过示意图，我们可以得出，<strong>动静分离</strong>其实就是 nginx 服务器将收到的请求分为<strong>动态请求</strong>和<strong>静态请求</strong></p>
+<ul>
+<li>静态请求直接从 nginx 服务器所设定的根目录路径去取对应的资源，动态请求转发给真实的后台去处理，即是应用服务器(Tomcat)</li>
+<li>这样做不仅能给应用服务器减轻压力，将后台 api 接口服务化，还能将前后端代码分开并行开发和部署。</li>
+</ul>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">server</span> &#123;  <br>        <span class="hljs-attribute">listen</span>       <span class="hljs-number">8080</span>;        <br>        <span class="hljs-attribute">server_name</span>  localhost;<br><br>        <span class="hljs-attribute">location</span> / &#123;<br>            <span class="hljs-attribute">root</span>   html; <span class="hljs-comment"># Nginx默认值</span><br>            <span class="hljs-attribute">index</span>  index.html index.htm;<br>        &#125;<br>        <br>        <span class="hljs-comment"># 静态化配置，所有静态请求都转发给 nginx 处理，存放目录为 my-project</span><br>        <span class="hljs-attribute">location</span> <span class="hljs-regexp">~ .*\.(html|htm|gif|jpg|jpeg|bmp|png|ico|js|css)$</span> &#123;<br>            <span class="hljs-attribute">root</span> /usr/local/var/www/my-project; <span class="hljs-comment"># 静态请求所代理到的根目录</span><br>        &#125;<br>        <br>        <span class="hljs-comment"># 动态请求匹配到path为&#x27;node&#x27;的就转发到8002端口处理</span><br>        <span class="hljs-attribute">location</span> /node/ &#123;  <br>            <span class="hljs-attribute">proxy_pass</span> http://localhost:8002; <span class="hljs-comment"># 充当服务代理</span><br>        &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>访问静态资源 nginx 服务器会返回 <code>my-project</code> 里面的文件</li>
+<li>访问动态请求 nginx 服务器会将它从8002端口请求到的内容，原封不动的返回回去</li>
+</ul>
+<h3 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h3><h4 id="什么是反向代理"><a href="#什么是反向代理" class="headerlink" title="什么是反向代理"></a>什么是反向代理</h4><p>反向代理其实就类似你去找代购帮你买东西（浏览器或其他终端向nginx请求），你不用管他去哪里买，只要他帮你买到你想要的东西就行（浏览器或其他终端最终拿到了他想要的内容，但是具体从哪儿拿到的这个过程它并不知道）。</p>
+<h4 id="反向代理的作用"><a href="#反向代理的作用" class="headerlink" title="反向代理的作用"></a>反向代理的作用</h4><ol>
+<li>保障应用服务器的安全 (增加一层代理，可以屏蔽危险攻击，更方便的控制权限)</li>
+<li>实现负载均衡</li>
+<li>实现跨域</li>
+</ol>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">server</span> &#123;  <br>        <span class="hljs-attribute">listen</span>       <span class="hljs-number">8080</span>;        <br>        <span class="hljs-attribute">server_name</span>  localhost;<br><br>        <span class="hljs-attribute">location</span> / &#123;<br>            <span class="hljs-attribute">root</span>   html; <span class="hljs-comment"># Nginx默认值</span><br>            <span class="hljs-attribute">index</span>  index.html index.htm;<br>        &#125;<br>        <br>        <span class="hljs-attribute">proxy_pass</span> http://localhost:8000; <span class="hljs-comment"># 反向代理配置，请求会被转发到8000端口</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>上面这个例子意思是向 nginx 请求 <code>localhost:8080</code> 跟请求 <code>http://localhost:8000</code> 是一样的效果</p>
+<img src="/2020/08/25/nginx%E9%82%A3%E4%BA%9B%E4%BA%8B/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86.png" srcset="/img/loading.gif" class="" title="反向代理">
+
+<p>nginx 就充当图中的 proxy. 当左边三个client在请求向 nginx 获取内容，是感受不到三个server的存在的</p>
+<blockquote>
+<p>proxy 就充当了三个server的反向代理</p>
+</blockquote>
+<ul>
+<li>CDN 服务就是经典的反向代理</li>
+<li>反向代理也是实现负载均衡的基础</li>
+</ul>
+<h3 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h3><p>随着业务的不断增长和用户的增多，一台服务器已经无法满足系统的需求。这个时候就出现了服务器<strong>集群</strong>。</p>
+<p>在服务器集群中, nginx 可以将接收到的客户端请求“均匀地”（严格讲并不一定均匀，可以通过设置权重）分配到这个集群中所有的服务器上。这个就叫做负载均衡。</p>
+<img src="/2020/08/25/nginx%E9%82%A3%E4%BA%9B%E4%BA%8B/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1.png" srcset="/img/loading.gif" class="" title="负载均衡">
+
+<h4 id="负载均衡的作用"><a href="#负载均衡的作用" class="headerlink" title="负载均衡的作用"></a>负载均衡的作用</h4><ul>
+<li>分摊服务器集群压力</li>
+<li>保证客户端访问的稳定性</li>
+</ul>
+<p>nginx 自带<strong>健康检查</strong>功能，会定期轮询向集群里的所有服务器发送健康检查请求，来检查集群中是否有服务器处于异常状态。一旦发现某台服务器出现异常，那么在这以后代理进来的客户端请求都不会被发送到该服务器上，从而保证客户端访问的稳定性。</p>
+<p>配置一个负载均衡</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-comment"># 负载均衡：设置domain</span><br><span class="hljs-attribute">upstream</span> domain &#123;<br>    <span class="hljs-attribute">server</span> localhost:<span class="hljs-number">8000</span>;<br>    <span class="hljs-attribute">server</span> localhost:<span class="hljs-number">8001</span>;<br>&#125;<br><span class="hljs-section">server</span> &#123;  <br>        <span class="hljs-attribute">listen</span>       <span class="hljs-number">8080</span>;        <br>        <span class="hljs-attribute">server_name</span>  localhost;<br><br>        <span class="hljs-attribute">location</span> / &#123;<br>            <span class="hljs-comment"># root   html; # Nginx默认值</span><br>            <span class="hljs-comment"># index  index.html index.htm;</span><br>            <br>            <span class="hljs-attribute">proxy_pass</span> http://domain; <span class="hljs-comment"># 负载均衡配置，请求会被平均分配到8000和8001端口</span><br>            <span class="hljs-attribute">proxy_set_header</span> Host $host:$server_port;<br>        &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>8000和80001是我本地用 Node.js 起的两个服务，负载均衡成功后可以看到访问 <code>localhost:8080</code> 有时会访问到8000端口的页面，有时会访问到8001端口的页面。</p>
+<h3 id="正向代理"><a href="#正向代理" class="headerlink" title="正向代理"></a>正向代理</h3><img src="/2020/08/25/nginx%E9%82%A3%E4%BA%9B%E4%BA%8B/%E6%AD%A3%E5%90%91%E4%BB%A3%E7%90%86.png" srcset="/img/loading.gif" class="" title="正向代理">
+
+<p>正向代理跟反向道理正好相反。</p>
+<blockquote>
+<p>此时，proxy就充当了三个client的正向代理</p>
+</blockquote>
+<p>正向代理，意思是一个位于客户端和原始服务器(origin server)之间的服务器，为了从原始服务器取得内容，客户端向代理发送一个请求并指定目标(原始服务器)，然后代理向原始服务器转交请求并将获得的内容返回给客户端。客户端才能使用正向代理。当你需要把你的服务器作为代理服务器的时候，可以用Nginx来实现正向代理。</p>
+<p>科学上网vpn（俗称翻墙）其实就是一个正向代理工具。</p>
+<p>该 vpn 会将想访问墙外服务器 server 的网页请求，代理到一个可以访问该网站的代理服务器 proxy 上。这个 proxy 把墙外服务器 server 上获取的网页内容，再转发给客户。</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p><a target="_blank" rel="noopener" href="https://juejin.im/entry/6844903464816869383">https://juejin.im/entry/6844903464816869383</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/6844904129987526663">https://juejin.im/post/6844904129987526663</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/08/30/Linux%E4%B8%AD%E7%9A%84IO/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Linux中的IO</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/08/22/Git%E7%9A%84%E5%8E%9F%E7%90%86/">
+                        <span class="hidden-mobile">Git的原理</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

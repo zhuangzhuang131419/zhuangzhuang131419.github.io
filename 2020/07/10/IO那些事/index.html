@@ -1,0 +1,518 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="zhuangzhuang">
+  <meta name="keywords" content="">
+  <title>IO那些事 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"zhuangzhuang131419.github.io","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="IO那些事">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-07-10 12:43" pubdate>
+        2020年7月10日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.5k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      17
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">IO那些事</h1>
+            
+            <div class="markdown-body">
+              <p>本来计划七月OKR了解一下经常面经中看到但是不很了解的“I/O多路复用”，发现自己在整理序列化，反序列化的时候连基本的I/O也没有整明白，于是搜集资料准备好好梳理一下</p>
+<h1 id="为什么使用I-O"><a href="#为什么使用I-O" class="headerlink" title="为什么使用I/O"></a>为什么使用I/O</h1><ul>
+<li>当我们的程序需要从硬盘，网络，或其他应用程序中读取或写入数据时候，数据传输量可能很大，而我们的内存或带宽有限，<strong>无法一次性读取获取写入大量数据</strong>。</li>
+<li>而流（Stream）可以实现一点一点的逐步传输数据。</li>
+<li>想想我们是怎样下载一个大文件的, 下载软件(例如x雷)并不会占用你内存很大的空间, 而只是在内存划分一个缓冲区, 一点一点地下载到自己的内存(缓冲区满了再写到硬盘)。</li>
+</ul>
+<h1 id="I-O在Java中的架构"><a href="#I-O在Java中的架构" class="headerlink" title="I/O在Java中的架构"></a>I/O在Java中的架构</h1><h2 id="I-O-的分类"><a href="#I-O-的分类" class="headerlink" title="I/O 的分类"></a>I/O 的分类</h2><h3 id="从流的方向划分"><a href="#从流的方向划分" class="headerlink" title="从流的方向划分"></a>从流的方向划分</h3><ul>
+<li><p>输入流 (I)</p>
+<ul>
+<li>  <img src="/2020/07/10/IO%E9%82%A3%E4%BA%9B%E4%BA%8B/Input.jpg" srcset="/img/loading.gif" class="" title="Input"></li>
+</ul>
+</li>
+<li><p>输出流 (O)</p>
+<ul>
+<li>  <img src="/2020/07/10/IO%E9%82%A3%E4%BA%9B%E4%BA%8B/Output.jpg" srcset="/img/loading.gif" class="" title="Output">
+<h3 id="从流的传输单位来分"><a href="#从流的传输单位来分" class="headerlink" title="从流的传输单位来分"></a>从流的传输单位来分</h3></li>
+</ul>
+</li>
+<li><p>字节流 (8位字节)</p>
+<ul>
+<li>每次读取（写出）一个字节，当传输资源有中文时，就会出现乱码。</li>
+<li>具体参见 为什么会乱码 // TODO</li>
+</ul>
+</li>
+<li><p>字符流 (16位字节)</p>
+<ul>
+<li>每次读取（写出）两个字节，有中文时，使用流程就可以正确传输显示中文。<h2 id="Java中的分类"><a href="#Java中的分类" class="headerlink" title="Java中的分类"></a>Java中的分类</h2></li>
+</ul>
+</li>
+<li><p>四大基本类型</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>输入流</th>
+<th>输出流</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>字节流</td>
+<td>InputStream 字节输入流</td>
+<td>OutputStream 字符输出流</td>
+</tr>
+<tr>
+<td>字符流</td>
+<td>Reader 字符输入流</td>
+<td>Writer 字符输出流</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>各自的子类都以父类作为自己的后缀，比如文件的字节输出流：FileOutputStream</p>
+<h2 id="Java中的架构"><a href="#Java中的架构" class="headerlink" title="Java中的架构"></a>Java中的架构</h2></li>
+<li><img src="/2020/07/10/IO%E9%82%A3%E4%BA%9B%E4%BA%8B/JavaIO%E4%BD%93%E7%B3%BB%E6%9E%B6%E6%9E%84%E5%9B%BE.png" srcset="/img/loading.gif" class="" title="JavaIO体系架构图"></li>
+<li><p>流的选择</p>
+<ul>
+<li>选用输入流还是输出流，根据具体的使用场景判断，如果是写程序到别的地方，那么就使用输出流。反之就是输入流。</li>
+<li>如果传输的数据有中文，那么选择字符流。</li>
+<li>再根据额外需要的功能具体选择。<h2 id="Java底层实现"><a href="#Java底层实现" class="headerlink" title="Java底层实现"></a>Java底层实现</h2><h3 id="字节输入流-InputStream"><a href="#字节输入流-InputStream" class="headerlink" title="字节输入流 InputStream"></a>字节输入流 InputStream</h3></li>
+</ul>
+</li>
+<li>  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">InputStream</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Closeable</span> </span>&#123;<br><br>    <span class="hljs-comment">// Reads the next byte of data from the input stream.</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">int</span> <span class="hljs-title">read</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException</span>;<br><br><br>    <span class="hljs-comment">// Closes this stream and releases any system resources associated with it.</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">close</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;&#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">    Skips over and discards n bytes of data from this inputstream.</span><br><span class="hljs-comment">    <span class="hljs-doctag">@return</span>     the actual number of bytes skipped.</span><br><span class="hljs-comment">    */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">long</span> <span class="hljs-title">skip</span><span class="hljs-params">(<span class="hljs-keyword">long</span> n)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;<br>        <span class="hljs-comment">// ...</span><br>    &#125;<br><br><br>    <span class="hljs-comment">// Returns an estimate of the number of bytes that can be read (or skipped over) from this input stream without blocking by the next invocation of a method for this input stream.</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">available</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125;###<br><br>    <span class="hljs-comment">// Marks the current position in this input stream</span><br>    <span class="hljs-comment">// 如果从标记处开始往后，已经获取或者跳过了readLimit个字节，那么这个标记失效，不允许再重新通过reset回到这个位置。</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">void</span> <span class="hljs-title">mark</span><span class="hljs-params">(<span class="hljs-keyword">int</span> readlimit)</span> </span>&#123;&#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">void</span> <span class="hljs-title">reset</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IOException(<span class="hljs-string">&quot;mark/reset not supported&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="ByteArrayInputStream"><a href="#ByteArrayInputStream" class="headerlink" title="ByteArrayInputStream"></a>ByteArrayInputStream</h4><p>字节数组输入流，该类的功能就是从字节数组 byte[] 中进行以字节为单位的读取，也就是将资源文件都以字节形式存入到该类中的字节数组中去，我们拿数据也是从这个字节数组中拿。</p>
+<h4 id="PipedInputStream"><a href="#PipedInputStream" class="headerlink" title="PipedInputStream"></a>PipedInputStream</h4><p>管道字节输入流，它和 PipedOutputStream 一起使用，能实现多线程间的管道通信。</p>
+<h4 id="FilterInputStream"><a href="#FilterInputStream" class="headerlink" title="FilterInputStream"></a>FilterInputStream</h4><p>装饰者模式中充当装饰者的角色，具体的装饰者都要继承它，所以在该类的子类下都是用来装饰别的流的，也就是处理类。</p>
+<h4 id="BufferedInputStream"><a href="#BufferedInputStream" class="headerlink" title="BufferedInputStream"></a>BufferedInputStream</h4><p>缓冲流，对处理流进行装饰、增强，内部会有一个缓冲区，用来存放字节，每次都是将缓冲区存满然后发送，而不是一个字节或两个字节这样发送，效率更高。</p>
+<h4 id="DataInputStream"><a href="#DataInputStream" class="headerlink" title="DataInputStream"></a>DataInputStream</h4><p>数据输入流，用来装饰其他输入流，它允许通过数据流来读写Java基本类型。</p>
+<h4 id="FileInputStream"><a href="#FileInputStream" class="headerlink" title="FileInputStream"></a>FileInputStream</h4><p>文件输入流，通常用于对文件进行读取操作。</p>
+<h4 id="File"><a href="#File" class="headerlink" title="File"></a>File</h4><p>对指定目录的文件进行操作。</p>
+<h4 id="ObjectInputStream"><a href="#ObjectInputStream" class="headerlink" title="ObjectInputStream"></a>ObjectInputStream</h4><p>对象输入流，用来提供对“基本数据或对象”的持久存储。通俗点讲，就是能直接传输Java对象（序列化、反序列化用。</p>
+<h3 id="字节输出流-OutputStream"><a href="#字节输出流-OutputStream" class="headerlink" title="字节输出流 OutputStream"></a>字节输出流 OutputStream</h3></li>
+<li>  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OutputStream</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Closeable</span>, <span class="hljs-title">Flushable</span> </span>&#123;<br><br>    <span class="hljs-comment">// Writes the specified byte to this output stream.</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title">write</span><span class="hljs-params">(<span class="hljs-keyword">byte</span> b[])</span> <span class="hljs-keyword">throws</span> IOException</span>;<br><br>    <span class="hljs-comment">// Flushes this stream by writing any buffered output to the underlying stream.</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">flush</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;&#125;<br><br>    <span class="hljs-comment">// Closes this stream and releases any system resources associated with it.</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">close</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;&#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="缓冲区的作用"><a href="#缓冲区的作用" class="headerlink" title="缓冲区的作用"></a>缓冲区的作用</h4><p>为了<strong>加快数据传输速度</strong>，<strong>提高数据输出效率</strong>，又是输出数据流会在提交数据之前把所要输出的数据先暂时保存在内存缓冲区中，然后成批进行输出，每次传输过程都以某特定数据长度为单位进行传输，在这种方式下，数据的末尾一般都会有一部分数据由于数量不够一个批次，而存留在缓冲区里，调用 flush() 方法可以将这部分数据强制提交。</p>
+</li>
+</ul>
+<h3 id="字符输入流-Reader"><a href="#字符输入流-Reader" class="headerlink" title="字符输入流 Reader"></a>字符输入流 Reader</h3><img src="/2020/07/10/IO%E9%82%A3%E4%BA%9B%E4%BA%8B/%E5%AD%97%E7%AC%A6%E8%BE%93%E5%85%A5%E6%B5%81.png" srcset="/img/loading.gif" class="" title="字符输入流">
+<p>Reader 中各个类的用途和使用方法基本和InputStream 中的类使用一致。</p>
+<h3 id="字符输出流-Writer"><a href="#字符输出流-Writer" class="headerlink" title="字符输出流 Writer"></a>字符输出流 Writer</h3><img src="/2020/07/10/IO%E9%82%A3%E4%BA%9B%E4%BA%8B/%E5%AD%97%E7%AC%A6%E8%BE%93%E5%87%BA%E6%B5%81.png" srcset="/img/loading.gif" class="" title="字符输出流">
+
+<h2 id="字节流与字符流的区别"><a href="#字节流与字符流的区别" class="headerlink" title="字节流与字符流的区别"></a>字节流与字符流的区别</h2><ul>
+<li>字节流操作的基本单元为字节；字符流操作的基本单元为Unicode码元。</li>
+<li>字节流默认不使用缓冲区；字符流使用缓冲区。</li>
+<li>字节流通常用于处理二进制数据，实际上它可以处理任意类型的数据，但它不支持直接写入或读取Unicode码元；字符流通常处理文本数据，它支持写入及读取Unicode码元。</li>
+</ul>
+<h2 id="字节流与字符流使用场景"><a href="#字节流与字符流使用场景" class="headerlink" title="字节流与字符流使用场景"></a>字节流与字符流使用场景</h2><ul>
+<li>字节流：图像，视频，PPT, Word, 纯文本</li>
+<li>字符流：纯文本类型（TXT), 不能处理图像视频等非文本类型的文件</li>
+</ul>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p><a target="_blank" rel="noopener" href="https://juejin.im/post/5d4ee73ae51d4561c94b0f9d">https://juejin.im/post/5d4ee73ae51d4561c94b0f9d</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/109941007">https://zhuanlan.zhihu.com/p/109941007</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/07/11/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">字符编码</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/07/10/%E5%BA%8F%E5%88%97%E5%8C%96%E5%92%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
+                        <span class="hidden-mobile">序列化和反序列化</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

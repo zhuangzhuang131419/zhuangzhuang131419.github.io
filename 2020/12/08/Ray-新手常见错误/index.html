@@ -1,0 +1,462 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="zhuangzhuang">
+  <meta name="keywords" content="">
+  <title>Ray 新手常见错误 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"zhuangzhuang131419.github.io","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Ray 新手常见错误">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-12-08 18:06" pubdate>
+        2020年12月8日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      19
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Ray 新手常见错误</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Delay-ray-get"><a href="#Delay-ray-get" class="headerlink" title="Delay ray.get()"></a>Delay ray.get()</h1><p>调用 <code>get</code> 会产生一个副作用, 会阻塞 <code>driver</code> 程序去做别的操作，这样就会影响并行性.</p>
+<p>首先看一个普通的例子:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-keyword">import</span> time<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">do_some_work</span>(<span class="hljs-params">x</span>):</span><br>    time.sleep(<span class="hljs-number">1</span>) <span class="hljs-comment"># Replace this with work you need to do.</span><br>    <span class="hljs-keyword">return</span> x<br><br>start = time.time()<br>results = [do_some_work(x) <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>)]<br>print(<span class="hljs-string">&quot;duration =&quot;</span>, time.time() - start)<br>print(<span class="hljs-string">&quot;results = &quot;</span>, results)<br><br><br><span class="hljs-comment"># Output</span><br><span class="hljs-comment"># duration = 4.0149290561676025</span><br><span class="hljs-comment"># results =  [0, 1, 2, 3]</span><br></code></pre></td></tr></table></figure>
+<p>现在当我们给这个函数加上 <code>remote</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-keyword">import</span> time<br><span class="hljs-keyword">import</span> ray<br><br>ray.init(num_cpus = <span class="hljs-number">4</span>) <span class="hljs-comment"># Specify this system has 4 CPUs.</span><br><br><span class="hljs-meta">@ray.remote</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">do_some_work</span>(<span class="hljs-params">x</span>):</span><br>    time.sleep(<span class="hljs-number">1</span>) <span class="hljs-comment"># Replace this is with work you need to do.</span><br>    <span class="hljs-keyword">return</span> x<br><br>start = time.time()<br>results = [do_some_work.remote(x) <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>)]<br>print(<span class="hljs-string">&quot;duration =&quot;</span>, time.time() - start)<br>print(<span class="hljs-string">&quot;results = &quot;</span>, results)<br><br><br><span class="hljs-comment"># Output</span><br><span class="hljs-comment"># duration = 0.0003619194030761719</span><br><span class="hljs-comment"># results =  [ObjectRef(df5a1a828c9685d3ffffffff0100000001000000), ObjectRef(cb230a572350ff44ffffffff0100000001000000), ObjectRef(7bbd90284b71e599ffffffff0100000001000000), ObjectRef(bd37d2621480fc7dffffffff0100000001000000)]</span><br></code></pre></td></tr></table></figure>
+<p>但是这个 result 不是我们想要的, 我们调用 <code>ray.get()</code> 来获取结果</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Python">results = [ray.get(do_some_work.remote(x)) <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>)]<br></code></pre></td></tr></table></figure>
+<p>但是改成这样之后呢，输出就变成:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs Python">duration = <span class="hljs-number">4.018050909042358</span><br>results =  [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]<br></code></pre></td></tr></table></figure>
+<p>现在结果是对的, 但程序因此也退化成了串行. 原因也是显而易见的, 每次调用 <code>ray.get</code> 都会阻塞住程序.</p>
+<p>修改的办法就是在调用完所有的 <code>task</code> 后再调用 <code>ray.get</code> </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs Python">results = ray.get([do_some_work.remote(x) <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>)])<br><br><span class="hljs-comment"># Output: </span><br><span class="hljs-comment"># duration = 1.0064549446105957</span><br><span class="hljs-comment"># results =  [0, 1, 2, 3]</span><br></code></pre></td></tr></table></figure>
+<p>时刻保持警惕 <code>ray.get()</code> 是一个会阻塞的操作, 尽可能晚的去调用这个方法 <code>ray.get()</code></p>
+<h1 id="Avoid-tiny-tasks"><a href="#Avoid-tiny-tasks" class="headerlink" title="Avoid tiny tasks"></a>Avoid tiny tasks</h1><p>避免出现执行时间过短的 <code>task</code>, 因为并行的结果可能适得其反.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-keyword">import</span> time<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">tiny_work</span>(<span class="hljs-params">x</span>):</span><br>    time.sleep(<span class="hljs-number">0.0001</span>) <span class="hljs-comment"># Replace this with work you need to do.</span><br>    <span class="hljs-keyword">return</span> x<br><br>start = time.time()<br>results = [tiny_work(x) <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">100000</span>)]<br>print(<span class="hljs-string">&quot;duration =&quot;</span>, time.time() - start)<br><br><span class="hljs-comment"># Output:</span><br><span class="hljs-comment"># duration = 13.36544418334961</span><br></code></pre></td></tr></table></figure>
+<p>这是一个符合逻辑的结果，当我们换成 <code>remote</code> 时</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-keyword">import</span> time<br><span class="hljs-keyword">import</span> ray<br><br>ray.init(num_cpus = <span class="hljs-number">4</span>)<br><br><span class="hljs-meta">@ray.remote</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">tiny_work</span>(<span class="hljs-params">x</span>):</span><br>    time.sleep(<span class="hljs-number">0.0001</span>) <span class="hljs-comment"># Replace this is with work you need to do.</span><br>    <span class="hljs-keyword">return</span> x<br><br>start = time.time()<br>result_ids = [tiny_work.remote(x) <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">100000</span>)]<br>results = ray.get(result_ids)<br>print(<span class="hljs-string">&quot;duration =&quot;</span>, time.time() - start)<br><br><span class="hljs-comment"># Output:</span><br><span class="hljs-comment"># duration = 27.46447515487671</span><br></code></pre></td></tr></table></figure>
+<p>结果非常的出乎意料, 因为我们并行的运行总时间反而增加了. 这是因为调用每一个 <code>task</code> 都会有一个小的开销(调度, 进程间通讯, 更新系统的状态), 由于 <code>task</code> 本身所需的时间太小, 那么这些额外的开销反而占据了大头.</p>
+<p>修改的办法就是平摊这些开销</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-keyword">import</span> time<br><span class="hljs-keyword">import</span> ray<br><br>ray.init(num_cpus = <span class="hljs-number">4</span>)<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">tiny_work</span>(<span class="hljs-params">x</span>):</span><br>    time.sleep(<span class="hljs-number">0.0001</span>) <span class="hljs-comment"># replace this is with work you need to do</span><br>    <span class="hljs-keyword">return</span> x<br><br><span class="hljs-meta">@ray.remote</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">mega_work</span>(<span class="hljs-params">start, end</span>):</span><br>    <span class="hljs-keyword">return</span> [tiny_work(x) <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(start, end)]<br><br>start = time.time()<br>result_ids = []<br>[result_ids.append(mega_work.remote(x*<span class="hljs-number">1000</span>, (x+<span class="hljs-number">1</span>)*<span class="hljs-number">1000</span>)) <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">100</span>)]<br>results = ray.get(result_ids)<br>print(<span class="hljs-string">&quot;duration =&quot;</span>, time.time() - start)<br><br><br><span class="hljs-comment"># Output:</span><br><span class="hljs-comment"># duration = 3.2539820671081543</span><br></code></pre></td></tr></table></figure>
+<p>经过测试, 运行一个空的 <code>task</code> 大概需要 0.5s, 这就说明我们的 <code>task</code> 需要一定的运行时间来摊平这个额外的开销.</p>
+<h1 id="Avoid-passing-same-object-repeatedly-to-remote-tasks"><a href="#Avoid-passing-same-object-repeatedly-to-remote-tasks" class="headerlink" title="Avoid passing same object repeatedly to remote tasks"></a>Avoid passing same object repeatedly to remote tasks</h1><p>当我们给一个 remote function 传递一个大的对象时, Ray 调用 <code>ray.put()</code> 来把对象存在本地 object store 中. 这种操作可以显著的提升性能, 但是也会导致一些问题. 比如: 重复地传递相同的对象</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-keyword">import</span> time<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> ray<br><br>ray.init(num_cpus = <span class="hljs-number">4</span>)<br><br><span class="hljs-meta">@ray.remote</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">no_work</span>(<span class="hljs-params">a</span>):</span><br>    <span class="hljs-keyword">return</span><br><br>start = time.time()<br>a = np.zeros((<span class="hljs-number">5000</span>, <span class="hljs-number">5000</span>))<br>result_ids = [no_work.remote(a) <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>)]<br>results = ray.get(result_ids)<br>print(<span class="hljs-string">&quot;duration =&quot;</span>, time.time() - start)<br><br><span class="hljs-comment"># Output: </span><br><span class="hljs-comment"># duration = 1.0837509632110596</span><br></code></pre></td></tr></table></figure>
+<p>这个时间对于一个仅仅进行了10个 <code>tasks</code> 显然偏大了. 造成这个情况的原因是每次我们调用 <code>no_work(a)</code>, Ray 就会会调用 <code>ray.put(a)</code> 就会导致复制一个非常大的数组导致时间的开销. </p>
+<p>解决这个问题我们可以 显式地调用 <code>ray.put(a)</code> 然后把 obejct 的 ID 传递过去就可以避免复制</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-keyword">import</span> time<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> ray<br><br>ray.init(num_cpus = <span class="hljs-number">4</span>)<br><br><span class="hljs-meta">@ray.remote</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">no_work</span>(<span class="hljs-params">a</span>):</span><br>    <span class="hljs-keyword">return</span><br><br>start = time.time()<br>a_id = ray.put(np.zeros((<span class="hljs-number">5000</span>, <span class="hljs-number">5000</span>)))<br>result_ids = [no_work.remote(a_id) <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>)]<br>results = ray.get(result_ids)<br>print(<span class="hljs-string">&quot;duration =&quot;</span>, time.time() - start)<br><br><span class="hljs-comment"># Output: </span><br><span class="hljs-comment"># duration = 0.132796049118042</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="Pipeline-data-processing"><a href="#Pipeline-data-processing" class="headerlink" title="Pipeline data processing"></a>Pipeline data processing</h1><p>如果我们对一系列 <code>tasks</code> 使用 <code>ray.get()</code>. 我们就需要等到最后一个 <code>task</code> 完成, 当每一个 <code>task</code> 完成的时间相差很大的时候, 就会导致一些问题.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-keyword">import</span> time<br><span class="hljs-keyword">import</span> random<br><span class="hljs-keyword">import</span> ray<br><br>ray.init(num_cpus = <span class="hljs-number">4</span>)<br><br><span class="hljs-meta">@ray.remote</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">do_some_work</span>(<span class="hljs-params">x</span>):</span><br>    time.sleep(random.uniform(<span class="hljs-number">0</span>, <span class="hljs-number">4</span>)) <span class="hljs-comment"># Replace this with work you need to do.</span><br>    <span class="hljs-keyword">return</span> x<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">process_results</span>(<span class="hljs-params">results</span>):</span><br>    <span class="hljs-built_in">sum</span> = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> results:<br>        time.sleep(<span class="hljs-number">1</span>) <span class="hljs-comment"># Replace this with some processing code.</span><br>        <span class="hljs-built_in">sum</span> += x<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">sum</span><br><br>start = time.time()<br>data_list = ray.get([do_some_work.remote(x) <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>)])<br><span class="hljs-built_in">sum</span> = process_results(data_list)<br>print(<span class="hljs-string">&quot;duration =&quot;</span>, time.time() - start, <span class="hljs-string">&quot;\nresult = &quot;</span>, <span class="hljs-built_in">sum</span>)<br><br><span class="hljs-comment"># Output:</span><br><span class="hljs-comment"># duration = 7.82636022567749</span><br><span class="hljs-comment"># result =  6</span><br><br></code></pre></td></tr></table></figure>
+<p>总的时间由两部分组成(do_some_work + process_results), 由于需要等所有的 <code>task</code> 都完成(花费了将近4s)</p>
+<p>解决这个问题我们可以对一系列 object ID调用 <code>ray.wait()</code>. 返回的参数(1) 就绪的 object ID. (2) 还未就绪的 object ID.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-keyword">import</span> time<br><span class="hljs-keyword">import</span> random<br><span class="hljs-keyword">import</span> ray<br><br>ray.init(num_cpus = <span class="hljs-number">4</span>)<br><br><span class="hljs-meta">@ray.remote</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">do_some_work</span>(<span class="hljs-params">x</span>):</span><br>    time.sleep(random.uniform(<span class="hljs-number">0</span>, <span class="hljs-number">4</span>)) <span class="hljs-comment"># Replace this is with work you need to do.</span><br>    <span class="hljs-keyword">return</span> x<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">process_incremental</span>(<span class="hljs-params"><span class="hljs-built_in">sum</span>, result</span>):</span><br>    time.sleep(<span class="hljs-number">1</span>) <span class="hljs-comment"># Replace this with some processing code.</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">sum</span> + result<br><br>start = time.time()<br>result_ids = [do_some_work.remote(x) <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>)]<br><span class="hljs-built_in">sum</span> = <span class="hljs-number">0</span><br><span class="hljs-keyword">while</span> <span class="hljs-built_in">len</span>(result_ids):<br>    done_id, result_ids = ray.wait(result_ids)<br>    <span class="hljs-built_in">sum</span> = process_incremental(<span class="hljs-built_in">sum</span>, ray.get(done_id[<span class="hljs-number">0</span>]))<br>print(<span class="hljs-string">&quot;duration =&quot;</span>, time.time() - start, <span class="hljs-string">&quot;\nresult = &quot;</span>, <span class="hljs-built_in">sum</span>)<br><br><span class="hljs-comment"># Output:</span><br><span class="hljs-comment"># duration = 4.852453231811523</span><br><span class="hljs-comment"># result =  6</span><br></code></pre></td></tr></table></figure>
+<img src="/2020/12/08/Ray-%E6%96%B0%E6%89%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF/PipelineDataProcessing.png" srcset="/img/loading.gif" class="" title="PipelineDataProcessing">
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/12/30/ZooKeeper%E5%88%9D%E6%8E%A2/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">ZooKeeper初探</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/12/08/Kubernetes%E4%BB%8B%E7%BB%8D/">
+                        <span class="hidden-mobile">Kubernetes介绍</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

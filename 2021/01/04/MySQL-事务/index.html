@@ -1,0 +1,582 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="zhuangzhuang">
+  <meta name="keywords" content="">
+  <title>MySQL-事务 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"zhuangzhuang131419.github.io","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="MySQL-事务">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-01-04 16:55" pubdate>
+        2021年1月4日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.6k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      27
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">MySQL-事务</h1>
+            
+            <div class="markdown-body">
+              <h1 id="数据库ACID特性"><a href="#数据库ACID特性" class="headerlink" title="数据库ACID特性"></a>数据库ACID特性</h1><h2 id="原子性-Atomicity"><a href="#原子性-Atomicity" class="headerlink" title="原子性 Atomicity"></a>原子性 Atomicity</h2><p>一个事务必须被视为一个不可分割的最小工作单元，整个事务中的所有操作要么全部提交成功，要么全部回滚失败。</p>
+<h2 id="一致性-Consistency"><a href="#一致性-Consistency" class="headerlink" title="一致性 Consistency"></a>一致性 Consistency</h2><p>数据库总是从一个一致性状态转换到另一个一致性状态。</p>
+<h2 id="隔离性-Isolation"><a href="#隔离性-Isolation" class="headerlink" title="隔离性 Isolation"></a>隔离性 Isolation</h2><p>一个事务在做提交之前，对其他事物是不可见的。</p>
+<h2 id="持久性"><a href="#持久性" class="headerlink" title="持久性"></a>持久性</h2><p>一旦事务提交，其所作的修改就会永久的保存在数据库中。</p>
+<h1 id="MVCC-多版本并发控制"><a href="#MVCC-多版本并发控制" class="headerlink" title="MVCC 多版本并发控制"></a>MVCC 多版本并发控制</h1><p>我们在数据库表中看到的一行记录可能实际上有多个版本，每个版本的记录除了有数据本身外，还要有一个表示版本的字段 <code>row trx_id</code>，这个字段就是使其产生的事务id，记为 <code>transcation id</code>，在事务开始的时候向事务系统申请，按时间顺序递增。</p>
+<img src="/2021/01/04/MySQL-%E4%BA%8B%E5%8A%A1/%E4%BA%8B%E5%8A%A1ID.png" srcset="/img/loading.gif" class="" title="事务ID">
+
+
+
+
+<p>可以认为 MVCC 是行级锁的一个变种，但它在很多情况下避免了加锁操作，因此开销更低。虽然实现机制有所不同，但大都实现了非阻塞的读操作，写操作也只是锁定必要的行。</p>
+<p><b>MVCC 的实现是通过保存数据在某个时间点的快照来实现的。</b>也就是说不管需要执行多长时间，每个事物看到的数据都是一致的。</p>
+<p>典型的MVCC实现方式，分为乐观（optimistic）并发控制和悲观（pressimistic）并发控制。下边通过 InnoDB的简化版行为来说明 MVCC 是如何工作的。</p>
+<p>InnoDB 的 MVCC，是通过在每行记录后面保存两个隐藏的列来实现。这两个列，一个保存了行的创建时间，一个保存行的过期时间（删除时间）。当然存储的并不是真实的时间，而是系统版本号（system version number）。每开始一个新的事务，系统版本号都会自动递增。事务开始时刻的系统版本号会作为事务的版本号，用来和查询到的每行记录的版本号进行比较。</p>
+<ul>
+<li>SELECT<ul>
+<li>InnoDB会根据以下两个条件检查没行记录：<ul>
+<li>a. InnoDB只会查找版本早于当前事务版本的数据行（也就是，行的系统版本小于或等于事务的系统版本号），<br>这样可以确保事务读取到的行，要么是事务开始前已经存在的，要么是事务自身插入或者修改过的。</li>
+<li>b. 行的删除版本要么未定义，要么大于当前事务的版本号。这样可以确保事务读取到的行，在事务之前未被<br>删除。<br>只有符合上述两个条件的记录，才能被作为返回查询结果</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>INSERT<ul>
+<li>InnoDB 为新插入的每一行保存当前系统版本号作为行版本号</li>
+</ul>
+</li>
+<li>DELETE<ul>
+<li>InnoDB 为删除的每一行保存当前系统版本号作为行删除标识</li>
+</ul>
+</li>
+<li>UPDATE<ul>
+<li>InnoDB 为插入一行新纪录，保存当前系统版本号作为版本号，同时保存当前系统版本号到原来的行作为行删除标识。</li>
+</ul>
+</li>
+</ul>
+<h1 id="隔离性"><a href="#隔离性" class="headerlink" title="隔离性"></a>隔离性</h1><h2 id="数据库事务隔离级别"><a href="#数据库事务隔离级别" class="headerlink" title="数据库事务隔离级别"></a>数据库事务隔离级别</h2><table>
+<thead>
+<tr>
+<th></th>
+<th>脏读</th>
+<th>不可重复读</th>
+<th>幻读</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Read Uncommitted</td>
+<td>可能</td>
+<td>可能</td>
+<td>可能</td>
+</tr>
+<tr>
+<td>Read Committed</td>
+<td>不可能</td>
+<td>可能</td>
+<td>可能</td>
+</tr>
+<tr>
+<td>Repeatable Read</td>
+<td>不可能</td>
+<td>不可能</td>
+<td>可能</td>
+</tr>
+<tr>
+<td>Serializable</td>
+<td>不可能</td>
+<td>不可能</td>
+<td>不可能</td>
+</tr>
+</tbody></table>
+<h3 id="脏读、不可重复读、幻读"><a href="#脏读、不可重复读、幻读" class="headerlink" title="脏读、不可重复读、幻读"></a>脏读、不可重复读、幻读</h3><ul>
+<li><p>脏读</p>
+<p>  脏读就是指当一个事务正在访问数据，并且对数据进行了修改，而这种修改还没有提交到数据库中，这时，另外一个事务也访问这个数据，然后使用了这个数据。</p>
+</li>
+<li><p>不可重复读</p>
+<p>  是指在一个事务内，多次读同一数据。在这个事务还没有结束时，另外一个事务也访问该同一数据。那么，在第一个事务中的两次读数据之间，由于第二个事务的修改，那么第一个事务两次读到的的数据可能是不一样的。这样就发生了在一个事务内两次读到的数据是不一样的，因此称为是不可重复读。（即不能读到相同的数据内容）</p>
+<p>  例如，一个编辑人员两次读取同一文档，但在两次读取之间，作者重写了该文档。当编辑人员第二次读取文档时，文档已更改。原始读取不可重复。如果只有在作者全部完成编写后编辑人员才可以读取文档，则可以避免该问题。</p>
+</li>
+<li><p>幻读</p>
+<p>  是指当事务不是独立执行时发生的一种现象，例如第一个事务对一个表中的数据进行了修改，这种修改涉及到表中的全部数据行。同时，第二个事务也修改这个表中的数据，这种修改是向表中插入一行新数据。那么，以后就会发生操作第一个事务的用户发现表中还有没有修改的数据行，就好象发生了幻觉一样。</p>
+<p>  例如，一个编辑人员更改作者提交的文档，但当生产部门将其更改内容合并到该文档的主复本时，发现作者已将未编辑的新材料添加到该文档中。如果在编辑人员和生产部门完成对原始文档的处理之前，任何人都不能将新材料添加到文档中，则可以避免该问题。</p>
+</li>
+</ul>
+<h3 id="四种隔离级别的解读"><a href="#四种隔离级别的解读" class="headerlink" title="四种隔离级别的解读"></a>四种隔离级别的解读</h3><h4 id="Read-Uncommitted"><a href="#Read-Uncommitted" class="headerlink" title="Read Uncommitted"></a>Read Uncommitted</h4><p>最差的隔离级别，一个事务可以读到另一个事务没有commit时的数据</p>
+<h4 id="Read-Committed"><a href="#Read-Committed" class="headerlink" title="Read Committed"></a>Read Committed</h4><p>当隔离级别设置为Read committed 时，一个事务虽然不能读未commit的数据，但是别的事务可以修改当前读过的数据，造成前后不一致。大多数数据库的默认级别就是Read committed，比如Sql Server , Oracle。</p>
+<h4 id="Repeatable-Read"><a href="#Repeatable-Read" class="headerlink" title="Repeatable Read"></a>Repeatable Read</h4><p>虽然Repeatable read避免了不可重复读，但还有可能出现幻读 。</p>
+<h4 id="Serializable"><a href="#Serializable" class="headerlink" title="Serializable"></a>Serializable</h4><p>Serializable 是最高的事务隔离级别，同时代价也花费最高，性能很低，一般很少使用，在该级别下，事务顺序执行，不仅可以避免脏读、不可重复读，还避免了幻像读。</p>
+<h2 id="快照-Snapshot"><a href="#快照-Snapshot" class="headerlink" title="快照 (Snapshot)"></a>快照 (Snapshot)</h2><p>快照又叫一致性视图，快照需要遵循以下规则：</p>
+<ul>
+<li>当前事务内的更新，可读</li>
+<li>版本未提交，不可读</li>
+<li>版本已提交，但是在快照创建后提交的，不可读</li>
+<li>版本已提交，且是在快照创建前提交的，可读</li>
+</ul>
+<h3 id="快照读-vs-当前读"><a href="#快照读-vs-当前读" class="headerlink" title="快照读 vs. 当前读"></a>快照读 vs. 当前读</h3><ul>
+<li>快照读<ul>
+<li>读取的是记录数据的可见版本（可能是过期的数据），不用加锁</li>
+</ul>
+</li>
+<li>当前读<ul>
+<li>读取的是记录数据的最新版本，并且当前读返回的记录都会加上锁，保证其他事务不会再并发的修改这条记录</li>
+</ul>
+</li>
+</ul>
+<h2 id="隔离的实现"><a href="#隔离的实现" class="headerlink" title="隔离的实现"></a>隔离的实现</h2><h3 id="四种隔离级别的实现"><a href="#四种隔离级别的实现" class="headerlink" title="四种隔离级别的实现"></a>四种隔离级别的实现</h3><h4 id="读未提交-Read-Uncommitted"><a href="#读未提交-Read-Uncommitted" class="headerlink" title="读未提交 (Read Uncommitted)"></a>读未提交 (Read Uncommitted)</h4><p>这种隔离性是不加锁的。</p>
+<h4 id="串行化"><a href="#串行化" class="headerlink" title="串行化"></a>串行化</h4><p>读的时候加共享锁(其他事务可以并发读)，但是不能写；写的时候加排他锁，其他事务不能并发写也不能并发读。</p>
+<h4 id="读提交-Read-Committed"><a href="#读提交-Read-Committed" class="headerlink" title="读提交 (Read Committed)"></a>读提交 (Read Committed)</h4><p>而读提交则是每次执行语句的时候都重新生成一次快照。</p>
+<h4 id="可重复读-Repeatable-Read"><a href="#可重复读-Repeatable-Read" class="headerlink" title="可重复读 (Repeatable Read)"></a>可重复读 (Repeatable Read)</h4><p>可重复读是在事务开始的时候生成一个当前事务全局性的快照。</p>
+<h3 id="并发写问题"><a href="#并发写问题" class="headerlink" title="并发写问题"></a>并发写问题</h3><p>更新之前要先读取数据，这里用的是<strong>当前读</strong>，总是当前版本的数据，也就是多版本中最新一次提交的那版。</p>
+<p>假设事务A要执行 update 操作，需要对所修改的行加行锁，这个行锁会在提交之后才释放。这时候事务B就没办法更新这行，直到事务A提交后释放行锁。</p>
+<p>加锁过程要分有索引和无索引</p>
+<ul>
+<li>有索引<ul>
+<li>MySQL 直接就在索引数中找到了这行数据，然后干净利落的加上行锁就可以了。</li>
+</ul>
+</li>
+<li>无索引<ul>
+<li>MySQL 会为这张表中<strong>所有行</strong>加行锁，在加上行锁后，MySQL 会进行一遍过滤，发现不满足的行就释放锁，最终只留下符合条件的行。</li>
+</ul>
+</li>
+</ul>
+<h3 id="解决幻读"><a href="#解决幻读" class="headerlink" title="解决幻读"></a>解决幻读</h3><blockquote>
+<p>MySQL 如果使用 InnoDB 是可以在可重复读隔离级别下解决幻读问题。MyISAM 是不支持行级锁的，所以还会出现幻读的问题。</p>
+</blockquote>
+<p>MySQL 把行锁和间隙锁合并在一起，解决了并发写和幻读的问题，这个锁叫做 Next-Key 锁。</p>
+<p>假设现在表中有两条记录，并且 age 字段已经添加了索引，两条记录 age 的值分别为 10 和 30。</p>
+<img src="/2021/01/04/MySQL-%E4%BA%8B%E5%8A%A1/%E5%B9%BB%E8%AF%BB-1.png" srcset="/img/loading.gif" class="" title="幻读-1">
+
+<p>此时，在数据库中会为索引维护一套 B+ 树，用来快速定位行记录。</p>
+<img src="/2021/01/04/MySQL-%E4%BA%8B%E5%8A%A1/%E5%B9%BB%E8%AF%BB-2.png" srcset="/img/loading.gif" class="" title="幻读-2">
+
+<p>如图所示，分成了3 个区间，(负无穷,10]、(10,30]、(30,正无穷]，在这3个区间是可以加间隙锁的。</p>
+<p>之后，我用下面的两个事务演示一下加锁过程。</p>
+<img src="/2021/01/04/MySQL-%E4%BA%8B%E5%8A%A1/%E5%B9%BB%E8%AF%BB-3.png" srcset="/img/loading.gif" class="" title="幻读-3">
+
+<p>在事务A提交之前，事务B的插入操作只能等待，这就是间隙锁起得作用。当事务A执行<code>update user set name=&#39;风筝2号’ where age = 10;</code> 的时候，由于条件 where age = 10 ，数据库不仅在 age = 10 的行上添加了行锁，而且在这条记录的两边，也就是(负无穷,10]、(10,30]这两个区间加了间隙锁，从而导致事务B插入操作无法完成，只能等待事务A提交。不仅插入 age = 10 的记录需要等待事务A提交，age &lt; 10、10 &lt; age &lt; 30 的记录页无法完成，而大于等于30的记录则不受影响，这足以解决幻读问题了。</p>
+<p>这是有索引的情况，如果 age 不是索引列，那么数据库会为整个表加上间隙锁。所以，如果是没有索引的话，不管 age 是否大于等于30，都要等待事务A提交才可以成功插入。</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/fengzheng/p/12557762.html">一文讲清楚MySQL事务隔离级别和实现原理</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/MySQL/">MySQL</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/01/05/MySQL-%E7%B4%A2%E5%BC%95/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">MySQL-索引</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/12/30/ZooKeeper%E5%88%9D%E6%8E%A2/">
+                        <span class="hidden-mobile">ZooKeeper初探</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

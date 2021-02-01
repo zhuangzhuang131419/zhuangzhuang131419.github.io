@@ -1,0 +1,894 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="zhuangzhuang">
+  <meta name="keywords" content="">
+  <title>《数据密集型应用系统设计》- 读书笔记1 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"zhuangzhuang131419.github.io","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="《数据密集型应用系统设计》- 读书笔记1">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-01-13 10:05" pubdate>
+        2021年1月13日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      6.4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      66
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">《数据密集型应用系统设计》- 读书笔记1</h1>
+            
+            <div class="markdown-body">
+              <p>[TOC]</p>
+<h1 id="第二章-数据模型与查询语言"><a href="#第二章-数据模型与查询语言" class="headerlink" title="第二章 数据模型与查询语言"></a>第二章 数据模型与查询语言</h1><h1 id="第三章-数据存储与检索"><a href="#第三章-数据存储与检索" class="headerlink" title="第三章 数据存储与检索"></a>第三章 数据存储与检索</h1><h2 id="数据库核心：数据结构"><a href="#数据库核心：数据结构" class="headerlink" title="数据库核心：数据结构"></a>数据库核心：数据结构</h2><p>适当的索引可以加速度取查询，但每个索引都会减慢写速度</p>
+<h3 id="哈希索引"><a href="#哈希索引" class="headerlink" title="哈希索引"></a>哈希索引</h3><p>假设数据存储全部采用追加式文件组成。</p>
+<blockquote>
+<p>保存内存中的hash map, 把每个键一一映射到数据文件中特定的字节偏移量，这样就可以找到每个值的位置。</p>
+</blockquote>
+<p>Bitcask （Riak 中的默认存储引擎）就是采用哈希索引的。它非常适合每个键的值频繁更新的场景。</p>
+<p>如何避免最终用尽磁盘空间？</p>
+<blockquote>
+<p>我们可以将日志分解成一定大小的段，当文件达到一定大小时就关闭它，并将后续写入到新的段文件中。然后可以在这些段上执行压缩，在日志中丢弃重复的键，并且只保留每个键最近的更新。</p>
+</blockquote>
+<h4 id="需要考虑的问题"><a href="#需要考虑的问题" class="headerlink" title="需要考虑的问题"></a>需要考虑的问题</h4><ul>
+<li>文件格式<ul>
+<li>csv 不是日志的最佳格式，应该使用二进制的格式，首先以字节为单位来记录字符串的长度，之后再跟上原始字符串。</li>
+</ul>
+</li>
+<li>删除记录<ul>
+<li>如果要删除一个键和它关联的记录，在数据文件中追加一个tag。合并日志的时候，一旦发现tag，则会丢弃这个已经删除键的值。</li>
+</ul>
+</li>
+<li>崩溃恢复<ul>
+<li>因为hash map是存在内存中的，数据库重新启动之后会丢失。Bitcask 通过将每个段的hash map的快照存储在磁盘上，可以更快的加载到内存中，以此加快恢复速度。</li>
+</ul>
+</li>
+<li>部分写入的记录<ul>
+<li>Bitcask 文件包括校验值，这样可以发现损坏部分并丢弃。</li>
+</ul>
+</li>
+<li>并发控制<ul>
+<li>因为写入以严格的先后顺序追加到日志中，通常的实现选择是只有一个写线程。数据文件段是追加的，并且是不可变的，所以他们可以被多个线程同时读取。</li>
+</ul>
+</li>
+</ul>
+<h4 id="局限性"><a href="#局限性" class="headerlink" title="局限性"></a>局限性</h4><ul>
+<li>因为hash map 必须放在内存中，如果一旦有大量的键，就需要在磁盘维护hash map，这会导致整体的性能下降。</li>
+<li>区间查询效率不高。</li>
+</ul>
+<h3 id="SSTables和LSM-Tree"><a href="#SSTables和LSM-Tree" class="headerlink" title="SSTables和LSM-Tree"></a>SSTables和LSM-Tree</h3><h4 id="SSTables"><a href="#SSTables" class="headerlink" title="SSTables"></a>SSTables</h4><blockquote>
+<p>要求每个存储段的key-value对的顺序按键排序。要求每个键在合并的段文件中只能出现一次。</p>
+</blockquote>
+<blockquote>
+<p>SSTable 是一个<strong>持久化的、有序的、不可变的</strong>映射表（map），其中的<strong>键和值都可以 是任意字节字符串</strong>。它提供了按 key 查询和对指定的 key range 进行遍历的操作。</p>
+</blockquote>
+<p>SSTable相比哈希索引，具有优点：</p>
+<ul>
+<li>合并段更加简单高效，即使文件大于可用内存</li>
+<li>在文件中查找特定的键时，不再需要在内存中保存所有键的索引。仍然需要一个内存索引来记录某些键的偏移，但它可以是稀疏的。</li>
+</ul>
+<img src="/2021/01/13/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8B-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B01/SSTable%E5%8F%8A%E5%85%B6%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84%E7%B4%A2%E5%BC%95.png" srcset="/img/loading.gif" class="" title="SSTable及其内存中的索引">
+
+
+
+<h5 id="从SSTables到LSM-Tree"><a href="#从SSTables到LSM-Tree" class="headerlink" title="从SSTables到LSM-Tree"></a>从SSTables到LSM-Tree</h5><blockquote>
+<p>基于合并和压缩排序文件原理的存储引擎通常都被称为LSM存储引擎。</p>
+</blockquote>
+<p>LSM Tree的树节点可以分为两种，保存在内存中的称之为MemTable， 保存在磁盘上的称之为SSTable。</p>
+<h5 id="构建和维护SSTables"><a href="#构建和维护SSTables" class="headerlink" title="构建和维护SSTables"></a>构建和维护SSTables</h5><ul>
+<li>当写入时，将其添加到内存中的平衡树数据结构中。这个内存中的树有时被称为内存表。</li>
+<li>当内存表大于某个阈值时，将其作为SSTable文件写入磁盘。由于树已经维护了按键排序的key-value对，写磁盘可以比较高效。新的SSTable文件成为数据库的最新部分。当SSTable写磁盘的同时，写入可以继续添加到一个新的内存表实例。</li>
+<li>处理读请求时，首先尝试在内存表中查找键，然后是最新的磁盘段文件，接下来是次新的磁盘段文件……</li>
+<li>后台进程周期性的执行段合并与压缩过程，以合并多个段文件，并丢弃那些已被覆盖或删除的值。</li>
+</ul>
+<p>LevelDB 和 RocksDB 使用的就是上面这段算法。</p>
+<p>不同的策略会影响甚至决定SSTables压缩和合并时的具体顺序和时机。</p>
+<ul>
+<li>LevelDB和RocksDB使用分层压缩<ul>
+<li>键的范围分裂成多个更小的SSTables，旧数据被移动到单独的“层级”。</li>
+</ul>
+</li>
+<li>HBase使用大小分级<ul>
+<li>较新的和较小的SSTables 被连续合并到较旧和较大的SSTables</li>
+</ul>
+</li>
+<li>Cassandra则同时支持这两种压缩。</li>
+</ul>
+<p>LSM-Tree 的基本思想：</p>
+<blockquote>
+<p>保存在后台合并的一系列SSTable</p>
+</blockquote>
+<p><a href="https://zhuangzhuang131419.github.io/2021/01/18/LSM-Tree%E5%88%9D%E6%8E%A2/">LSM-Tree初探</a></p>
+<h3 id="B-Tree"><a href="#B-Tree" class="headerlink" title="B-Tree"></a>B-Tree</h3><p>B-Tree 已经比较熟悉它的基本原理了，这里讲一些新的收获。</p>
+<blockquote>
+<p>B-Tree 将数据库分解成固定大小的块或页，页是内部读/写的最小单元。每个页面都可以使用地址或位置进行标识，不过是指向磁盘地址，而不是内存。</p>
+</blockquote>
+<h4 id="B-Tree-可靠"><a href="#B-Tree-可靠" class="headerlink" title="B-Tree 可靠"></a>B-Tree 可靠</h4><ul>
+<li><p>预写日志（write-ahead log, WAL）</p>
+<ul>
+<li>这是一个仅支持追加修改的文件，每个B-Tree的修改必须先更新 WAL 然后再修改树本身的页。当数据库在崩溃后需要恢复时，该日志用于将B-Tree恢复到最近一直的状态。</li>
+</ul>
+</li>
+<li><p>原地更新页</p>
+<ul>
+<li>如果多个线程要同时访问B-Tree，则需要注意并发控制，否则线程可能会看到树处于不一致的状态。</li>
+</ul>
+</li>
+</ul>
+<h4 id="B-Tree-优化"><a href="#B-Tree-优化" class="headerlink" title="B-Tree 优化"></a>B-Tree 优化</h4><ul>
+<li><p>一些数据库（LMDB）不使用覆盖页和维护WAL来进行崩溃恢复，而是使用写时复制方案。</p>
+</li>
+<li><p>保存键的缩略信息，而不是完整的键，这样可以节省页空间。</p>
+</li>
+<li><p>相邻叶子页可以按顺序保存在磁盘上。但是相比之下，LSM-Tree在合并过程中一次重写大量存储段，更容易让那个连续的键在磁盘上相互靠近。</p>
+</li>
+<li><p>添加额外的指针到树中。例如，每个叶子页面可能会向左和向右引用其同级的兄弟页。</p>
+</li>
+<li><p>B-Tree的变体如分形树，借鉴了一些日志结构的想法来减少磁盘寻道。</p>
+</li>
+</ul>
+<h3 id="B-Tree-vs-LSM-Tree"><a href="#B-Tree-vs-LSM-Tree" class="headerlink" title="B-Tree vs. LSM-Tree"></a>B-Tree vs. LSM-Tree</h3><p>根据经验，LSM-Tree通常对于写入更快而读取较慢，因为必须在不同的压缩阶段检查多个不同的数据结构和SSTable。B-Tree被认为对于读取更快。</p>
+<h4 id="LSM-Tree-的优点"><a href="#LSM-Tree-的优点" class="headerlink" title="LSM-Tree 的优点"></a>LSM-Tree 的优点</h4><ul>
+<li><p>LSM-Tree 通常能够承受比 B-Tree 更高的写入吞吐量</p>
+<ul>
+<li>具有较低的写放大（在数据库内，由于一次数据库写入请求导致的多次磁盘写）</li>
+<li>以顺序方式写入紧凑的SSTable，而不必重写树中的多个页。</li>
+</ul>
+</li>
+<li><p>LSM-Tree 可以支持更好的压缩。</p>
+<ul>
+<li>由于碎片，B-Tree存储引擎使某些磁盘空间无法使用。</li>
+</ul>
+</li>
+</ul>
+<h4 id="LSM-Tree-的缺点"><a href="#LSM-Tree-的缺点" class="headerlink" title="LSM-Tree 的缺点"></a>LSM-Tree 的缺点</h4><ul>
+<li>日志结构存储的缺点是压缩过程有时会干扰正在进行的读写操作。<ul>
+<li>由于磁盘的并发资源有限，所以当磁盘执行昂贵的压缩操作时，很容易发生读写请求等待的情况。</li>
+</ul>
+</li>
+<li>磁盘的有限写入带宽需要在初始写入（记录并刷新内存表到磁盘）和后台运行的压缩线程之间所共享。<ul>
+<li>数据量越大，压缩所需的磁盘带宽就越多。</li>
+</ul>
+</li>
+</ul>
+<h4 id="B-Tree-的优点"><a href="#B-Tree-的优点" class="headerlink" title="B-Tree 的优点"></a>B-Tree 的优点</h4><ul>
+<li>每个键都恰好唯一对应于索引中的某个位置，而日志结构的存储引擎可能在不同的段中具有相同建的多个副本<ul>
+<li>可以提供强大的事务语义</li>
+</ul>
+</li>
+</ul>
+<h3 id="其他索引结构"><a href="#其他索引结构" class="headerlink" title="其他索引结构"></a>其他索引结构</h3><h4 id="在索引中存储值"><a href="#在索引中存储值" class="headerlink" title="在索引中存储值"></a>在索引中存储值</h4><ul>
+<li>聚集索引<ul>
+<li>在索引中直接保存行数据</li>
+<li>InnoDB</li>
+</ul>
+</li>
+<li>非聚集索引<ul>
+<li>仅存储索引中的数据的引用</li>
+<li>MySQL</li>
+</ul>
+</li>
+<li>覆盖索引<ul>
+<li>包含列的索引，在索引中保存一些表的列值。</li>
+</ul>
+</li>
+</ul>
+<h5 id="多列索引"><a href="#多列索引" class="headerlink" title="多列索引"></a>多列索引</h5><p>如果需要同时查询表的多个列，就需要使用到多列索引。</p>
+<ul>
+<li><p>级联索引</p>
+<ul>
+<li>通过将一列追加到另一列，将几个字段简单地组合成一个键（索引的定义指定字段连接的顺序）。</li>
+</ul>
+</li>
+<li><p>多维索引</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> restaurants <span class="hljs-keyword">where</span> latitude <span class="hljs-operator">&gt;</span> <span class="hljs-number">51</span> <span class="hljs-keyword">AND</span> latitude <span class="hljs-operator">&lt;</span> <span class="hljs-number">51.5</span> <span class="hljs-keyword">AND</span> longitude <span class="hljs-operator">&gt;</span> <span class="hljs-number">0</span> <span class="hljs-keyword">AND</span> longitude <span class="hljs-operator">&lt;</span> <span class="hljs-number">0.5</span> <br></code></pre></td></tr></table></figure>
+<ul>
+<li>B-Tree或LSM-Tree索引无法高效的应对这种查询。</li>
+<li>更常见的是使用专门的空间索引 （R-Tree）</li>
+</ul>
+</li>
+</ul>
+<h4 id="全文搜索和模糊索引"><a href="#全文搜索和模糊索引" class="headerlink" title="全文搜索和模糊索引"></a>全文搜索和模糊索引</h4><p>全文搜索引擎通常支持对一个单词的所有同义词进行查询。</p>
+<p>在Lucene中，内存中的索引是键中的字符序列的有限状态自动机，类似字典树。这个自动机可以转换成Levenshtein自动机，支持在给定编辑距离内高效地搜索单词。</p>
+<p>这部分内容还有非常多深挖的细节，计划在第一遍读完本书后再做后续拓展。</p>
+<h5 id="在内存中保存所有内容"><a href="#在内存中保存所有内容" class="headerlink" title="在内存中保存所有内容"></a>在内存中保存所有内容</h5><blockquote>
+<p> 一些VoltDB、MemSQL和Oracle TimesTen的产品是具有关系模型的内存数据库。</p>
+</blockquote>
+<p>内存数据库的性能优势并不是因为它们不需要从磁盘读取。即使是基于磁盘的存储引擎，也可能永远不需要从磁盘读取，因为操作系统将最近使用的磁盘缓存在内存中。实际上，内存数据库可以更快，<strong>是因为它们避免使用写磁盘的格式对内存数据结构编码的开销</strong>。</p>
+<p>内存数据库提供了基于磁盘索引难以实现的某些数据类型。例如，Redis为各种数据结构（如优先级队列和集合）都提供了类似数据库的访问接口。</p>
+<h2 id="事务处理与分析处理"><a href="#事务处理与分析处理" class="headerlink" title="事务处理与分析处理"></a>事务处理与分析处理</h2><ul>
+<li>在线事务处理（OLTP）<ul>
+<li>根据用户的输入插入或更新记录。因为这些应用程序是交互式的。</li>
+<li>OLTP要求高度可用，处理事务时延迟足够低。</li>
+</ul>
+</li>
+<li>在线分析处理（OLAP）<ul>
+<li>为了区分使用数据库与事务处理的模式。</li>
+</ul>
+</li>
+</ul>
+<p>现在的趋势是，放弃使用OLTP系统用于分析目的，而是在单独的数据库上运行分析。这个单独的数据库被称为<strong>数据仓库</strong>。</p>
+<h3 id="数据仓库"><a href="#数据仓库" class="headerlink" title="数据仓库"></a>数据仓库</h3><blockquote>
+<p>数据仓库就是面向主题的（Subject-Oriented ）、集成的（Integrated）、非易失的（Non-Volatile）和时变的（Time-Variant ）数据集合，用以支持管理决策 。</p>
+</blockquote>
+<p>现在国内最常用的是一款基于Hadoop的开源数据仓库 <strong>Hive</strong>，可以对存储在HDFS上的文件数据集进行查询和分析处理。</p>
+<h4 id="数据仓库的特点"><a href="#数据仓库的特点" class="headerlink" title="数据仓库的特点"></a>数据仓库的特点</h4><ul>
+<li>主题性<ul>
+<li>数据仓库是围绕一个主题进行获取数据和分析数据，以此来满足数据分析的需求。</li>
+</ul>
+</li>
+<li>集成性<ul>
+<li>要整合成最终的数据集合，需要对数据进行抽取、清洗、转换的过程。</li>
+</ul>
+</li>
+<li>稳定性<ul>
+<li>数据仓库不允许对数据进行修改，只能进行查询和分析。</li>
+</ul>
+</li>
+<li>及时性<ul>
+<li>数据仓库一定要获取最新的数据，这样数据分析出来的结果才是有效的。</li>
+</ul>
+</li>
+</ul>
+<h4 id="数据仓库如何集成不同数据源"><a href="#数据仓库如何集成不同数据源" class="headerlink" title="数据仓库如何集成不同数据源"></a>数据仓库如何集成不同数据源</h4><img src="/2021/01/13/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8B-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B01/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%E5%92%8C%E7%AE%80%E5%8C%96%E7%9A%84ETL%E8%BF%87%E7%A8%8B.png" srcset="/img/loading.gif" class="" title="数据仓库和简化的ETL过程">
+
+<p>将数据导入数据仓库的过程称为提取-转换-加载（Extract-Transform-Load, ETL）。</p>
+<ul>
+<li>Extract<ul>
+<li>读取数据</li>
+</ul>
+</li>
+<li>Transform<ul>
+<li>把数据转换成需要的维度和格式，同时包含数据清洗，清洗掉一些噪音数据。</li>
+</ul>
+</li>
+<li>Load<ul>
+<li>把数据加载到目标仓库以供分析使用</li>
+</ul>
+</li>
+</ul>
+<p>使用单独的数据仓库而不是直接查询OLTP系统进行分析，很大的优势在于数据仓库可以针对分析访问模式进行优化。</p>
+<h4 id="OLTP数据库和数据仓库之间的差异"><a href="#OLTP数据库和数据仓库之间的差异" class="headerlink" title="OLTP数据库和数据仓库之间的差异"></a>OLTP数据库和数据仓库之间的差异</h4><h3 id="星型与雪花型分析模式"><a href="#星型与雪花型分析模式" class="headerlink" title="星型与雪花型分析模式"></a>星型与雪花型分析模式</h3><h4 id="星型模式"><a href="#星型模式" class="headerlink" title="星型模式"></a>星型模式</h4><p>模式的中心是一个所谓的<strong>事实表</strong>。事实表的每一行表示在特定时间发生的事件。事实表中的列是属性，其他列可能会引用其他表的外键，称为<strong>维度表</strong>。</p>
+<blockquote>
+<p>由于事实表中的每一行都代表一个事件，维度通常代表事件的对象（who）、什么（what）、地点（where）、时间（when）、方法（how）以及原因（why）。</p>
+</blockquote>
+<p>事实表位于中间，被一系列维度表包围。</p>
+<img src="/2021/01/13/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8B-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B01/%E6%98%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F.png" srcset="/img/loading.gif" class="" title="星型模式">
+
+
+
+<h4 id="雪花模式"><a href="#雪花模式" class="headerlink" title="雪花模式"></a>雪花模式</h4><p>维度进一步细分为子空间，每一行都可以再次引用品牌和类别作为外键，而不是将其作为字符串直接存储在表中。</p>
+<img src="/2021/01/13/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8B-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B01/%E9%9B%AA%E8%8A%B1%E5%9E%8B%E6%A8%A1%E5%BC%8F.png" srcset="/img/loading.gif" class="" title="雪花型模式">
+
+
+
+<h2 id="列式储存"><a href="#列式储存" class="headerlink" title="列式储存"></a>列式储存</h2><p>我们将首先关注事实表的存储。</p>
+<blockquote>
+<p>面向行存储：来自表的一行所有值彼此相邻存储。</p>
+<p>面向列存储：将每列中的所有值存储在一起。</p>
+</blockquote>
+<p>因为我们在查询的时候通常只会需要某几个字段，显然使用列存储是一个更为优化的办法。</p>
+<h3 id="列压缩"><a href="#列压缩" class="headerlink" title="列压缩"></a>列压缩</h3><h4 id="位图编码"><a href="#位图编码" class="headerlink" title="位图编码"></a>位图编码</h4><p>现在可以使用n个不同值的列，并将其转换为n个单独的位图：一个位图对应每个不同的值，一个位对应一行。如果行具有该值，该位为1，否则为0。</p>
+<img src="/2021/01/13/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8B-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B01/%E5%8E%8B%E7%BC%A9%E7%9A%84%E4%BD%8D%E5%9B%BE%E7%B4%A2%E5%BC%95%E5%AD%98%E5%82%A8%E5%8D%95%E5%88%97.png" srcset="/img/loading.gif" class="" title="压缩的位图索引存储单列">
+
+<h4 id="内存带宽和矢量化处理"><a href="#内存带宽和矢量化处理" class="headerlink" title="内存带宽和矢量化处理"></a>内存带宽和矢量化处理</h4><ul>
+<li>内存带宽<ul>
+<li>如何高效地将内存的带宽用于CPU缓存，避免分支错误预测和CPU指令处理流水线中的气泡，并利用现代CPU中的单指令多数据指令。</li>
+</ul>
+</li>
+<li>矢量化处理<ul>
+<li>列压缩使得列中更多的行可以加载到L1缓存。</li>
+</ul>
+</li>
+</ul>
+<h3 id="列存储中的排序"><a href="#列存储中的排序" class="headerlink" title="列存储中的排序"></a>列存储中的排序</h3><ul>
+<li><p>可以基于常见查询的知识来选择要排序表的列。</p>
+</li>
+<li><p>排序可以帮忙进一步压缩列</p>
+<ul>
+<li>如果主排序列上没有很多不同的值，在排序后，会出现一个非常长的序列，其中相同的值在一行中重复多次。</li>
+</ul>
+</li>
+</ul>
+<h3 id="列存储的写操作"><a href="#列存储的写操作" class="headerlink" title="列存储的写操作"></a>列存储的写操作</h3><p>面向列的存储、压缩和排序都非常有助于加速读取查询，但是可以使用<strong>LSM-Tree</strong>。</p>
+<blockquote>
+<p>所有的写入首先进入内存存储区，将其添加到已排序的结构中，接着再准备写入磁盘。当累积了足够的写入时，它们将与磁盘上的列文件合并，并批量写入新文件。</p>
+</blockquote>
+<h2 id="聚合：数据立方体与物化视图"><a href="#聚合：数据立方体与物化视图" class="headerlink" title="聚合：数据立方体与物化视图"></a>聚合：数据立方体与物化视图</h2><p>如果许多不同查询使用相同的聚合，每次都处理原始数据将非常浪费</p>
+<h3 id="物化视图"><a href="#物化视图" class="headerlink" title="物化视图"></a>物化视图</h3><blockquote>
+<p>一个类似表的对象，其内容是一些查询的结果。</p>
+</blockquote>
+<p>当底层数据发生变化时，物化视图也需要随之更新，因为它是数据的非规范化副本。</p>
+<h3 id="数据立方体"><a href="#数据立方体" class="headerlink" title="数据立方体"></a>数据立方体</h3><p>物化视图一种特殊情况。它是由不同维度分组的聚合网络。</p>
+<img src="/2021/01/13/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8B-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B01/%E6%95%B0%E6%8D%AE%E7%AB%8B%E6%96%B9%E4%BD%93.png" srcset="/img/loading.gif" class="" title="数据立方体">
+
+<ul>
+<li><p>优点</p>
+<ul>
+<li>某些查询会很快，因为已经被预先计算出来了。</li>
+</ul>
+</li>
+<li><p>缺点</p>
+<ul>
+<li>缺乏像查原始数据那样的灵活性。</li>
+</ul>
+</li>
+</ul>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>存储引擎分为两大类：<strong>针对事务处理（OLTP）优化的结构</strong>和<strong>针对分析型（OLAP）的优化结构</strong>。</p>
+<ul>
+<li><p>OLTP</p>
+<ul>
+<li>OLTP通常面向用户，磁盘寻道时间往往是瓶颈。</li>
+<li>有两个主要流派的存储引擎<ul>
+<li>日志结构流派</li>
+<li>原地更新流派</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>OLAP</p>
+<ul>
+<li>OLAP主要由业务分析师用，磁盘带宽通常是瓶颈，可以通过面向列的存储来解决。</li>
+<li>当查询需要在大量行中顺序扫描时，索引的关联性就会显著降低。相反，最重要的是非常紧凑地编码数据，以尽量减少磁盘读取的数据量。</li>
+</ul>
+</li>
+</ul>
+<h1 id="第四章-数据编码与演化"><a href="#第四章-数据编码与演化" class="headerlink" title="第四章 数据编码与演化"></a>第四章 数据编码与演化</h1><h2 id="数据编码格式"><a href="#数据编码格式" class="headerlink" title="数据编码格式"></a>数据编码格式</h2><ol>
+<li>在内存中，数据保存在对象、结构体、列表、数组、哈希表和树等结构中。这些数据结构针对CPU的高效访问和操作进行了优化（通常使用指针）。</li>
+<li>将数据写入文件或通过网络发送时，必须将其编码为某种自包含的字节序列（例如JSON文档）。</li>
+</ol>
+<blockquote>
+<p>从内存中的表示到字节序列的转化称为编码（序列化），相反的过程称为解码（反序列化）。</p>
+</blockquote>
+<h3 id="JSON、XML与二进制变体"><a href="#JSON、XML与二进制变体" class="headerlink" title="JSON、XML与二进制变体"></a>JSON、XML与二进制变体</h3><p>这些编码都有一定的缺点</p>
+<ul>
+<li>在XML和CSV中，无法区分数字和碰巧由数字组成的字符串。</li>
+<li>JSON区分字符串和数字，但不区分整数和浮点数，并且不指定精度。</li>
+<li>JSON和XML对Unicode字符串有很好的支持，但是它们不支持二进制字符串。</li>
+<li>由于数据的正确解释取决于模式中的信息，因此不使用XML/JSON架构的应用程序可能不得不硬编码适当的编码/解码逻辑。</li>
+<li>CSV没有任何模式，因此应用程序需要定义每行和每列的含义。</li>
+</ul>
+<h4 id="二进制编码"><a href="#二进制编码" class="headerlink" title="二进制编码"></a>二进制编码</h4><p>JSON不像XML那么冗长，但与二进制格式相比，两者仍然占用大量空间。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs json">&#123;<br>  <span class="hljs-attr">&quot;userName&quot;</span>: <span class="hljs-string">&quot;Martin&quot;</span>,<br>  <span class="hljs-attr">&quot;favoriteNumber&quot;</span>: <span class="hljs-number">1337</span>,<br>  <span class="hljs-attr">&quot;interests&quot;</span>: [<span class="hljs-string">&quot;daydreaming&quot;</span>, <span class="hljs-string">&quot;hacking&quot;</span>]<br>&#125;<br></code></pre></td></tr></table></figure>
+<img src="/2021/01/13/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8B-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B01/%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%BC%96%E7%A0%81.png" srcset="/img/loading.gif" class="" title="二进制编码">
+
+
+
+<h3 id="Thrift与Protocol-Buffers"><a href="#Thrift与Protocol-Buffers" class="headerlink" title="Thrift与Protocol Buffers"></a>Thrift与Protocol Buffers</h3><p>接下来介绍的是模式（schemas）</p>
+<h4 id="Thrift"><a href="#Thrift" class="headerlink" title="Thrift"></a>Thrift</h4><figure class="highlight thrift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs thrift"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Person</span> </span>&#123;<br>	<span class="hljs-number">1</span>: <span class="hljs-keyword">required</span> <span class="hljs-built_in">string</span>       userName,<br>	<span class="hljs-number">2</span>: <span class="hljs-keyword">optional</span> <span class="hljs-built_in">i64</span>          favoriteNumber,<br>	<span class="hljs-number">3</span>: <span class="hljs-keyword">optional</span> list&lt;<span class="hljs-keyword">string</span>&gt; interests<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>Thrift有两种不同的二进制编码格式：BinaryProtocol和CompactProtocol</p>
+<h5 id="BinaryProtocol"><a href="#BinaryProtocol" class="headerlink" title="BinaryProtocol"></a>BinaryProtocol</h5><img src="/2021/01/13/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8B-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B01/BinaryProtocol.png" srcset="/img/loading.gif" class="" title="BinaryProtocol">
+
+<p>最大的区别是没有字段名。相反，编码数据包含数字类型的字段标签。</p>
+<h5 id="CompactProtocol"><a href="#CompactProtocol" class="headerlink" title="CompactProtocol"></a>CompactProtocol</h5>
+
+<ul>
+<li>将字段类型和标签号打包到单字节中，并使用可变长度整数来实现。</li>
+<li>对数字1337，不使用全部8字节，而是使用两个字节进行编码。每个字节的最高位用来指示是否还有更多的字节。</li>
+</ul>
+<h4 id="Protocol-Buffers"><a href="#Protocol-Buffers" class="headerlink" title="Protocol Buffers"></a>Protocol Buffers</h4><figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs protobuf"><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">Person</span> </span>&#123;<br>	<span class="hljs-keyword">required</span> <span class="hljs-built_in">string</span> user_name      = <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">optional</span> <span class="hljs-built_in">int64</span> favorite_number = <span class="hljs-number">2</span>;<br>	<span class="hljs-keyword">repeated</span> <span class="hljs-built_in">string</span> interests      = <span class="hljs-number">3</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<img src="/2021/01/13/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8B-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B01/ProtocolBuffers.png" srcset="/img/loading.gif" class="" title="ProtocolBuffers">
+
+
+
+<blockquote>
+<p>在前面所示的模式中，每个字段被标记为required或optional，但这对字段如何编码没有任何影响。区别在于，如果字段设置了required，但字段未填充，则运行时检查将出现失败。</p>
+</blockquote>
+<h4 id="字段标签和模式演化"><a href="#字段标签和模式演化" class="headerlink" title="字段标签和模式演化"></a>字段标签和模式演化</h4><p>为了保持向后兼容性，在模式的初始部署之后添加的每个字段都必须是可选的或具有默认值。</p>
+<p>为了保持向前兼容性，只能删除可选的字段（必填字段永远不能被删除）。</p>
+<h4 id="数据类型和模式演化"><a href="#数据类型和模式演化" class="headerlink" title="数据类型和模式演化"></a>数据类型和模式演化</h4><p>Protocal Buffers 没有列表或数组数据类型，而是有字段的重复标记（repeated）。对于重复字段，表示同一个字段标签只是简单的多次出现在记录中。可以将可选（单值）字段更改为重复（多值）字段。</p>
+<p>读取旧数据的新代码会看到一个包含零个或一个元素的列表。</p>
+<p>读取新数据的旧代码只能看到列表的最后一个元素。</p>
+<h3 id="Avro"><a href="#Avro" class="headerlink" title="Avro"></a>Avro</h3><p>TODO</p>
+<h3 id="模式（schema）的优点"><a href="#模式（schema）的优点" class="headerlink" title="模式（schema）的优点"></a>模式（schema）的优点</h3><p>Protocal Buffers, Thrift和Avro都使用了模式来描述二进制编码格式。</p>
+<ol>
+<li>可以比各种“二进制JSON”变体更紧凑（可以省略编码数据中的变量名）。</li>
+<li>模式是一种有价值的文档形式（而手动维护文档的成本是巨大的）。</li>
+<li>可以向前兼容和向后兼容。</li>
+<li>可以在编译时进行类型检查。</li>
+</ol>
+<h2 id="数据流模式"><a href="#数据流模式" class="headerlink" title="数据流模式"></a>数据流模式</h2><p>这里我们将探讨一些最常见的进程间数据流动的方式：</p>
+<h3 id="基于数据库的数据流"><a href="#基于数据库的数据流" class="headerlink" title="基于数据库的数据流"></a>基于数据库的数据流</h3><blockquote>
+<p>在数据库中，写入数据库的进程对数据进行编码，而读取数据库的进程对数据进行解码。</p>
+</blockquote>
+<p>由于可能存在新旧不同版本的进程对数据库进行编码或者解码，数据库需要向前或者向后兼容。</p>
+<h4 id="归档存储"><a href="#归档存储" class="headerlink" title="归档存储"></a>归档存储</h4><p>数据传储通常使用最新的模式进行编码，即使源数据库中的原始编码包含了不同时代的各种模式版本。</p>
+<h3 id="基于服务的数据流：REST和RPC"><a href="#基于服务的数据流：REST和RPC" class="headerlink" title="基于服务的数据流：REST和RPC"></a>基于服务的数据流：REST和RPC</h3><p>客户端和服务器。服务器通过网络公开API，客户端可以连接到服务器以向该API发出请求。服务器公开的API称为<strong>server</strong>。</p>
+<ul>
+<li>web浏览器<ul>
+<li>发出GET请求来下载HTML, CSS, JavaScript, 图像</li>
+<li>发出POST请求提交数据到服务器</li>
+</ul>
+</li>
+<li>移动设备或桌面计算机上运行的本地应用程序<ul>
+<li>服务器的响应通常是便于客户端应用程序进一步处理的编码数据（如JSON）</li>
+</ul>
+</li>
+<li>服务器本身可以是另一项服务的客户端<ul>
+<li>微服务体系架构<ul>
+<li>通过使服务可独立部署和演化，让应用程序更易于更改和维护。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="网络服务"><a href="#网络服务" class="headerlink" title="网络服务"></a>网络服务</h4><blockquote>
+<p>当HTTP被用作与服务通信的底层协议时，它被称为Web服务。</p>
+</blockquote>
+<h5 id="REST"><a href="#REST" class="headerlink" title="REST"></a>REST</h5><p>REST不是一种协议，而是一个基于HTTP原则的设计理念。</p>
+<ul>
+<li>强调简单的数据格式</li>
+<li>使用URL来标识资源</li>
+<li>使用HTTP功能进行缓存控制、身份验证和内容类型协商。</li>
+</ul>
+<blockquote>
+<p>根据REST原则所设计的API称为RESTful</p>
+</blockquote>
+<h5 id="SOAP"><a href="#SOAP" class="headerlink" title="SOAP"></a>SOAP</h5><p>基于XML的协议，用于发出网络API请求。</p>
+<h4 id="远程过程调用（RPC）的问题"><a href="#远程过程调用（RPC）的问题" class="headerlink" title="远程过程调用（RPC）的问题"></a>远程过程调用（RPC）的问题</h4><ul>
+<li>本地函数调用是可预测的，并且成功或失败仅取决于控制的参数。网络请求是不可预测的：请求或响应可能由于网络问题而丢失，或者远程计算机可能速度慢或不可用。</li>
+<li>本地函数要么返回一个结果，要么抛出一个异常。网络请求有另一个可能：由于超时，它返回时可能没有结果。</li>
+<li>重试失败的网络请求，可能会发生请求实际上已经完成，只是响应丢失的情况。需要在协议中建立重复数据消除（幂等性）机制</li>
+<li>调用本地函数时，通常需要大致相同的时间来执行。网络请求比函数调用要慢得多，而且期延迟也有很大的变化。</li>
+<li>调用本地函数时，可以高效地将引用传递给本地内存中的对象。当发出网络请求时，所有这些参数都需要被编码称可以通过网络发送的字节序列。</li>
+<li>客户端和服务端可以用不同的编程语言来实现，所以RPC框架必须将数据类型从一种语言转换成另一语言。</li>
+</ul>
+<h4 id="RPC的发展方向"><a href="#RPC的发展方向" class="headerlink" title="RPC的发展方向"></a>RPC的发展方向</h4><p>REST似乎是公共API的主流风格。RPC框架主要侧重于同一组织内多项服务之间的请求，通常发生在统一数据中心内。</p>
+<h4 id="RPC的数据编码和演化"><a href="#RPC的数据编码和演化" class="headerlink" title="RPC的数据编码和演化"></a>RPC的数据编码和演化</h4><blockquote>
+<p>重要的是可以独立地更改和部署RPC客户端和服务器。</p>
+</blockquote>
+<p>可以假定所有的服务器都先更新，其次再是客户端。因此只需要在请求上具有向后兼容性，而在响应上具有向前兼容性即可</p>
+<p>关于API版本管理暂时没有统一的方案</p>
+<ul>
+<li>对于RESTFUL API，常用的方法是在URL或HTTP Accept头中使用版本号。（目前我在字节实习所用的一种方式）</li>
+<li>对于使用API密钥来表示特定客户端的服务，另一种选择是将客户端请求的API版本存储在服务器上，并允许通过单独的管理接口更新该本本选项。</li>
+</ul>
+<h3 id="基于消息传递的数据流"><a href="#基于消息传递的数据流" class="headerlink" title="基于消息传递的数据流"></a>基于消息传递的数据流</h3><p>RPC和数据库之间的异步消息传递系统。不是通过直接的网络连接发送消息，而是通过称为消息代理（消息队列，或面向消息的中间件）的中介发送的，该中介会暂存消息。</p>
+<h4 id="消息代理"><a href="#消息代理" class="headerlink" title="消息代理"></a>消息代理</h4><p>优点：</p>
+<ul>
+<li>可以充当缓冲区，从而提高系统的可靠性。</li>
+<li>可以自动将消息重新发送到崩溃的进程，防止消息丢失。</li>
+<li>避免了发送方需要知道接收方的IP地址和端口号。</li>
+<li>支持将一条消息发送给多个接收方。</li>
+<li>在逻辑上将发送方与接收方分离。</li>
+</ul>
+<p>消息传递通信通常是单向的。</p>
+<p>使用方式：</p>
+<ol>
+<li>一个进程向指定的队列或主题发送消息。</li>
+<li>代理确保消息被传递给队列或主题的一个或多个消费者或订阅者。</li>
+<li>在同一主题上可以有许多生产者和许多消费者。</li>
+</ol>
+<h4 id="分布式Actor框架"><a href="#分布式Actor框架" class="headerlink" title="分布式Actor框架"></a>分布式Actor框架</h4><p>每个Actor通常代表一个客户端或实体，它可能具有某些本地状态（不与其他任何Actor共享），并且它通过发送和接收异步消息与其他Actor通信。</p>
+<h2 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h2><p>许多服务需要支持滚动升级，即每次将新版本的服务逐步部署到几个节点，而不是同时部署到所有节点。因此，在系统内流动的所有数据都以提供向后兼容性和向前兼容性的方式进行编码。</p>
+<p>数据流的几种模型</p>
+<ul>
+<li>数据库，其中写入数据库的进程对数据进行编码，而读取数据库的进程对数据进行解码。</li>
+<li>RPC和REST API，其中客户端对请求进行编码，服务器对请求进行解码并对响应进行编码，客户端最终对响应进行解码。</li>
+<li>异步消息传递（使用消息代理或Actor），节点之间通过互相发送消息进行通信，消息由发送者编码并由接受者解码。</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/">分布式系统</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">数据密集型应用系统设计</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/01/18/LSM-Tree%E5%88%9D%E6%8E%A2/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">LSM-Tree初探</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/01/12/MySQL%E5%AE%9E%E6%88%98-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">
+                        <span class="hidden-mobile">MySQL实战-读书笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

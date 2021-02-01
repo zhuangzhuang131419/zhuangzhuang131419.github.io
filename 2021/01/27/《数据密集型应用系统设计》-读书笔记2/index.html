@@ -1,0 +1,946 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="zhuangzhuang">
+  <meta name="keywords" content="">
+  <title>《数据密集型应用系统设计》-读书笔记2 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"zhuangzhuang131419.github.io","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="《数据密集型应用系统设计》-读书笔记2">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-01-27 13:02" pubdate>
+        2021年1月27日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      10.6k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      108
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">《数据密集型应用系统设计》-读书笔记2</h1>
+            
+            <div class="markdown-body">
+              <h1 id="第二部分：分布式数据系统"><a href="#第二部分：分布式数据系统" class="headerlink" title="第二部分：分布式数据系统"></a>第二部分：分布式数据系统</h1><ul>
+<li>扩展性<ul>
+<li>当数据量或者读写负载巨大，严重超出了单台机器的处理上限，需要将负载分散到多台机器上。</li>
+</ul>
+</li>
+<li>容错和高可用性<ul>
+<li>当单台机器出现故障，还希望应用系统可以继续工作，这是需要采用多台机器提供冗余。</li>
+</ul>
+</li>
+<li>延迟考虑<ul>
+<li>如果客户遍布世界各地，通常需要考虑在全球范围内部署服务，以方便用户就近访问最近数据中心所提供的服务。</li>
+</ul>
+</li>
+</ul>
+<h2 id="系统扩展能力"><a href="#系统扩展能力" class="headerlink" title="系统扩展能力"></a>系统扩展能力</h2><p>当负载增加需要更强的处理能力时，最简单的办法就是购买更强大的机器（垂直扩容）。</p>
+<ul>
+<li><strong>共享内存架构</strong><ul>
+<li>所有这些组件的集合可看做一台大机器。</li>
+<li>共享内存架构的问题在于，成本增长过快甚至超过了线性：两倍的CPU，两倍的内存，两倍的磁盘容量可能不能将成本控制在两倍。</li>
+</ul>
+</li>
+<li><strong>共享磁盘架构</strong><ul>
+<li>拥有多台服务器，每个服务器各自拥有独立的CPU和内存，然后将数据存储在可共享访问的磁盘阵列上。</li>
+<li>服务器与磁盘阵列之间往往通过高速网络连接。</li>
+</ul>
+</li>
+</ul>
+<h2 id="无共享结构"><a href="#无共享结构" class="headerlink" title="无共享结构"></a>无共享结构</h2><p>与上面的垂直扩容相比较之下，无共享架构优点更加明显。</p>
+<ul>
+<li>运行数据库软件的机器或者虚拟机成为<strong>节点</strong>。</li>
+<li>每个<strong>节点</strong>独立使用本地的CPU，内存和磁盘。</li>
+<li>节点之间的多有协调通信等任务全部运行在传统网络之上且核心逻辑主要依靠软件来实现。</li>
+</ul>
+<h2 id="复制与分区"><a href="#复制与分区" class="headerlink" title="复制与分区"></a>复制与分区</h2><ul>
+<li>复制<ul>
+<li>在多个节点上保存相同数据的副本，每个副本具体的存储位置可能不尽相同。</li>
+</ul>
+</li>
+<li>分区<ul>
+<li>将一个大块头的数据库拆分成多个较小的子集即<strong>分区</strong>，不同的分区分配给不同的节点。</li>
+</ul>
+</li>
+</ul>
+<h1 id="第五章-数据复制"><a href="#第五章-数据复制" class="headerlink" title="第五章 数据复制"></a>第五章 数据复制</h1><h1 id="第六章-分区"><a href="#第六章-分区" class="headerlink" title="第六章 分区"></a>第六章 分区</h1><h1 id="第七章-事务"><a href="#第七章-事务" class="headerlink" title="第七章 事务"></a>第七章 事务</h1><blockquote>
+<p>事务将应用程序的多个读、写操作捆绑在一起成为一个逻辑操作单元</p>
+</blockquote>
+<p>但是并非每个应用程序都需要事务机制，有时可以弱化事务处理或完全放弃事务（为了实现更高的性能或更高的可用性）。</p>
+<h2 id="深入理解事务"><a href="#深入理解事务" class="headerlink" title="深入理解事务"></a>深入理解事务</h2><p>随着非关系（NoSQL）数据库开始兴起。它们的目标是通过提供新的数据模型，以及内置的复制和分区等手段来改进传统的关系模型。</p>
+<h3 id="ACID的含义"><a href="#ACID的含义" class="headerlink" title="ACID的含义"></a>ACID的含义</h3><p>实际上，各家数据库所实现的ACID并不尽相同。</p>
+<h4 id="原子性-Atomicity"><a href="#原子性-Atomicity" class="headerlink" title="原子性 Atomicity"></a>原子性 Atomicity</h4><p>有一个误区：</p>
+<blockquote>
+<p>ACID中的原子性并不关乎多个操作的并发性，它没有描述多个线程试图访问相同的数据会发生什么情况，这其实是隔离性所定义的。</p>
+</blockquote>
+<p>ACID原子性实际上描述的是：</p>
+<p><strong>客户端发起一个包含多个写操作的请求时可能发生的情况。</strong></p>
+<p>在完成一部分写入操作后，系统发生了故障</p>
+<ul>
+<li>进程崩溃</li>
+<li>网络中断</li>
+<li>磁盘变满</li>
+<li>违反了某种完整性约束</li>
+</ul>
+<p>出现了上述故障而导致无法完成最终提交时，事务会终止，数据库回滚。</p>
+<blockquote>
+<p>ACID中原子性所定义的特征是：在出错时中止事务，并将部分完成的写入全部丢弃。</p>
+</blockquote>
+<h4 id="一致性-Consistency"><a href="#一致性-Consistency" class="headerlink" title="一致性 Consistency"></a>一致性 Consistency</h4><p>一致性这个词目前有多种含义：</p>
+<ul>
+<li>第五章讨论副本一致性以及异步复制模型时，引出最终一致性问题。</li>
+<li>一致性哈希则是某些系统用于动态分区再平衡的方法。</li>
+<li>CAP理论中，一致性一词用来表示线性化。</li>
+<li>ACID中，一致性主要指数据库处于应用程序所期待的“预期状态”。</li>
+</ul>
+<blockquote>
+<p>如果某事物从一个有效的状态开始，并且事务中任何更新操作都没有违背约束，那么最后的结果依然符合有效状态。</p>
+</blockquote>
+<p>这种一致性本质要求应用层来维护状态一致，应用程序有责任正确的定义事务来保持一致性。</p>
+<p>ACID中的一致性更多是应用层的属性。</p>
+<h4 id="隔离性-Isolation"><a href="#隔离性-Isolation" class="headerlink" title="隔离性 Isolation"></a>隔离性 Isolation</h4><blockquote>
+<p>意味着并发执行的多个事务相互隔离，它们不能互相交叉。</p>
+</blockquote>
+<ul>
+<li>串行性隔离<ul>
+<li>虽然实际上它们可能同时运行，但数据库系统要确保当事务提交时，其结果与串行执行完全相同。</li>
+</ul>
+</li>
+<li>快照隔离<ul>
+<li>提供了比串行化更弱的保证。</li>
+</ul>
+</li>
+</ul>
+<h4 id="持久性-Durability"><a href="#持久性-Durability" class="headerlink" title="持久性 Durability"></a>持久性 Durability</h4><blockquote>
+<p>保证一旦事务提交成功，即使存在硬件故障或数据库崩溃，事务所写入的任何数据也不会消失。</p>
+</blockquote>
+<h3 id="单对象与多对象事务操作"><a href="#单对象与多对象事务操作" class="headerlink" title="单对象与多对象事务操作"></a>单对象与多对象事务操作</h3><p>多对象事务目的通常是为了在多个数据对象之间保持同步。</p>
+<p>对于关系数据库，客户端通常与数据库服务器建立TCP网络连接，因而对于特定的某个连接，SQL语句BEGIN TRANSACTION和COMMIT之间的所有操作都属于同一个事物。</p>
+<p>例：电子邮件应用</p>
+<ul>
+<li>其他用户看到要么是更新后的电子邮件和更新后的计数器，要么是两者都未更新，而不会是两者不一致。（隔离性）</li>
+<li>如果事务执行过程中发生错误，导致邮箱和未读计数器二者不同步。则事务将被终止，且此前插入的电子邮件将被回滚。（原子性）</li>
+</ul>
+<h4 id="单对象写入"><a href="#单对象写入" class="headerlink" title="单对象写入"></a>单对象写入</h4><ul>
+<li><p>存储引擎在单节点、单个对象层面上提供原子性和隔离性。</p>
+<ul>
+<li>出现宕机时，基于日志回复来实现原子性（第三章“可靠的B-Tree”）</li>
+<li>对每个对象采用加锁的方式来实现隔离，确保每次只允许一个线程访问对象。</li>
+</ul>
+</li>
+<li><p>某些数据库还提供了高级的原子操作</p>
+<ul>
+<li>原子自增操作</li>
+<li>compare-and-set</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>通常意义上的事务针对的是多个对象，将多个操作聚合为一个逻辑执行单元。</p>
+</blockquote>
+<h4 id="多对象事务的必要性"><a href="#多对象事务的必要性" class="headerlink" title="多对象事务的必要性"></a>多对象事务的必要性</h4><ul>
+<li>对于关系型数据模型，表中的某行可能是另一个表中的外键。</li>
+<li>对于文档数据模型，更新非规范化数据时，就需要一次更新多个文档。此时多对象食物就可以有效防止非规范化数据之间出现不同步。</li>
+<li>对于带有二级索引的数据库，每次更改值时都需要同步更新索引。</li>
+</ul>
+<h4 id="处理错误与中止"><a href="#处理错误与中止" class="headerlink" title="处理错误与中止"></a>处理错误与中止</h4><blockquote>
+<p>ACID数据库基于这样的一个理念：如果存在违反原子性、隔离性或持久性的风险，则完全放弃整个事务，而不是部分放弃。</p>
+</blockquote>
+<ul>
+<li>如果事务实际已经执行成功，但返回给客户端的消息在网络传输时发生意外，那么重试就会导致重复执行，此时需要额外的应用级重复数据删除机制。</li>
+<li>如果错误是由于系统超负荷所导致，则重试事务将使情况变得更槽。为此，可以设定一个重试次数上限，例如指数回退，同时要尝试解决系统过载本身的问题。</li>
+<li>由临时性故障（例如死锁，隔离违例，网络闪断和节点切换等）所导致的错误需要重试。但出现永久性故障（例如违反约束），则重试毫无意义。</li>
+<li>如果在数据库之外，事务还产生其他副作用，即使事务被终止，这些副作用可能已事实生效。可以采用两阶段提交。</li>
+<li>如果客户端在重试过程中也发生失败，没有其他人继续负责重试，则那些待写入的数据可能会因此而丢失。</li>
+</ul>
+<h2 id="弱隔离级别"><a href="#弱隔离级别" class="headerlink" title="弱隔离级别"></a>弱隔离级别</h2><blockquote>
+<p>可串行化隔离（serializable）意味着数据库保证事务的最终执行结果与串行执行结果相同</p>
+</blockquote>
+<p>但是往往可串行化隔离意味着性能方面的损失。需要我们在实际开发环境中进行选择。</p>
+<h3 id="读-提交-Read-Committed"><a href="#读-提交-Read-Committed" class="headerlink" title="读-提交 Read Committed"></a>读-提交 Read Committed</h3><ol>
+<li><p>读数据库时，只能看到已成功提交的数据。（防止脏读）</p>
+</li>
+<li><p>写数据库时，只会覆盖已成功提交的数据。（防止脏写）</p>
+</li>
+</ol>
+<h4 id="防止脏读"><a href="#防止脏读" class="headerlink" title="防止脏读"></a>防止脏读</h4><blockquote>
+<p>脏读：某个事务已经完成部分数据写入，但事务尚未提交（或终止），另一个事务可以看到尚未提交的数据。</p>
+</blockquote>
+<p>有以下需求时，需要防止脏读</p>
+<ul>
+<li><p>事务需要更新多个对象，脏读意味着另一个事物可能会看到部分更新，而非全部。</p>
+</li>
+<li><p>如果事务发生终止，则所有写入操作都需要回滚。如果发生了脏读，这意味着他可能会看到一些稍后被回滚的数据。</p>
+</li>
+</ul>
+<h4 id="防止脏写"><a href="#防止脏写" class="headerlink" title="防止脏写"></a>防止脏写</h4><blockquote>
+<p>脏写：覆盖先写尚未提交事务的写入。</p>
+</blockquote>
+<p>防止脏写可以避免：</p>
+<ul>
+<li><p>如果事务需要更新多个对象，脏写会带来非预期的错误结果。</p>
+</li>
+<li><p>但是脏读不能解决“更新丢失”的问题。</p>
+</li>
+</ul>
+<h4 id="实现读-提交"><a href="#实现读-提交" class="headerlink" title="实现读-提交"></a>实现读-提交</h4><p>数据库通常采用<strong>行级锁</strong>来防止脏写/读：</p>
+<p>当事务想修改/读取某个对象（例如行或文档）时，它必须首先获得该对象的锁；然后一直持有锁直到事务提交（终止）。这种锁是由处于读-提交模式（或更强隔离级别）数据库自动完成的。</p>
+<p>但是读锁在实际中并不可行，因为运行时间较长的写事务会导致许多只读的事务等待太久。</p>
+<p>因此大多数数据库采用了多版本的方法来防止脏读：对于每个待更新的对象，数据库都会维护其旧值和当前持锁事务将要设置的新值两个版本。（在事务提交之前，所有其他读操作都读取旧值；仅当写事务提交之后，才会切换到读取新值）</p>
+<h3 id="快照级别隔离与可重复读-Snapshot-Isolation-and-Repeatable-Read"><a href="#快照级别隔离与可重复读-Snapshot-Isolation-and-Repeatable-Read" class="headerlink" title="快照级别隔离与可重复读 Snapshot Isolation and Repeatable Read"></a>快照级别隔离与可重复读 Snapshot Isolation and Repeatable Read</h3><blockquote>
+<p>不可重复读：在一个事务中，两次读取的值不一样。</p>
+</blockquote>
+<p>有些场景不允许这种不一致的情况发生：</p>
+<ul>
+<li>备份场景<ul>
+<li>在备份的过程中，可以继续写入数据库，得到的镜像里可能包含部分旧版本数据和部分新版本数据。如果从这样的备份进行恢复，最终就导致了永久性的不一致。</li>
+</ul>
+</li>
+<li>分析查询与完整性检查场景</li>
+</ul>
+<p>可以使用<strong>快照隔离级别</strong>来解决上述问题。</p>
+<blockquote>
+<p>每个事务都从数据库的一致性快照中读取，事务一开始所看到是最近提交的数据，即使数据随后可能被另一个事务更改，但保证每个事物都只看到该特定时间点的旧数据，</p>
+</blockquote>
+<h4 id="实现快照级别隔离"><a href="#实现快照级别隔离" class="headerlink" title="实现快照级别隔离"></a>实现快照级别隔离</h4><p>快照级别隔离的实现通常采用写锁来防止脏写。但是，读取则不需要加锁。</p>
+<blockquote>
+<p>数据库是采用多版本并发控制（MultiVersion Concurrency Control, MVCC）来实现快照级别隔离。</p>
+</blockquote>
+<p>因为读-提交只需要保留对象的两个版本就足够了：一个已提交的旧版本和尚未提交的新版本。所以，支持快照级别隔离的存储引擎往往直接采用MVCC来实现读-提交隔离。</p>
+<p>做法为：</p>
+<ul>
+<li>在读-提交级别下，对每一个不同的查询单独创建一个快照</li>
+<li>在快照级别下，使用一个快照来运行整个事务</li>
+</ul>
+<h4 id="一致性快照的可见性规则"><a href="#一致性快照的可见性规则" class="headerlink" title="一致性快照的可见性规则"></a>一致性快照的可见性规则</h4><blockquote>
+<p>当事务读数据库时，通过事务ID可以决定哪些对象可见，哪些不可见。</p>
+</blockquote>
+<p>当以下两个条件都成立，则该数据对象对事务可见：</p>
+<ul>
+<li>事务开始时刻，创建该对象的事务已经完成了提交。</li>
+<li>对象没有被标记删除；或者即使标记了，但删除事务在当前事务开始时还没有完成提交。</li>
+</ul>
+<h4 id="索引与快照级别隔离"><a href="#索引与快照级别隔离" class="headerlink" title="索引与快照级别隔离"></a>索引与快照级别隔离</h4><p>这种多版本数据库如何支持索引呢？</p>
+<ol>
+<li>索引直接指向对象的所有版本，然后想办法过滤对当前事务不可见的那些版本。</li>
+<li>采用追加/写时复制的技术。当需要更新时，不会修改现有的页面，而总是创建一个新的修改副本，拷贝必要的内容，然后让父结点，或者递归向上直到树的root结点都指向新创建的结点。<ul>
+<li>每次写入事务都会创建一个新的B-Tree root，代表该时刻数据库的一致性快照。</li>
+<li>这时候就没有必要根据事务ID再去过滤掉某些对象，每笔写入都会修改现有的B-Tree，因为之后的查询可以直接作用于特定快照B-Tree。</li>
+</ul>
+</li>
+</ol>
+<h3 id="防止更新丢失"><a href="#防止更新丢失" class="headerlink" title="防止更新丢失"></a>防止更新丢失</h3><p>当有两个事务在同样的数据对象上执行类似操作时，由于隔离性，第二个写操作并不包括第一个事务修改后的值，最终会导致第一个事务的修改值可能会丢失。</p>
+<p>目前有以下集中解决方案：</p>
+<h4 id="原子写操作"><a href="#原子写操作" class="headerlink" title="原子写操作"></a>原子写操作</h4><ul>
+<li>原子操作通常采用对读取对象加独占锁的方式来实现，这样在更新被提交之前不会被其他事务读取。</li>
+<li>另一种实现方式是强制所有的原子操作都在单线程上执行。</li>
+</ul>
+<h4 id="显示加锁"><a href="#显示加锁" class="headerlink" title="显示加锁"></a>显示加锁</h4><p>由应用程序显示锁定待更新的对象。</p>
+<p>例如，考虑一个多人游戏，其中几个玩家可以同时移动同一个数字。只靠原子操作可能还不够，因为应用程序还需要确保玩家的移动还需要遵守其他游戏规则，这涉及一些应用层逻辑。</p>
+<h4 id="自动监测更新丢失"><a href="#自动监测更新丢失" class="headerlink" title="自动监测更新丢失"></a>自动监测更新丢失</h4><p>原子操作和锁都是通过强制“读-修改-写回”操作序列串行执行来防止丢失更新。</p>
+<p>也可以先让他们并发执行，但如果事务管理其检测到了更新丢失风险，则会终止当前事务，并强制回退到安全的“读-修改-写回”方式。</p>
+<blockquote>
+<p>MySQL/InnoDB的可重复读却并不支持检测更新丢失。</p>
+</blockquote>
+<h4 id="原子比较和设置"><a href="#原子比较和设置" class="headerlink" title="原子比较和设置"></a>原子比较和设置</h4><p>在有的不提供事务支持的数据库中，会支持原子“比较和设置”操作。（只有在上次读取的数据没有发生变化时才允许更新；如果已经发生更新，则回退到“读-修改-写回”方式。）</p>
+<h4 id="冲突解决与复制"><a href="#冲突解决与复制" class="headerlink" title="冲突解决与复制"></a>冲突解决与复制</h4><p>由于多节点上的数据副本，不同的节点可能会并发修改数据，因此必须采取一些额外的措施来防止丢失更新。</p>
+<p>对于多主节点或者无主节点的多副本数据库，由于支持多个并发写，且通常以异步方式来同步更新，所以会出现多个最新的数据副本。</p>
+<p>多副本数据库通常支持多个并发写，然后保留多个冲突版本（互称为兄弟），之后由应用层逻辑或依靠特定的数据结构来解决、合并多版本。</p>
+<p>将在第九章详细介绍。</p>
+<h3 id="写倾斜和幻读"><a href="#写倾斜和幻读" class="headerlink" title="写倾斜和幻读"></a>写倾斜和幻读</h3><p>可以把写倾斜视为一种更广义的更新丢失问题。</p>
+<blockquote>
+<p>如果两个事务读取相同的一组对象，然后更新其中一部分：不同的事务可能更新不同的对象，则可能发生写倾斜；而不同的事务如果更新的是同一个对象，则可能发生脏写或更新丢失。</p>
+</blockquote>
+<p>如果不能使用可串行化级别隔离，一个次优的选择是对事务依赖的行来显示的加锁。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">BEGIN</span> TRANSACTION;<br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> doctors <span class="hljs-keyword">WHERE</span> on_call <span class="hljs-operator">=</span> <span class="hljs-literal">true</span> <span class="hljs-keyword">AND</span> shift_id <span class="hljs-operator">=</span> <span class="hljs-number">1234</span> <span class="hljs-keyword">FOR</span> <span class="hljs-keyword">UPDATE</span>;<br><span class="hljs-keyword">UPDATE</span> doctors <span class="hljs-keyword">SET</span> on_call <span class="hljs-operator">=</span> <span class="hljs-literal">false</span> <span class="hljs-keyword">WHERE</span> name <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;Alice&#x27;</span> <span class="hljs-keyword">AND</span> shift_id <span class="hljs-operator">=</span> <span class="hljs-number">1234</span>;<br><span class="hljs-keyword">COMMIT</span>;<br></code></pre></td></tr></table></figure>
+
+
+<p>其中 <code>FOR UPDATE</code> 语句会通知数据库对返回的所有结果行自动加锁。</p>
+<h4 id="为何会发生写倾斜"><a href="#为何会发生写倾斜" class="headerlink" title="为何会发生写倾斜"></a>为何会发生写倾斜</h4><ol>
+<li>首先输入一些匹配条件，即采用SELECT查询所有满足条件的行。</li>
+<li>根据查询的结果，应用层代码来决定下一步的操作。</li>
+<li>如果应用程序决定继续执行，它将发起数据库写入（INSERT, UPDATE 或 DELETE）并提交事务。<strong>而这个写操作通常会改变步骤2做出的前提条件。</strong></li>
+</ol>
+<h4 id="实体化冲突"><a href="#实体化冲突" class="headerlink" title="实体化冲突"></a>实体化冲突</h4><p>并没有看懂书中的意思</p>
+<h2 id="串行化"><a href="#串行化" class="headerlink" title="串行化"></a>串行化</h2><p>可串行化隔离是最强的隔离级别。它保证即使事务可能会并行执行，但最终的结果与每次一个个串行执行结果相同。</p>
+<h4 id="采用存储过程封装事务"><a href="#采用存储过程封装事务" class="headerlink" title="采用存储过程封装事务"></a>采用存储过程封装事务</h4><blockquote>
+<p>因为性能影响，采用单线程串行执行的系统往往不支持交互式的多语句事务。应用程序必须提交整个事务代码作为存储过程（stored procedure）打包发送到数据库。</p>
+</blockquote>
+<img src="/2021/01/27/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8B-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/%E4%BA%A4%E4%BA%92%E5%BC%8F%E4%BA%8B%E5%8A%A1%E4%B8%8E%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB.png" srcset="/img/loading.gif" class="" title="交互式事务与存储过程的区别">
+
+
+
+<p>优点：</p>
+<ul>
+<li>存储过程与内存式数据储存使得单线程上执行所有事务变得可行。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>在数据库中运行代码难以管理：与应用服务器相比，调试更加困难，版本控制与部署复杂，测试不便，并且不容易和指标监控系统集成。</li>
+<li>数据库通常比应用服务器要求更高的性能。数据库中一个设计不好的存储过程要比同样低效的应用服务器代码带来更大的麻烦。</li>
+</ul>
+<h4 id="分区"><a href="#分区" class="headerlink" title="分区"></a>分区</h4><p>对于那些高写入需求的应用程序，单线程事务处理很容易称为严重的瓶颈。为了扩展到多个CPU核和多节点，可以对数据进行分区。</p>
+<p>但是，对于跨分区的事务，数据库必须在设计的所有分区之间协调事务。存储过程需要跨越所有分区加锁执行，以确保整个系统的可串行化。</p>
+<p>跨分区的事物具有额外的协调开销，其性能比单分区内要慢得多。</p>
+<h4 id="串行执行小结"><a href="#串行执行小结" class="headerlink" title="串行执行小结"></a>串行执行小结</h4><p>满足下面的条件，串行执行事务可以实现串行隔离：</p>
+<ul>
+<li>事务必须简短而高效，否则一个缓慢的事务会影响到所有其他事务的执行性能。</li>
+<li>仅限于活动数据集完全可以加载到内存的场景。有些很少访问的数据可能会被移到磁盘，但万一单线程事务需要访问它，就会严重拖累性能。</li>
+<li>写入吞吐量必须足够低，才能在单个CPU核上处理；否则就需要采用分区，最好没有跨分区事务。</li>
+<li>跨分区事务虽然也支持，但是占比必须很小。</li>
+</ul>
+<h3 id="两阶段加锁-two-phase-locking"><a href="#两阶段加锁-two-phase-locking" class="headerlink" title="两阶段加锁 two-phase locking"></a>两阶段加锁 two-phase locking</h3><blockquote>
+<p>两阶段加锁（2PL）听起来和两阶段提交（2PC）很相近，但并不是同一个东西。</p>
+</blockquote>
+<p>2PL不仅在并发写操作之间互斥，读取也会和修改产生互斥。这就是两阶段加锁和快照级别隔离（读写互不干扰）的区别。</p>
+<p>因为2PL提供了串行化，所以它可以防止前面讨论的所有竞争条件，包括更新丢失和写倾斜。</p>
+<h4 id="实现两阶段加锁"><a href="#实现两阶段加锁" class="headerlink" title="实现两阶段加锁"></a>实现两阶段加锁</h4><blockquote>
+<p>目前，2PL已经用于MySQL 和 SQL Server 中的“可串行化隔离”，以及DB2中的“可重复读隔离”</p>
+</blockquote>
+<ul>
+<li>如果事务要读取对象，必须先以共享模式获得锁。</li>
+<li>如果事务要修改对象，必须以独占模式获取锁。</li>
+<li>如果事务首先读取对象，然后尝试写入对象，则需要将共享锁升级为独占锁。</li>
+<li>事务获得锁之后，一直持有所直到事务结束（包括提交或中止）。</li>
+</ul>
+<p>数据库会自动检测事务之间死锁情况，并强制中止其中一个，稍后由应用层重试。</p>
+<h4 id="两阶段加锁的性能"><a href="#两阶段加锁的性能" class="headerlink" title="两阶段加锁的性能"></a>两阶段加锁的性能</h4><blockquote>
+<p>其事务吞吐量和查询响应时间相比于其他弱隔离级别下降非常多</p>
+</blockquote>
+<p>当一个事务还需要等待另一个事务时，那么最终的等待时间是没有上限的</p>
+<p>如果事务由于死锁而被强行终止，应用层就必须从头重试。</p>
+<h4 id="谓词锁-Predicate-locks"><a href="#谓词锁-Predicate-locks" class="headerlink" title="谓词锁 Predicate locks"></a>谓词锁 Predicate locks</h4><p>类似于之前描述的共享/独占锁，而区别在于，它并不属于某个特定的对象，而是作用于<strong>满足某些搜索条件</strong>的所有查询对象。</p>
+<ul>
+<li>事务A想要读取某些满足匹配条件的对象，它必须以共享模式获的查询条件的谓词锁。如果另一个事务B正持有任何一个匹配对象的互斥锁，那么A必须等到B释放锁之后才能继续执行查询。</li>
+<li>如果事务A想要插入、更新或删除任何对象，则必须首先检查所有旧值和新值是否与现有的任何谓词锁匹配。如果事务B持有这样的谓词锁，那么A必须等到B完成提交后才能继续。</li>
+</ul>
+<p>谓词锁甚至可以保护数据库中那些尚不存在但可能马上会被插入的对象。将两阶段加锁与谓词锁结合使用，数据库可以防止所有形式的写倾斜以及其他竞争条件，隔离变的真正可串行化。</p>
+<p>缺点：</p>
+<p>谓词锁性能不佳，如果活动事务中存在许多锁，那么检测匹配这些锁就变得非常耗时。</p>
+<h4 id="索引区间锁-next-key-locking"><a href="#索引区间锁-next-key-locking" class="headerlink" title="索引区间锁 next-key locking"></a>索引区间锁 next-key locking</h4><p>是一种简化的谓词锁，将其保护的对象扩大化。如果没有合适的索引可以施加区间锁，则数据库可以回退到对整个表施加共享锁。</p>
+<h3 id="可串行化的快照隔离-Serializable-Snapshot-Isolation"><a href="#可串行化的快照隔离-Serializable-Snapshot-Isolation" class="headerlink" title="可串行化的快照隔离 Serializable Snapshot Isolation"></a>可串行化的快照隔离 Serializable Snapshot Isolation</h3><p>它提供了完整的可串行性保证，而性能相比于快照隔离损失很小。</p>
+<h4 id="悲观与乐观的并发控制"><a href="#悲观与乐观的并发控制" class="headerlink" title="悲观与乐观的并发控制"></a>悲观与乐观的并发控制</h4><p>两阶段加锁是一种典型的悲观并发控制机制。相比之下，可串行化的快照隔离（Serializable Snapshot Isolation, SSI）则是一种乐观并发控制。</p>
+<p>如果系统还有足够的性能提升空间，且如果事物之间的竞争不大，乐观并发控制会比悲观方式高效很多。</p>
+<h4 id="基于过期的条件做决定"><a href="#基于过期的条件做决定" class="headerlink" title="基于过期的条件做决定"></a>基于过期的条件做决定</h4><p>安全起见，数据库假定对查询结果的任何变化都应使写事务失效。</p>
+<p>数据库如何知道查询结果是否发生了改变呢？</p>
+<ol>
+<li>读取是否作用于一个过期的MVCC对象（读取之前已经有未提交的写入）</li>
+<li>检查写入是否影响即将完成的读取</li>
+</ol>
+<h4 id="检测是否读取了过期的MVCC对象"><a href="#检测是否读取了过期的MVCC对象" class="headerlink" title="检测是否读取了过期的MVCC对象"></a>检测是否读取了过期的MVCC对象</h4><img src="/2021/01/27/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8B-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/%E6%A3%80%E6%B5%8B%E4%BA%8B%E5%8A%A1%E6%98%AF%E5%90%A6%E4%BB%8EMVCC%E5%BF%AB%E7%85%A7%E4%B8%AD%E8%AF%BB%E5%8F%96%E4%BA%86%E6%97%A7%E5%80%BC.png" srcset="/img/loading.gif" class="" title="检测事务是否从MVCC快照中读取了旧值">
+
+<p><strong>当事务提交时</strong>，数据库会检查是否存在一些当初被忽略的写操作现在已经完成了提交，如果是则必须终止当前事务。</p>
+<p>一定要等到提交是因为：</p>
+<ul>
+<li>如果事务43是个只读事务，就不需要中止。事务43读取数据库时，数据库还不知道事务是否稍后有任何写操作</li>
+<li>有可能事务42发生了中止或者还处于未提交状态，不一定读的就是过期值。</li>
+</ul>
+<h4 id="检测写是否影响了之前的读"><a href="#检测写是否影响了之前的读" class="headerlink" title="检测写是否影响了之前的读"></a>检测写是否影响了之前的读</h4><img src="/2021/01/27/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8B-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/%E6%A3%80%E6%B5%8B%E4%BA%8B%E5%8A%A1%E6%98%AF%E5%90%A6%E4%BF%AE%E6%94%B9%E4%BA%86%E5%8F%A6%E4%B8%80%E4%B8%AA%E4%BA%8B%E5%8A%A1%E6%9F%A5%E8%AF%A2%E7%BB%93%E6%9E%9C.png" srcset="/img/loading.gif" class="" title="检测事务是否修改了另一个事务查询结果">
+
+<p>另一个事务尝试修改的时，首先检查索引，从而确定是否最近存在一些读目标数据的其他事物。</p>
+<h4 id="可串行化快照隔离的性能"><a href="#可串行化快照隔离的性能" class="headerlink" title="可串行化快照隔离的性能"></a>可串行化快照隔离的性能</h4><p>与两阶段加锁相比，可串行化快照隔离的一大优点是事务不需要等待其他事务所持有的锁。</p>
+<p>事务中止的比例会显著影响SSI的性能表现。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ul>
+<li>脏读<ul>
+<li>客户端读到了其他客户端尚未提交的写人。读-提交以及更强的隔离级别可以防止脏读。</li>
+</ul>
+</li>
+<li>脏写<ul>
+<li>客户端覆盖了另一个客户端尚未提交的写入。几乎所有的数据库实现都可以防止脏写。</li>
+</ul>
+</li>
+<li>读倾斜（不可重复读）<ul>
+<li>客户在不同的时间点看到了不同值。快照隔离是最用的防范手段，即事务总是在某个时间点的一致性快照中读取数据。通常采用多版本井发控制（ MVCC ）来实现快照隔离。</li>
+</ul>
+</li>
+<li>更新丢失<ul>
+<li>两个客户端同时执行读－修改－写入操作序列，出现了其中一个覆盖了另一个的写入，但又没有包含对方最新值的情况，最终导致了部分修改数据发生了丢失。快照隔离的一些实现可以自动防止这种异常，而另 一些则需要手动锁定查询结果 (SELECT FOR UPDATE ）。</li>
+</ul>
+</li>
+<li>写倾斜<ul>
+<li>事务首先查询数据，根据返回的结果而作出某些决定，然后修改数据库 。当事务提交时，支持决定的前提条件已不再成立。只有可串行化的隔离才能防止这种异常。</li>
+</ul>
+</li>
+<li>幻读<ul>
+<li>事务读取了某些符合查询条件的对象，同时另一个客户端执行写入，改变了先前的查询结果。快照隔离可以防止简单的幻读，但写倾斜情况则需要特殊处理，例如采用区间范围锁。</li>
+</ul>
+</li>
+</ul>
+<p>弱隔离级别可以防止上面的某些异常，只有可串行化的隔离可以防止所有这些问题。实现可串行化隔离有以下几种：</p>
+<ul>
+<li>严格串行执行事务<ul>
+<li>如果每个事务的执行速度非常快，且单个CPU核可以满足事务的吞吐量要求，严格串行执行是一个非常简单有效的方案。</li>
+</ul>
+</li>
+<li>两阶段加锁<ul>
+<li>几十年来，这一直是实现可串行化的标准方式，但还是有很多系统出于性能原因而放弃使用它。</li>
+</ul>
+</li>
+<li>可串行化的快照隔离<ul>
+<li>一种最新的算法，可以避免前面方法的大部分缺点。它秉持乐观预期的原则， 允许多个事务并发执行而不互相阻塞；仅当事务尝试提交时，才检查可能的冲突，如果发现违背了串行化，则某些事务会被中止。</li>
+</ul>
+</li>
+</ul>
+<h1 id="第八章：分布式系统的挑战"><a href="#第八章：分布式系统的挑战" class="headerlink" title="第八章：分布式系统的挑战"></a>第八章：分布式系统的挑战</h1><p>本章节对分布式系统可能出现的故障做了一个全面的总结。故障可能来自网络，时钟时序问题。</p>
+<h2 id="不可靠的网络"><a href="#不可靠的网络" class="headerlink" title="不可靠的网络"></a>不可靠的网络</h2><p>处理网络的问题通常采用超时机制：在等待一段时间之后，如果仍然没有收到回复则选择放弃，并且认为响应不会到达。</p>
+<h3 id="检测故障"><a href="#检测故障" class="headerlink" title="检测故障"></a>检测故障</h3><ul>
+<li>负载均衡器需要避免向已失效的节点继续分发请求</li>
+<li>对于主从复制的分布式数据库，如果主节点失败，需要将某个从节点提升为主节点。</li>
+</ul>
+<h3 id="超时与无限期的延迟"><a href="#超时与无限期的延迟" class="headerlink" title="超时与无限期的延迟"></a>超时与无限期的延迟</h3><p>没有一个标准的设置超时时间的值。</p>
+<p>异步网络理论上的延迟无限大（即使尽力发送数据包，但数据包到达时间并没有上确界），多数服务端也无法保证在给定的某个时间内一定完成请求处理（参阅本章后面的“响应时间保证”）。如果超时设置太小，只需要一个短暂的网络延迟尖峰就会导致包超时进而将系统标记为失效。</p>
+<h4 id="网络拥塞与排队"><a href="#网络拥塞与排队" class="headerlink" title="网络拥塞与排队"></a>网络拥塞与排队</h4><p>更好的做法是， 超时设置并不是一个不变的常量，而是持续测量响应时间及其变化（抖动），然后根据最新的响应时间分布来自动调整。</p>
+<h3 id="同步与异步网络"><a href="#同步与异步网络" class="headerlink" title="同步与异步网络"></a>同步与异步网络</h3><h4 id="电路交换-vs-分组交换"><a href="#电路交换-vs-分组交换" class="headerlink" title="电路交换 vs. 分组交换"></a>电路交换 vs. 分组交换</h4><p>电路方式总是预留固定带宽，电路建立之后其他人无法使用；TCP连接的数据包则会尝试使用所有可用的网络带宽。</p>
+<p>以太网和IP都是基于分组交换协议，这种协议注定受到排队的影响，从而导致网络延迟不确定， 在这些协议里完全没有电路的概念。</p>
+<p>数据中心网络和互联网采用分组交换是因为无法事先确定带宽，只希望尽快完成。对于突发数据的传输，电路网络无法充分利用网络容量。相比之下，TCP动态调整传输速率则可以充分利用所有可用的网络容量。</p>
+<h2 id="不可靠的时钟"><a href="#不可靠的时钟" class="headerlink" title="不可靠的时钟"></a>不可靠的时钟</h2><h3 id="单调时钟与墙上时钟"><a href="#单调时钟与墙上时钟" class="headerlink" title="单调时钟与墙上时钟"></a>单调时钟与墙上时钟</h3><h4 id="墙上时钟"><a href="#墙上时钟" class="headerlink" title="墙上时钟"></a>墙上时钟</h4><blockquote>
+<p>墙上时钟根据某个日历返回当前的日期与时间。</p>
+</blockquote>
+<ul>
+<li>Linux的clock_gettime</li>
+<li>Java中的System.currentTimeMillis()</li>
+</ul>
+<p>墙上时钟可以与NTP同步。NTP（Network Time Protocol）是用来同步网络设备的时间协议。</p>
+<h4 id="单调时钟"><a href="#单调时钟" class="headerlink" title="单调时钟"></a>单调时钟</h4><p>单调时钟更适合测量持续时间段（时间间隔）。可以在一个时间点读取单调时钟的值，完成某项工作，然后再次检查时钟。时钟值之间的差值即两次检查之间的时间间隔。</p>
+<h3 id="时钟同步与准确性"><a href="#时钟同步与准确性" class="headerlink" title="时钟同步与准确性"></a>时钟同步与准确性</h3><p>单调时钟不需要同步，但是墙上时钟需要根据NTP服务器或其他外部时间源做必要的调整。</p>
+<p>可能会出现一下的一些问题：</p>
+<ul>
+<li>计算机中的石英钟不够精确，存在漂移现象（运行速度会加快或减慢）</li>
+<li>如果时钟与NTP服务器的时钟差别太大，可能会出现拒绝同步，或者本地时钟将被强制重置（时间突然倒退或突然跳跃的现象）。</li>
+<li>可能会与NTP服务器链接失败，可能会很长一段时间没有留意到错误配置最终导致同步失败。</li>
+<li>NTP同步会受限于当时的网络环境。</li>
+<li>闰秒会产生一个59秒或者61秒的现象，可能会使一些对闰秒毫无防范的系统出现混乱。</li>
+<li>在虚拟机中，由于硬件时钟也是被虚拟化的，这对需要精确计时的应用程序提出了额外的挑战。</li>
+<li>运行在未完全可控的设备（移动设备或嵌入式设备）上，需要留意不能完全相信设备上的硬件时钟。</li>
+</ul>
+<h3 id="依赖同步的时钟"><a href="#依赖同步的时钟" class="headerlink" title="依赖同步的时钟"></a>依赖同步的时钟</h3><p>如果应用需要精确同步的时钟，最好仔细监控所有节点上的时钟偏差。如果某个节点的时钟漂移超出上限，应将其宣告为失效，并从集群中移除。</p>
+<h4 id="时间戳与时间顺序"><a href="#时间戳与时间顺序" class="headerlink" title="时间戳与时间顺序"></a>时间戳与时间顺序</h4><img src="/2021/01/27/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8B-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/%E8%B7%A8%E8%8A%82%E7%82%B9%E6%97%B6%E9%97%B4%E6%8E%92%E5%BA%8F.png" srcset="/img/loading.gif" class="" title="跨节点时间排序">
+
+<p>客户端B的写入比客户端A写入要晚，但是B写入的时间戳却更早</p>
+<p>这种冲突解决策略被称为最后写入获胜（Last Write Win, LWW），它的根本问题在于：</p>
+<ul>
+<li>数据库写入可能会奇怪地丢失：明明后续发生的写操作却没法覆盖另一个较早的值，原因是后者节点的时钟太快了。</li>
+<li>LWW无法区分连续快速发生的连续写操作和并发写入（每个写操作都不依赖于其他写 ）</li>
+<li>由于时钟精度的限制（例如毫秒级），两个节点可能各自独立产生了完全相同的时间戳。</li>
+</ul>
+<blockquote>
+<p>我们很难利用NTP时钟同步来做到极高的精度来避免这种错误</p>
+</blockquote>
+<h4 id="时钟的置信区间"><a href="#时钟的置信区间" class="headerlink" title="时钟的置信区间"></a>时钟的置信区间</h4><blockquote>
+<p>我们不应该将时钟读数视为一个精确的时间点，而更应该视为带有置信区间的时间范围。</p>
+</blockquote>
+<h4 id="全局快照的同步时钟"><a href="#全局快照的同步时钟" class="headerlink" title="全局快照的同步时钟"></a>全局快照的同步时钟</h4><p>常见的快照隔离实现中需要单调递增事务ID。如果写入发生在快照之后（即写入具有比快照更大的事务ID），那么该写入对于快照不可见。在单节点数据库上，一个简单的计数器足以生成事务ID。</p>
+<p>但是，当数据库分布在多台机器上（可能跨越多个数据中心）时，由于需要复杂的协调以产生全局的、单调递增的事务ID（跨所有分区）。考虑到大量、频繁的小数据包，在分布式系统中创建事务ID通常会引入瓶颈。</p>
+<h5 id="Google-Spanner"><a href="#Google-Spanner" class="headerlink" title="Google Spanner"></a>Google Spanner</h5><p>Google Spanner采用以下思路来实现跨数据中心的快照隔离。它根据TrueTime API返回的时钟置信区间，并基于以下观察结果：如果有两个置信区间，每个置信区间都包含最早和最新可能的时间戳（ <em>A</em>=[ <em>A<sub>earliest</sub> , A<sub>latest</sub></em> ] 和 <em>B</em> =[ <em>B<sub>earliest</sub> , B<sub>latest</sub></em> ] ），且这两个区间没有重叠（即 <em>A<sub>earliest</sub> &lt; A<sub>latest</sub></em> &lt; *B<sub>earliest</sub>* &lt; *B<sub>latest</sub>* ），那么可以断定<em>B</em>一定发生在<em>A</em>之后。只有发生了重叠，<em>A</em>和<em>B</em>发生顺序才无法明确。</p>
+<p>为了确保事务时间戳反映因果关系， Spanner在提交读写事务之前故意等待置信区间的长度。这样做的目的是，确保所有读事务要足够晚才发生，避免与先前的事务的置信区间产生重叠。</p>
+<h3 id="进程暂停"><a href="#进程暂停" class="headerlink" title="进程暂停"></a>进程暂停</h3><p>假设数据库每个分区只有一个主节点，只有主节点可以接受写入。那么其他节点该如何确信该主节点没有被宣告失效，可以安全地写入呢？</p>
+<blockquote>
+<p>一种思路是主节点从其他节点获得一个租约（lease），类似一个带有超时的锁。某一个时间只有一个节点可以拿到租约，某节点获得租约之后，在租约到期之前，它就是这段时间内的主节点。为了维持主节点的身份，节点必须在到期之前定期去更新租约 。如果 节点发生了故障， 则续约失败，这样另一个节点到期之后就可以接管。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">while</span> (<span class="hljs-keyword">true</span>) &#123;<br>  request = getIncomingRequest();<br>  <br>  <span class="hljs-keyword">if</span> (lease.expiryTimeMillis - System.currentTimeMillis() &lt; <span class="hljs-number">10000</span>) &#123;<br>    lease = lease.renew();<br>  &#125;<br>  <br>  <span class="hljs-keyword">if</span> (lease.isValid()) &#123;<br>    process(request);<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>可能存在的问题：</p>
+<ol>
+<li>依赖于同步时钟：lease到期时间由另一台机器所设置，并和本地时钟进行比较。</li>
+<li><code>System.currentTimeMillis()</code>与请求处理<code>process(request)</code>间隔时间不可预测。如果发生了线程暂停的情况，将会出现两个节点同时持有租期处理的情况。</li>
+</ol>
+<p>发生线程暂停的原因有很多：</p>
+<ul>
+<li>垃圾回收机制可能会导致所有正在运行的线程暂停几分钟。</li>
+<li>在虚拟化的环境中，可能会暂停虚拟机然后继续。</li>
+<li>用户关闭了笔记本电脑或休眠也有可能导致暂停。</li>
+<li>当操作系统执行线程上下文切换时，或者虚拟机管理程序切换到另一个虚拟机时，正在运行的线程可能会在代码的任意位置被暂停。</li>
+<li>应用程序执行同步磁盘操作，则线程可能暂停并等待磁盘I/O完成。</li>
+<li>如果操作系统配置了基于磁盘的内存交换分区， 内存访问可能触发缺页中断， 进而需要从磁盘中加载内存页。</li>
+</ul>
+<blockquote>
+<p>分布式系统中的一个节点必须假定，执行过程中的任何时刻都可能被暂停相当长一段时间。暂停期间，整个集群的其他部分都在照常运行，甚至会一直将暂停的节点宣告为故障节点。</p>
+</blockquote>
+<h4 id="响应时间保证"><a href="#响应时间保证" class="headerlink" title="响应时间保证"></a>响应时间保证</h4><blockquote>
+<p>实时系统：软件有一个必须做出相应的上限。</p>
+</blockquote>
+<p>提供实时保证需要来自软件栈的多个层面支持：</p>
+<ul>
+<li>一个实时操作系统（real-time operating system, RTOS），保证进程在给定的间隔内完成CPU时间片的调度分配</li>
+<li>库函数也必须考虑最坏的执行时间</li>
+<li>动态内存分配很可能要受限或者完全被禁止</li>
+</ul>
+<p>对于大多数服务器端数据处理系统来说，实时性保证并不经济或者不合适。因此，现在这些运行在非实时环境下的系统就得承受如进程暂停、 时钟不稳定等困扰。</p>
+<h5 id="调整垃圾回收的影响"><a href="#调整垃圾回收的影响" class="headerlink" title="调整垃圾回收的影响"></a>调整垃圾回收的影响</h5><ul>
+<li>把GC暂停视为节点的一个计划内的临时离线，当节点启动垃圾回收时，通知其他节点来接管客户端的请求。</li>
+<li>系统可以提前为前端应用发出预警，应用会等待当前请求完成，但停止向该节点发送新的请求，这样垃圾回收可以在无干扰的情况下更加高效运行。</li>
+<li>只对短期对象执行垃圾回收，然后在其变成长期存活对象之前，采取定期重启的策略从而避免对长期存活对象执行全面回收。</li>
+</ul>
+<h2 id="知识，真相与谎言"><a href="#知识，真相与谎言" class="headerlink" title="知识，真相与谎言"></a>知识，真相与谎言</h2><h3 id="真相由多数决定"><a href="#真相由多数决定" class="headerlink" title="真相由多数决定"></a>真相由多数决定</h3><p>节点不能根据自己的信息来判断自身状态。由于节点可能随时会失效，可能会暂停-假死，甚至最终无法恢复，因此，分布式系统不能完全依赖与单个节点。</p>
+<p>目前，许多分布式算法都依靠法定票数，即在节点之间进行投票。任何决策都需要来自多个节点的最小投票数，从而减少对特定节点的依赖。</p>
+<h4 id="主节点和锁"><a href="#主节点和锁" class="headerlink" title="主节点和锁"></a>主节点和锁</h4><blockquote>
+<p>在分布式系统实现时需要额外注意：即使某个节点自认为它是“唯一的那个”，但不一定获得了系统法定票数的同意！</p>
+</blockquote>
+<img src="/2021/01/27/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8B-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E4%B8%8D%E6%AD%A3%E7%A1%AE%E5%AE%9E%E7%8E%B0.png" srcset="/img/loading.gif" class="" title="分布式锁的不正确实现">
+
+
+
+<h4 id="Fencing令牌"><a href="#Fencing令牌" class="headerlink" title="Fencing令牌"></a>Fencing令牌</h4><p>我们假设每次锁服务在授予锁或租约时，还会同时返回一个fencing令牌，该令牌每授予一次就会递增。要求客户端每次向存储系统发送写请求时，都必须包含所持有的fencing令牌。</p>
+<img src="/2021/01/27/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8B-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/%E9%80%92%E5%A2%9Efencing%E4%BB%A4%E7%89%8C.png" srcset="/img/loading.gif" class="" title="递增fencing令牌">
+
+<p>存储服务器由于记录了最近已经完成了更高令牌号，因此拒绝令牌号33的写请求。</p>
+<h3 id="拜占庭故障-Byzantine-Faults"><a href="#拜占庭故障-Byzantine-Faults" class="headerlink" title="拜占庭故障 Byzantine Faults"></a>拜占庭故障 Byzantine Faults</h3><p>当节点故意发送错误的或者破坏性的响应，就被称为拜占庭故障。在这样不信任的环境中需要达成共识的问题也被称之为拜占庭将军问题。如果某个系统中即使发生部分节点故障，甚至不遵从协议，或者恶意攻击、干扰网络，但仍可继续正常运行，那么我们称之为拜占庭式容错系统。</p>
+<p>解决拜占庭容错的系统协议异常复杂，而容错的嵌入式系统还依赖与硬件层面的支持。因为在绝大多数服务器端数据系统中，部署拜占庭容错解决方案基本不太可行。</p>
+<h3 id="理论系统模型与现实"><a href="#理论系统模型与现实" class="headerlink" title="理论系统模型与现实"></a>理论系统模型与现实</h3><p>在计时方面，有常见的三种模型：</p>
+<ul>
+<li>同步模型<ul>
+<li>同步模型假定有上届的网络延迟，有上届的进程暂停和由上届的时钟误差。</li>
+</ul>
+</li>
+<li>部分同步模型<ul>
+<li>部分同步意味着系统在大多数情况下像一个同步系统一样运行，但有时会超出网络延迟，进程暂停和时钟漂移的预期上届。</li>
+</ul>
+</li>
+<li>异步模型<ul>
+<li>在这个模型中，一个算法不会对时机作任何的假设，甚至里面根本没有时钟（也就没有超时机制）。</li>
+</ul>
+</li>
+</ul>
+<p>除了时机之外，我们还需要考虑节点失效。</p>
+<ul>
+<li>崩溃-终止模型<ul>
+<li>算法假设一个节点只能以一种方式发生故障，即遭遇系统崩溃。这意味着节点可能在任何时候突然停止响应，且该结点以后永远消失，无法恢复。</li>
+</ul>
+</li>
+<li>崩溃-恢复模型<ul>
+<li>节点可能会在任何时候发生崩溃，且可能会在一段（未知的）时间之后得到恢复并再次响应。在崩溃－恢复模型中，节点上持久性存储（即非易失性存储）的数据会在崩溃之后得以保存，而内存中状态可能会丢失。</li>
+</ul>
+</li>
+<li>拜占庭失效模型<ul>
+<li>节点可能发生任何事情，包括试图作弊和欺骗其他节点。</li>
+</ul>
+</li>
+</ul>
+<h2 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h2><p>分布式系统中可能发生的各种典型问题：</p>
+<ul>
+<li>当通过网络发送数据包时， 数据包可能会丢失或者延迟； 同样，回复也可能会丢失或延迟。所以如果没有收到回复，并不能确定消息是否发送成功。</li>
+<li>节点的时钟可能会与其他节点存在明显的不同步（尽管尽最大努力设置了NTP服务器），时钟还可能会突然向前跳跃或者倒退 ，依靠精确的时钟存在一些风险，没有特别简单的办法来精确测量时钟的偏差范围。</li>
+<li>进程可能在执行过程中的任意时候遭遇长度未知的暂停（ 一个重要的原因是垃圾回收），结果它被其他节点宣告为失效毫无所知。</li>
+</ul>
+<p>为了容错，需要先检测错误：</p>
+<p>多数系统没有检测节点是否发生故障的准确机制，因此分布式算法更多依靠超时来确定远程节点是否仍然可用。</p>
+<p>检测到错误之后：</p>
+<p>信息从一个节点流动到另一个节点只能是通过不可靠的网络来发送。单个节点无法安全的做出任何决策，而是需要多个节点之间的共识协议，井争取达到位定票数。</p>
+<p>虽然网络、时钟和进程的不可靠性不是不可避免的自然规律，但代价昂贵，且硬件资源利用率很低。除了安全关键场景，目前绝大多数都选择了低成本。</p>
+<h1 id="第九章-一致性与共识"><a href="#第九章-一致性与共识" class="headerlink" title="第九章 一致性与共识"></a>第九章 一致性与共识</h1>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/">分布式系统</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">数据密集型应用系统设计</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/01/25/Elasticsearch-%E5%88%9D%E6%AD%A5%E6%8E%A2%E7%B4%A2/">
+                        <span class="hidden-mobile">Elasticsearch 初步探索</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

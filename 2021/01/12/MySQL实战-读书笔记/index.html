@@ -1,0 +1,826 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="zhuangzhuang">
+  <meta name="keywords" content="">
+  <title>MySQL实战-读书笔记 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"zhuangzhuang131419.github.io","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="MySQL实战-读书笔记">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-01-12 14:35" pubdate>
+        2021年1月12日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.9k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      51
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">MySQL实战-读书笔记</h1>
+            
+            <div class="markdown-body">
+              <p>实习期间在导师的力荐下读到了这部极客网的 MySQL 课程，实在受益匪浅。初次速读，很多东西不能深刻的记在脑中，不能完全消化，先记录下来，日后再度翻阅。这份资料值得多次品味。</p>
+<h1 id="18-为什么有的-SQL-语句逻辑相同，性能差异巨大"><a href="#18-为什么有的-SQL-语句逻辑相同，性能差异巨大" class="headerlink" title="18.为什么有的 SQL 语句逻辑相同，性能差异巨大"></a>18.为什么有的 SQL 语句逻辑相同，性能差异巨大</h1><h2 id="案例一："><a href="#案例一：" class="headerlink" title="案例一："></a>案例一：</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> `tradelog` (<br>    `id`            <span class="hljs-type">int</span>(<span class="hljs-number">11</span>)     <span class="hljs-keyword">NOT</span>     <span class="hljs-keyword">NULL</span>,<br>    `tradeid`       <span class="hljs-type">varchar</span>(<span class="hljs-number">32</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>    `operator`      <span class="hljs-type">int</span>(<span class="hljs-number">11</span>)     <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>    `t_modified`    datetime    <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>    <span class="hljs-keyword">PRIMARY</span> <span class="hljs-keyword">KEY</span> (`id`),<br>    KEY `tradeid` (`tradeid`),<br>    KEY `t_modified` (`t_modified`)<br>) ENGINE<span class="hljs-operator">=</span>InnoDB <span class="hljs-keyword">DEFAULT</span> CHARSET<span class="hljs-operator">=</span>utf8mb4;<br></code></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql">mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> <span class="hljs-built_in">count</span>(<span class="hljs-operator">*</span>) <span class="hljs-keyword">from</span> tradelog <span class="hljs-keyword">where</span> <span class="hljs-keyword">month</span>(t_modified) <span class="hljs-operator">=</span> <span class="hljs-number">7</span>;  # 无法命中索引<br>mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> <span class="hljs-built_in">count</span>(<span class="hljs-operator">*</span>) <span class="hljs-keyword">from</span> tradelog <span class="hljs-keyword">where</span> <br>    (t_modified <span class="hljs-operator">&gt;=</span> <span class="hljs-string">&#x27;2016-7-1&#x27;</span> <span class="hljs-keyword">and</span> t_modified <span class="hljs-operator">&lt;</span> <span class="hljs-string">&#x27;2016-8-1&#x27;</span>) <span class="hljs-keyword">or</span><br>    (t_modified <span class="hljs-operator">&gt;=</span> <span class="hljs-string">&#x27;2017-7-1&#x27;</span> <span class="hljs-keyword">and</span> t_modified <span class="hljs-operator">&lt;</span> <span class="hljs-string">&#x27;2017-8-1&#x27;</span>) <span class="hljs-keyword">or</span> <br>    (t_modified <span class="hljs-operator">&gt;=</span> <span class="hljs-string">&#x27;2018-7-1&#x27;</span> <span class="hljs-keyword">and</span> t_modified <span class="hljs-operator">&lt;</span> <span class="hljs-string">&#x27;2018-8-1&#x27;</span>) ...     # 可以命中索引<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>如果对字段做了函数计算，就用不上索引了。</p>
+<p>原因是：对索引字段做函数操作，可能会破坏索引值的有序性，因此优化器就决定放弃走树搜索功能。</p>
+</blockquote>
+<h2 id="案例二："><a href="#案例二：" class="headerlink" title="案例二："></a>案例二：</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"># tradeid 的类型是 <span class="hljs-type">varchar</span>(<span class="hljs-number">32</span>)<br>mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> tradelog <span class="hljs-keyword">where</span> tradeid<span class="hljs-operator">=</span><span class="hljs-number">110717</span>;  # 无法命中索引<br>mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> tradelog <span class="hljs-keyword">where</span> <span class="hljs-built_in">CAST</span>(tradidAS signed <span class="hljs-type">int</span>) <span class="hljs-operator">=</span> <span class="hljs-number">110717</span>;   # 等价于执行这条语句<br></code></pre></td></tr></table></figure>
+<p><strong>MySQL 类型转换的规则是将字符串转换成数字。</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> &quot;10&quot; <span class="hljs-operator">&gt;</span> <span class="hljs-number">9</span> # 返回 <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"># id 的类型是 <span class="hljs-type">int</span><br>mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> tradelog <span class="hljs-keyword">where</span> id<span class="hljs-operator">=</span>&quot;83126&quot;;  # 可以命中索引<br></code></pre></td></tr></table></figure>
+<h2 id="案例三："><a href="#案例三：" class="headerlink" title="案例三："></a>案例三：</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> `trade_detail` (<br>    `id`            <span class="hljs-type">int</span>(<span class="hljs-number">11</span>)     <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,<br>    `tradeid`       <span class="hljs-type">varchar</span>(<span class="hljs-number">32</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>    `trade_step`    <span class="hljs-type">int</span>(<span class="hljs-number">11</span>)     <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>, <span class="hljs-comment">/*操作步骤*/</span><br>    `step_info`     <span class="hljs-type">varchar</span>(<span class="hljs-number">32</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>, <span class="hljs-comment">/*步骤信息*/</span><br>    <span class="hljs-keyword">PRIMARY</span> <span class="hljs-keyword">KEY</span> (`id`),<br>    KEY `tradeid` (`tradeid`)<br>) ENGINE<span class="hljs-operator">=</span>InnoDB <span class="hljs-keyword">DEFAULT</span> CHARSET<span class="hljs-operator">=</span>utf8;<br></code></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql">mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> d.<span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> tradelog l, trade_detail d <span class="hljs-keyword">where</span> d.tradeid<span class="hljs-operator">=</span>l.tradeid <span class="hljs-keyword">and</span> l.id<span class="hljs-operator">=</span><span class="hljs-number">2</span>;<br># 优化器先在 tradelog 上查到 id<span class="hljs-operator">=</span><span class="hljs-number">2</span> 的行，使用了主键索引<br># 没有使用 trade_detail 上的 trade_id 进行了全表扫描<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>原因：因为这两个表的字符集不同，一个是 utf8，一个是 utf8mb4</p>
+</blockquote>
+<blockquote>
+<p>字符集 utf8mb4 是 utf8 的超集，所以在作比较的时候，先把 utf8 转成 utf8mb4。</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> trade_detail <span class="hljs-keyword">where</span> <span class="hljs-keyword">CONVERT</span>(traideid <span class="hljs-keyword">USING</span> utf8mb4)<span class="hljs-operator">=</span>$L2.tradeid.value; # 等价于执行这条语句<br></code></pre></td></tr></table></figure>
+<p><strong>字符集不同只是条件之一，连接过程中要求在被驱动表的索引字段上加函数操作，是导致对被驱动表做全表扫描的原因。</strong></p>
+<ol>
+<li>当使用left join时，左表是驱动表，右表是被驱动表 </li>
+<li>当使用right join时，右表时驱动表，左表是驱动表</li>
+<li>当使用join时，mysql会选择数据量比较小的表作为驱动表，大表作为被驱动表</li>
+</ol>
+<p>作为对比：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sql">mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> l.operator <span class="hljs-keyword">from</span> tradelog l, trade_detail d <span class="hljs-keyword">where</span> d.tradeid<span class="hljs-operator">=</span>l.tradeid <span class="hljs-keyword">and</span> d.id<span class="hljs-operator">=</span><span class="hljs-number">4</span>; # 两次查找都可以命中索引<br><br><br>mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> operator <span class="hljs-keyword">from</span> tradelog <span class="hljs-keyword">where</span> traideid <span class="hljs-operator">=</span><span class="hljs-keyword">CONVERT</span>($R4.tradeid.value <span class="hljs-keyword">USING</span> utf8mb4);<br># 与之前不同的是，这里的 <span class="hljs-keyword">CONVERT</span> 函数是加在参数里的<br><br></code></pre></td></tr></table></figure>
+
+<h1 id="19-为什么我只查一行的语句，也执行这么慢"><a href="#19-为什么我只查一行的语句，也执行这么慢" class="headerlink" title="19 为什么我只查一行的语句，也执行这么慢"></a>19 为什么我只查一行的语句，也执行这么慢</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql">mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> `t` (  <br>    `id`    <span class="hljs-type">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,<br>    `c`     <span class="hljs-type">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>    <span class="hljs-keyword">PRIMARY</span> <span class="hljs-keyword">KEY</span> (`id`)<br>) ENGINE<span class="hljs-operator">=</span>InnoDB;<br></code></pre></td></tr></table></figure>
+<p>我们再往里插入十万条数据</p>
+<h2 id="查询时间长时间不返回"><a href="#查询时间长时间不返回" class="headerlink" title="查询时间长时间不返回"></a>查询时间长时间不返回</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> t <span class="hljs-keyword">where</span> id<span class="hljs-operator">=</span><span class="hljs-number">1</span>;<br></code></pre></td></tr></table></figure>
+<img src="/2021/01/12/MySQL%E5%AE%9E%E6%88%98-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E7%AD%89MDL%E9%94%81.png" srcset="/img/loading.gif" class="" title="等MDL锁">
+
+<p>出现这个状态表示的是，现在有一个线程正在表上请求或者持有 MDL 写锁，把 <code>select</code> 语句 block 住了。</p>
+<p>有一个 <code>flush table</code> 命令被别的语句 block 住了，然后又 block 住了我们的 <code>select</code> 语句。</p>
+<h2 id="查询慢"><a href="#查询慢" class="headerlink" title="查询慢"></a>查询慢</h2><blockquote>
+<p>坏查询不一定是慢查询</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql">mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> t <span class="hljs-keyword">where</span> id<span class="hljs-operator">=</span><span class="hljs-number">1</span>;                    # 慢<br>mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> t <span class="hljs-keyword">where</span> id<span class="hljs-operator">=</span><span class="hljs-number">1</span> lock <span class="hljs-keyword">in</span> share mode; # 快<br></code></pre></td></tr></table></figure>
+<p>带 lock in share mode 的 SQL 是当前读，因此会直接读到最后结果；而没有 share mode 的是一致读，要从最后的结果，依次执行 undo log，才能返回正确的结果。</p>
+<h1 id="20-幻读是什么，幻读有什么问题"><a href="#20-幻读是什么，幻读有什么问题" class="headerlink" title="20 幻读是什么，幻读有什么问题"></a>20 幻读是什么，幻读有什么问题</h1><h2 id="幻读是什么"><a href="#幻读是什么" class="headerlink" title="幻读是什么"></a>幻读是什么</h2><blockquote>
+<p><strong>幻读</strong>指的是一个事务在前后两次查询同一个范围的时候，后一次查询看到了前一次查询没有看到的行。</p>
+</blockquote>
+<p>在可重读度隔离级别下，普通的查询时快照读，是不会看到别的事务插入数据的。因此幻读在当前读下才会出现。</p>
+<h2 id="幻读有什么问题"><a href="#幻读有什么问题" class="headerlink" title="幻读有什么问题"></a>幻读有什么问题</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> `t` (<br>    `id`    <span class="hljs-type">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,<br>    `c`     <span class="hljs-type">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>    `d`     <span class="hljs-type">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">NULL</span>,<br>    <span class="hljs-keyword">PRIMARY</span> <span class="hljs-keyword">KEY</span> (`id`),<br>    KEY `c` (`c`)<br>) ENGINE<span class="hljs-operator">=</span>InnoDB;<br><br><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> t <span class="hljs-keyword">values</span>(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>),(<span class="hljs-number">5</span>,<span class="hljs-number">5</span>,<span class="hljs-number">5</span>),(<span class="hljs-number">10</span>,<span class="hljs-number">10</span>,<span class="hljs-number">10</span>),(<span class="hljs-number">15</span>,<span class="hljs-number">15</span>,<span class="hljs-number">15</span>),(<span class="hljs-number">20</span>,<span class="hljs-number">20</span>,<span class="hljs-number">20</span>),(<span class="hljs-number">25</span>,<span class="hljs-number">25</span>,<span class="hljs-number">25</span>);<br></code></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>sessionA</th>
+<th>sessionB</th>
+<th>sessionC</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>T1</td>
+<td><code>begin;</code> <br> <code>select * from t where d=5 for update;</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>T2</td>
+<td></td>
+<td><code>update t set d=5 where id=0;</code> <br> <code>update t set c=5 where id=0;</code></td>
+<td></td>
+</tr>
+<tr>
+<td>T3</td>
+<td><code>select * from t where d=5 for update;</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>T4</td>
+<td></td>
+<td></td>
+<td><code>insert into t values(1, 1, 5);</code> <br> <code>update t set c=5 where id=1;</code></td>
+</tr>
+<tr>
+<td>T5</td>
+<td><code>select * from t where d=5 for update;</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>T6</td>
+<td><code>commit;</code></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<ol>
+<li>语义上的问题<br>sessionA 在 T1 时刻声明 “我要将d=5的行锁住，不允许别的事务进行读写操作”。</li>
+<li>数据不一致<br>会导致数据和日志在逻辑上的不一致<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">update</span> t <span class="hljs-keyword">set</span> d<span class="hljs-operator">=</span><span class="hljs-number">5</span> <span class="hljs-keyword">where</span> id<span class="hljs-operator">=</span><span class="hljs-number">0</span>; <span class="hljs-comment">/*(0,0,5)*/</span><br><span class="hljs-keyword">update</span> t <span class="hljs-keyword">set</span> c<span class="hljs-operator">=</span><span class="hljs-number">5</span> <span class="hljs-keyword">where</span> id<span class="hljs-operator">=</span><span class="hljs-number">0</span>; <span class="hljs-comment">/*(0,5,5)*/</span><br><br><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> t <span class="hljs-keyword">values</span>(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">5</span>); <span class="hljs-comment">/*(1,1,5)*/</span><br><span class="hljs-keyword">update</span> t <span class="hljs-keyword">set</span> c<span class="hljs-operator">=</span><span class="hljs-number">5</span> <span class="hljs-keyword">where</span> id<span class="hljs-operator">=</span><span class="hljs-number">1</span>; <span class="hljs-comment">/*(1,5,5)*/</span><br><br><span class="hljs-keyword">update</span> t <span class="hljs-keyword">set</span> d<span class="hljs-operator">=</span><span class="hljs-number">100</span> <span class="hljs-keyword">where</span> d<span class="hljs-operator">=</span><span class="hljs-number">5</span>;<span class="hljs-comment">/*所有d=5的行,d改成100*/</span><br></code></pre></td></tr></table></figure>
+拿这个语句序列，无法克隆一个一模一样的库，会存在数据的不一致。</li>
+</ol>
+<h2 id="如何解决幻读"><a href="#如何解决幻读" class="headerlink" title="如何解决幻读"></a>如何解决幻读</h2><p>即使把所有的记录都加上锁，还是阻止不了新插入的记录。</p>
+<h3 id="InnoDB"><a href="#InnoDB" class="headerlink" title="InnoDB"></a>InnoDB</h3><p>InnoDB 引入新的锁，也就是间隙锁 (Gap Lock)。在一行行扫描的过程中，不仅将给行加上了行锁，还给两边的空隙，也加上了间隙锁，就可以确保无法再插入新的记录。</p>
+<p>间隙锁和行锁合称 <strong>next-key lock</strong>。但是间隙锁的引入，可能会导致同样的语句锁住更大的范围</p>
+<p>|   |  sessionA  | sessionB |<br>| - | - | - | - |<br>| T1 | <code>begin;</code> <br> <code>select * from t where id=9 for update;</code> | |<br>| T2 | | <code>begin;</code> <br> <code>select * from t where id=9 for update;</code> |<br>| T3 | | <code>insert into t values(9, 9, 9)</code> <br> (blocked)|<br>| T4 | <code>insert into t values(9, 9, 9);</code> <br> (ERROR: DEADLOCK)| |</p>
+<p>上述情况出现的原因是 sessionA 被 sessionB 的间隙锁 block 了，同时 sessionB 也被 sessionA block 了。（因为间隙锁之间不会冲突）</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>如果把隔离级别设置为 Read Commit 就没有间隙锁了，但这时有需要解决数据与日志不一致的问题，需要把 binlog 格式设置为 row。</p>
+<p>如果业务场景 Read Commit级别够用，即业务不需要可重复读的保证，考虑到读提交下操作数据的锁范围更小，这个选择是合理的。</p>
+<h1 id="21-为什么我只改一行语句，锁这么多"><a href="#21-为什么我只改一行语句，锁这么多" class="headerlink" title="21 为什么我只改一行语句，锁这么多"></a>21 为什么我只改一行语句，锁这么多</h1><p>本篇还是在之前 20 的场景下</p>
+<h2 id="两个原则，两个优化，一个bug"><a href="#两个原则，两个优化，一个bug" class="headerlink" title="两个原则，两个优化，一个bug"></a>两个原则，两个优化，一个bug</h2><ol>
+<li>原则1：加锁的基本单位是 next-key lock。next-key lock 是前开后闭区间。</li>
+<li>原则2：查找过程中访问到的对象才会加锁</li>
+<li>优化1：索引上的等值查询，给唯一索引加锁的时候，next-key lock 退化为行锁。</li>
+<li>优化2：索引上的等值查询，向右遍历时且最后一个值不满足等值条件的时候，next-key lock 退化为间隙锁。</li>
+<li>一个bug：唯一索引上的范围查询会访问到不满足条件的第一个值为止</li>
+</ol>
+<h2 id="案例一：等值查询间隙锁"><a href="#案例一：等值查询间隙锁" class="headerlink" title="案例一：等值查询间隙锁"></a>案例一：等值查询间隙锁</h2><table>
+<thead>
+<tr>
+<th></th>
+<th>sessionA</th>
+<th>sessionB</th>
+<th>sessionC</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>T1</td>
+<td><code>begin;</code> <br> <code>update t set d=d+1 where id=7;</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>T2</td>
+<td></td>
+<td><code>insert into t values(8, 8, 8);</code> <br> (blocked)</td>
+<td></td>
+</tr>
+<tr>
+<td>T3</td>
+<td></td>
+<td></td>
+<td><code>update t set d=d+1 where id=10;</code> <br> (Query OK)</td>
+</tr>
+</tbody></table>
+<p>根据<strong>优化2</strong>，next-key lock会退化为间隙锁，最终加锁的范围是(5, 10)，所以 sessionC 的修改是可以成功的。</p>
+<h2 id="案例二：非唯一索引等值锁"><a href="#案例二：非唯一索引等值锁" class="headerlink" title="案例二：非唯一索引等值锁"></a>案例二：非唯一索引等值锁</h2><table>
+<thead>
+<tr>
+<th></th>
+<th>sessionA</th>
+<th>sessionB</th>
+<th>sessionC</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>T1</td>
+<td><code>begin;</code> <br> <code>select id from t where c=5 lock in share mode;</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>T2</td>
+<td></td>
+<td><code>update t set d=d+1 where id=5;</code> <br> (Query OK)</td>
+<td></td>
+</tr>
+<tr>
+<td>T3</td>
+<td></td>
+<td></td>
+<td><code>insert into t values(7, 7, 7);</code> <br> (blocked)</td>
+</tr>
+</tbody></table>
+<ol>
+<li>根据<strong>原则1</strong>，加锁单位是 next-key lock，因此会给(0, 5]加上 next-key lock。</li>
+<li>因为c是普通索引，仅访问c=5这一条记录是不能马上停下来的，需要向右遍历，查到c=10才放弃。根据<strong>原则2</strong>，访问到的都要加锁，因此要给(5, 10]加next-key lock。</li>
+<li>根据<strong>优化2</strong>，等值判断，向右遍历，最后一个值不满足c=5这个等值条件，退化成间隙锁(5, 10)</li>
+<li>根据<strong>原则2</strong>，只有访问到的对象才会加锁，这个查询使用覆盖索引，并不需要访问主键索引，所以主键索引上没有加任何锁，所以 sessionB 的 update 语句可以执行完成。但是 sessionC 要插入一个(7, 7, 7)的记录，就会被sessionA 的间隙锁锁住。</li>
+</ol>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ul>
+<li>锁是加在索引上的</li>
+<li>如果要用 lock in share mode 来给行加读锁避免数据被更新的话，就必须得绕过覆盖索引的优化，在查询字段中加入所有中不存在的字段。</li>
+</ul>
+<h2 id="案例三：主键索引范围锁"><a href="#案例三：主键索引范围锁" class="headerlink" title="案例三：主键索引范围锁"></a>案例三：主键索引范围锁</h2><table>
+<thead>
+<tr>
+<th></th>
+<th>sessionA</th>
+<th>sessionB</th>
+<th>sessionC</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>T1</td>
+<td><code>begin;</code> <br> <code>select * from t where id&gt;=10 and id&lt;11 for update;</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>T2</td>
+<td></td>
+<td><code>insert into t values(8, 8, 8);</code> <br> (Query OK) <br> <code>insert into t values(13, 13, 13);</code> <br> (blocked)</td>
+<td></td>
+</tr>
+<tr>
+<td>T3</td>
+<td></td>
+<td></td>
+<td><code>update t set d=d+1 where id=15;</code> <br> (blocked)</td>
+</tr>
+</tbody></table>
+<ol>
+<li>开始执行的时候，要找到一个id=10的行，next-key lock(5, 10]。根据<strong>优化一</strong>，主键id上的等值条件，退化成行锁，只加了id=10这一行的行锁。</li>
+<li>范围查找就往后继续找，找到id=15这一行，需要next-key lock(10, 15]</li>
+<li>sessionA 这时候锁的范围就是主键索引上，行锁id=10和next-key lock(10, 15]</li>
+</ol>
+<h2 id="案例四：非唯一索引范围锁"><a href="#案例四：非唯一索引范围锁" class="headerlink" title="案例四：非唯一索引范围锁"></a>案例四：非唯一索引范围锁</h2><table>
+<thead>
+<tr>
+<th></th>
+<th>sessionA</th>
+<th>sessionB</th>
+<th>sessionC</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>T1</td>
+<td><code>begin;</code> <br> <code>select * from t where c&gt;=10 and c&lt;11 for update;</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>T2</td>
+<td></td>
+<td><code>insert into t values(8, 8, 8);</code> <br> (blocked)</td>
+<td></td>
+</tr>
+<tr>
+<td>T3</td>
+<td></td>
+<td></td>
+<td><code>update t set d=d+1 where c=15;</code> <br> (blocked)</td>
+</tr>
+</tbody></table>
+<ol>
+<li>由于c是普通索引，不能退化成行锁，因此最终 sessionA 加的锁是，索引c上的(5, 10]和(10, 15]这两个next-key lock</li>
+<li>InnoDB 要扫到c=15 才知道不需要继续往后找了。</li>
+</ol>
+<h2 id="案例五：唯一索引范围锁bug"><a href="#案例五：唯一索引范围锁bug" class="headerlink" title="案例五：唯一索引范围锁bug"></a>案例五：唯一索引范围锁bug</h2><table>
+<thead>
+<tr>
+<th></th>
+<th>sessionA</th>
+<th>sessionB</th>
+<th>sessionC</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>T1</td>
+<td><code>begin;</code> <br> <code>select * from t where id&gt;10 and id&lt;=15 for update;</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>T2</td>
+<td></td>
+<td><code>update t set d=d+1 where id=20;</code> <br> (blocked)</td>
+<td></td>
+</tr>
+<tr>
+<td>T3</td>
+<td></td>
+<td></td>
+<td><code>insert t values(16, 16, 16);</code> <br> (blocked)</td>
+</tr>
+</tbody></table>
+<ol>
+<li>根据<strong>原则1</strong>，应该是索引id上只加(10, 15]这个next-key lock，并且因为id是唯一键，所以循环判断到id=15这一行就应该停止了</li>
+<li>但是根据<strong>一个bug</strong>，InnoDB 会往前扫描到第一个不满足条件的行 为止，因此索引id上的(15, 20]这个next-key lock也会被锁上。</li>
+</ol>
+<h2 id="案例六：非唯一索引上存在“等值”的例子"><a href="#案例六：非唯一索引上存在“等值”的例子" class="headerlink" title="案例六：非唯一索引上存在“等值”的例子"></a>案例六：非唯一索引上存在“等值”的例子</h2><p>先插入一条新纪录</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">mysql<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> t <span class="hljs-keyword">values</span>(<span class="hljs-number">30</span>, <span class="hljs-number">10</span>, <span class="hljs-number">30</span>);<br></code></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>sessionA</th>
+<th>sessionB</th>
+<th>sessionC</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>T1</td>
+<td><code>begin;</code> <br> <code>delete from t where c=10;</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>T2</td>
+<td></td>
+<td><code>insert into t values(12, 12, 12);</code> <br> (blocked)</td>
+<td></td>
+</tr>
+<tr>
+<td>T3</td>
+<td></td>
+<td></td>
+<td><code>update t set d=d+1 where c=15;</code> <br> (Query OK)</td>
+</tr>
+</tbody></table>
+<img src="/2021/01/12/MySQL%E5%AE%9E%E6%88%98-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/21-%E6%A1%88%E4%BE%8B%E5%85%AD.png" srcset="/img/loading.gif" class="" title="21-案例六">
+
+<p>两个c=10的记录之间，也是有间隙的。</p>
+<img src="/2021/01/12/MySQL%E5%AE%9E%E6%88%98-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/21-%E6%A1%88%E4%BE%8B%E5%85%AD%E5%8A%A0%E9%94%81%E7%A4%BA%E6%84%8F%E5%9B%BE.png" srcset="/img/loading.gif" class="" title="21-案例六加锁示意图">
+
+<p>根据<strong>优化2</strong>，这是一个等值查询，向右查找到了不满足条件的行，所以会退化成 (c=10, id=10) 到 (c=15, id=15)的间隙锁。</p>
+<h2 id="案例七：limit-语句加锁"><a href="#案例七：limit-语句加锁" class="headerlink" title="案例七：limit 语句加锁"></a>案例七：limit 语句加锁</h2><p>|   |  sessionA  | sessionB |<br>| - | - | - | - |<br>| T1 | <code>begin;</code> <br> <code>delete from t where c=10 limit 2;</code> | |<br>| T2 | | <code>insert into t values(12, 12, 12);</code> <br> (Query OK) |</p>
+<p><code>delete</code> 语句明确加了 limit 2 的限制，因此在遍历到(c=10, id=30)这一行后，满足条件的语句就已经有两条，循环就结束了。</p>
+<img src="/2021/01/12/MySQL%E5%AE%9E%E6%88%98-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/21-%E6%A1%88%E4%BE%8B%E4%B8%83%E5%8A%A0%E9%94%81%E7%A4%BA%E6%84%8F%E5%9B%BE.png" srcset="/img/loading.gif" class="" title="21-案例七加锁示意图">
+
+<blockquote>
+<p>在删除数据的时候尽量加limit</p>
+</blockquote>
+<h2 id="案例八：一个死锁的例子"><a href="#案例八：一个死锁的例子" class="headerlink" title="案例八：一个死锁的例子"></a>案例八：一个死锁的例子</h2><p>|   |  sessionA  | sessionB |<br>| - | - | - | - |<br>| T1 | <code>begin;</code> <br> <code>select id from t where c=10 lock in share mode;</code> | |<br>| T2 | | <code>update t set d=d+1 where c=10;</code> <br> (blocked) |<br>| T3 | <code>insert into t values(8, 8, 8)</code>| |<br>| T4 | | (ERROR: DEADLOCK) |</p>
+<ol>
+<li>sessionA 启动事务后执行查询语句加 lock in share mode，在索引c上加了next-key locks(5, 10]和间隙锁(10, 15)</li>
+<li>sessionB 的update语句也要在索引c上加next-key lock(5, 10]，进入锁等待</li>
+<li>然后sessionA 要再插入(8, 8, 8)这一行，被sessionB 的间隙锁锁住。由于出现了死锁，需要回滚。</li>
+</ol>
+<h2 id="案例九：desc导致的顺序差异"><a href="#案例九：desc导致的顺序差异" class="headerlink" title="案例九：desc导致的顺序差异"></a>案例九：desc导致的顺序差异</h2><p>|   |  sessionA  | sessionB |<br>| - | - | - | - |<br>| T1 | <code>begin;</code> <br> <code>select * from t where c&gt;=15 and c&lt;=20 order by c desc in share mode;</code> | |<br>| T2 | | <code>insert into t values(6, 6, 6);</code> <br> (blocked) |</p>
+<ol>
+<li>因为这里使用的是 <code>desc</code> 所以是从右往左扫描的。</li>
+<li>根据<strong>优化2</strong>，先判断条件c&lt;=20，普通索引等值c=20，所以间隙锁(20, 25)</li>
+<li>20 到 15，所以next-key locks(20, 15]</li>
+<li>判断c&gt;=15，普通索引c=15，向左匹配到c=10这个记录，因为next-key locks是前开后闭的，所以只能是(5, 10]</li>
+<li>最后的范围是 (5, 15)+[15, 20)+[20, 25)</li>
+<li>c=20、c=15、c=10 都存在值， select *主键 id 加三个行锁。</li>
+</ol>
+<p>如果没有desc 锁的应该是(10, 15] + (15, 20] + (20, 25) 加上 15 20 主键id 两个行锁</p>
+<h1 id="22-MySQL-有哪些“饮鸩止渴”提高性能的方法"><a href="#22-MySQL-有哪些“饮鸩止渴”提高性能的方法" class="headerlink" title="22 MySQL 有哪些“饮鸩止渴”提高性能的方法"></a>22 MySQL 有哪些“饮鸩止渴”提高性能的方法</h1><h2 id="短连接风暴"><a href="#短连接风暴" class="headerlink" title="短连接风暴"></a>短连接风暴</h2><ol>
+<li>先处理掉那些占着连接但是不工作的线程</li>
+</ol>
+<ul>
+<li>如果是连接数过多，你可以优先断开事务外空闲太久的连接。</li>
+<li>如果这样还不够，可以考虑断开事务内空闲太久的连接。 </li>
+</ul>
+<blockquote>
+<p>从数据库端断开连接可能是有损的，尤其是有的应用端收到这个错误后，不重新连接，而是直接用这个已经不能用的 handler 重试查询。这会导致从应用端看上去——“MySQL一直没恢复”。</p>
+</blockquote>
+<ol start="2">
+<li>减少连接过程的消耗</li>
+</ol>
+<p>如果现在数据库确认是被连接行为打挂了，那么可以让数据库跳过权限验证阶段。重启数据库，并使用 <code>-skip-grant-tables</code> 参数启动。但是这个方法风险极高。</p>
+<h2 id="慢查询性能问题"><a href="#慢查询性能问题" class="headerlink" title="慢查询性能问题"></a>慢查询性能问题</h2><h3 id="索引没有设计好"><a href="#索引没有设计好" class="headerlink" title="索引没有设计好"></a>索引没有设计好</h3><p>通过紧急创建索引来解决</p>
+<ol>
+<li>在备库B上执行 <code>set sql_log_bin=off</code>, 也就是不写 binlog, 然后执行 <code>alter table</code> 语句加上索引</li>
+<li>执行主备切换</li>
+<li>这时候主库是B, 备库是A。在A上执行 <code>set sql_log_bin=off</code>, 然后执行 <code>alter table</code> 语句加上索引<h3 id="SQL-语句没有写好"><a href="#SQL-语句没有写好" class="headerlink" title="SQL 语句没有写好"></a>SQL 语句没有写好</h3>详见 <a href="">18 为什么这些SQL语句逻辑相同，性能却差异巨大</a><h3 id="MySQL-选错了索引"><a href="#MySQL-选错了索引" class="headerlink" title="MySQL 选错了索引"></a>MySQL 选错了索引</h3>详见 <a href="">10 MySQL 为什么有时候会选错索引</a><br>可以通过添加语句 <code>force index</code> </li>
+</ol>
+<h3 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h3><p>那么我们如何尽量避免这类性能问题的发生呢？</p>
+<ol>
+<li>上线前，在测试环境，把慢查询日志（slow log）打开，并且把long_query_time设置成0，确保每个语句都会被记录入慢查询日志</li>
+<li>在测试表里插入模拟线上的数据，做一遍回归测试</li>
+<li>观察慢查询日志里每类语句的输出，特别留意Rows_examined字段是否与预期一致。</li>
+</ol>
+<h2 id="QPS-突增问题"><a href="#QPS-突增问题" class="headerlink" title="QPS 突增问题"></a>QPS 突增问题</h2><p>有时候由于业务突然出现高峰，或者应用程序bug，导致某个语句的QPS突然暴涨，也可能导致MySQL压力过大，影响服务。</p>
+<h1 id="23-MySQL-是怎么保证数据不丢的"><a href="#23-MySQL-是怎么保证数据不丢的" class="headerlink" title="23 MySQL 是怎么保证数据不丢的"></a>23 MySQL 是怎么保证数据不丢的</h1><h2 id="binlog-的写入机制"><a href="#binlog-的写入机制" class="headerlink" title="binlog 的写入机制"></a>binlog 的写入机制</h2><blockquote>
+<p>事务执行过程中，先把日志写到 binlog cache，事务提交的时候，再把 binlog cache 写到 binlog 文件中。</p>
+</blockquote>
+<p>TODO</p>
+<h1 id="24-MySQL-是怎么保证主备一致的？"><a href="#24-MySQL-是怎么保证主备一致的？" class="headerlink" title="24 MySQL 是怎么保证主备一致的？"></a>24 MySQL 是怎么保证主备一致的？</h1><h2 id="MySQL-主备的基本原理"><a href="#MySQL-主备的基本原理" class="headerlink" title="MySQL 主备的基本原理"></a>MySQL 主备的基本原理</h2><img src="/2021/01/12/MySQL%E5%AE%9E%E6%88%98-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/24-MySQL%E4%B8%BB%E5%A4%87%E5%88%87%E6%8D%A2%E6%B5%81%E7%A8%8B.png" srcset="/img/loading.gif" class="" title="24-MySQL主备切换流">
+
+<p>这就是基本的主备切换流程。</p>
+<img src="/2021/01/12/MySQL%E5%AE%9E%E6%88%98-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/24-%E4%B8%BB%E5%A4%87%E6%B5%81%E7%A8%8B%E5%9B%BE.png" srcset="/img/loading.gif" class="" title="24-主备流程图">
+<ol>
+<li>在备库B上通过 change master 命令，设置主库A 的 IP、端口、用户名、密码，以及要从哪个位置开始请求 binlog，这个位置包含文件名和日志偏移量。</li>
+<li>在备库B上执行 start slave 命令，这时候备库会启动两个线程，就是图中的 io_thread 和 sql_thread。其中 io_thread 负责与主库建立连接。</li>
+<li>主库A校验完用户名、密码后，开始按照备库B传过来的位置，从本地读取 binlog，发给B。</li>
+<li>备库B拿到 binlog 后，写到本地文件，称为中转日志(relay log)</li>
+<li>sql_thread 读取中转日志，解析出日志里的命令，并执行。</li>
+</ol>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/168dQ754KYC9QFikDy6iTq0mKHWYJkz8p">MySQL实战45讲</a></li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%9E%81%E5%AE%A2/">极客</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/01/13/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8B-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B01/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">《数据密集型应用系统设计》- 读书笔记1</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/01/05/MySQL-%E7%B4%A2%E5%BC%95/">
+                        <span class="hidden-mobile">MySQL-索引</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

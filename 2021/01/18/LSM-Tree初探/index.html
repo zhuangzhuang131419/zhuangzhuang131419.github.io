@@ -1,0 +1,516 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="zhuangzhuang">
+  <meta name="keywords" content="">
+  <title>LSM-Tree初探 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"zhuangzhuang131419.github.io","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="LSM-Tree初探">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-01-18 11:25" pubdate>
+        2021年1月18日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      13
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">LSM-Tree初探</h1>
+            
+            <div class="markdown-body">
+              <p>在阅读《数据密集型应用系统设计》的时候，接触到了LSM-Tree。觉得书中讲述的十分简略，没能深入理解这个存储结构。打算单独拎出来写一篇笔记。</p>
+<h1 id="LSM-Tree背景"><a href="#LSM-Tree背景" class="headerlink" title="LSM-Tree背景"></a>LSM-Tree背景</h1><p>传统关系型数据库使用B-Tree或者一些变体作为存储结构，但这有一个缺点：有的数据逻辑上相离很近但是物理上相离甚远，这就会导致大量的<strong>磁盘随机读写</strong>。而随机读写比顺序读写要慢很多，为了提升IO性能，我们需要一种能将随机操作变为顺序操作的机制。这就有了LSM-Tree的诞生。LSM树能让我们进行顺序写磁盘，从而大幅提升写操作，作为代价的是牺牲了一些读性能。</p>
+<h1 id="LSM-Tree原理"><a href="#LSM-Tree原理" class="headerlink" title="LSM-Tree原理"></a>LSM-Tree原理</h1><p>LSM-Tree实际上和Tree的关系不大，它是一种分层的存储结构。</p>
+<h2 id="组件介绍"><a href="#组件介绍" class="headerlink" title="组件介绍"></a>组件介绍</h2><p>LSM-Tree由两个或更多的类Tree组成。我们暂时先讨论最简单的两个组件的情况</p>
+<img src="/2021/01/18/LSM-Tree%E5%88%9D%E6%8E%A2/LSM-Tree%E4%B8%A4%E7%BB%84%E4%BB%B6.png" srcset="/img/loading.gif" class="" title="LSM-Tree两组件">
+
+<p>LSM-Tree有两部分：</p>
+<ul>
+<li>一个较小的位于<strong>内存</strong>的组件，就是C0 Tree</li>
+<li>一个较大的位于<strong>磁盘</strong>的组件，就是C1 Tree</li>
+</ul>
+<p>历史记录表的数据每生成一行新纪录流程如下：</p>
+<ol>
+<li><p>首先向顺序日至文件中写一条用于恢复这次插入行为的日志记录</p>
+</li>
+<li><p>该行数据的索引被插入到常驻内存的C0 Tree</p>
+</li>
+<li><p>会适时地将这些C0 Tree上的数据迁移到磁盘上的C1 Tree中</p>
+</li>
+<li><p>每个索引的搜索过程都是先C0后C1</p>
+</li>
+</ol>
+<h2 id="组件合并"><a href="#组件合并" class="headerlink" title="组件合并"></a>组件合并</h2><h3 id="C0-合并到-C1"><a href="#C0-合并到-C1" class="headerlink" title="C0 合并到 C1"></a>C0 合并到 C1</h3><p>当C0 Tree上的插入数据达到一个指定阈值时，有一个持续循环的合并进程服务会删除C0 Tree上的一些连续segment段，将他们合并到磁盘中的C1 Tree。</p>
+<img src="/2021/01/18/LSM-Tree%E5%88%9D%E6%8E%A2/C0%E5%90%88%E5%B9%B6%E8%87%B3C1.png" srcset="/img/loading.gif" class="" title="C0合并至C1">
+
+
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>大小</th>
+<th>描述</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>单页块</td>
+<td>4KB</td>
+<td>根节点；每个层级上的单页节点</td>
+<td>单页节点被用在匹配索引查找中，以最小化缓存需求</td>
+</tr>
+<tr>
+<td>多页块</td>
+<td>256KB</td>
+<td>根目录下的每个层级上的单页节点序列会被打包，然后一起放入连续的多页磁盘块中（囊括了根节点以下的节点），利于磁盘顺序访问</td>
+<td>多页块IO，在滚动合并期间、大范围的范围搜索中被使用</td>
+</tr>
+</tbody></table>
+<h3 id="Empty-Block和Filling-Block"><a href="#Empty-Block和Filling-Block" class="headerlink" title="Empty Block和Filling Block"></a>Empty Block和Filling Block</h3><blockquote>
+<p>Empty Block: 在合并前，已缓存、且包含旧的C1 Tree节点的多页块。意味着它们会被清空、移除。</p>
+<p>Filling Block: 新的叶节点被写入与旧的多页块不同的<strong>已缓存</strong>的多页块。意味着它们会被填满。</p>
+</blockquote>
+<ol>
+<li>从C1中读取未合并叶子节点，放置在内存中的 <code>empty block</code> 中</li>
+<li>从小到大找C0中的节点，与 <code>empty block</code> 进行合并排序，合并结果保存到<code>filling block</code>中，并将C0对应的节点删除。</li>
+<li>不断执行第2步操作，合并排序结果不断填入 <code>filling block</code> 中，当其满了则将其追加到磁盘的新位置上，注意是追加而不是改变原来的节点。合并期间如故宫 <code>empty block</code> 使用完了则再从C1中读取未合并的叶子节点。</li>
+<li>C0和C1所有叶子节点都按以上合并完成后即完成一次合并。</li>
+</ol>
+<p>具体插入例子可见：</p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903688075477000">看图轻松理解数据结构与算法系列（NoSQL存储-LSM树）</a></p>
+<h2 id="LSM-Tree-索引查找"><a href="#LSM-Tree-索引查找" class="headerlink" title="LSM Tree 索引查找"></a>LSM Tree 索引查找</h2><h3 id="搜索原则"><a href="#搜索原则" class="headerlink" title="搜索原则"></a>搜索原则</h3><blockquote>
+<p>C<sub>0</sub> Tree 是驻留在内存中的，而其他组件都在磁盘。这种情况下，每当C<sub>i-1</sub> 条目达到阈值时，每个 (C<sub>i-1</sub>, C<sub>i</sub>) 之间的异步滚动合并过程会从较小的组件中移动条目到较大的组件。</p>
+</blockquote>
+<img src="/2021/01/18/LSM-Tree%E5%88%9D%E6%8E%A2/LSM-Tree%E5%A4%9A%E7%BB%84%E4%BB%B6.png" srcset="/img/loading.gif" class="" title="LSM-Tree多组件">
+
+
+
+<p>当一个需要立刻返回的精确匹配查询或是范围查询在LSM Tree的索引上执行时，会先在C<sub>0</sub>树执行搜索值，然后搜C<sub>1</sub>树。这暗含着少许额外的CPU开销(相对于B-Tree来说)，因为分别去两棵树目录进行搜索。</p>
+<h2 id="LSM-Tree-删除、更新"><a href="#LSM-Tree-删除、更新" class="headerlink" title="LSM Tree 删除、更新"></a>LSM Tree 删除、更新</h2><h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p>删除操作为了能快速执行，主要是通过标记来实现，在内存中将要删除的记录标记一下，后面异步执行合并时将相应记录删除。</p>
+<ul>
+<li>比如要删除“U”，假设标为#的表示删除，则C0树的“U”节点变为“U(#)”</li>
+<li>而如果C0树不存在的记录，则在C0树中生成一个节点，并标为#，查找时就能再内存中得知该记录已被删除，无需去磁盘找了。比如要删除“B”，那么没有必要去磁盘执行删除操作，直接在C0树中插入一个“B”节点，并标为#。</li>
+</ul>
+<h3 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h3><p>导致索引值更改的记录更新，这在任何类型的应用程序中都是不常见的。但如果我们将更新视为删除后紧跟着插入，则可以由LSM树以延迟方式处理此类更新。</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903688075477000">看图轻松理解数据结构与算法系列（NoSQL存储-LSM树）</a></li>
+<li><a target="_blank" rel="noopener" href="https://my.oschina.net/u/4064459/blog/2999407">论文阅读-The Log-Structured Merge-Tree</a></li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/">分布式系统</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/01/25/hello-world/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Hello World</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/01/13/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8B-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B01/">
+                        <span class="hidden-mobile">《数据密集型应用系统设计》- 读书笔记1</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,501 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="zhuangzhuang">
+  <meta name="keywords" content="">
+  <title>sftp服务器搭建 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"zhuangzhuang131419.github.io","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="sftp服务器搭建">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-06-27 21:36" pubdate>
+        2020年6月27日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      15
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">sftp服务器搭建</h1>
+            
+            <div class="markdown-body">
+              <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><h2 id="1-Linux管理员-root-修改和查看普通用户的密码"><a href="#1-Linux管理员-root-修改和查看普通用户的密码" class="headerlink" title="1. Linux管理员(root)修改和查看普通用户的密码"></a>1. Linux管理员(root)修改和查看普通用户的密码</h2><h3 id="root修改普通用户密码"><a href="#root修改普通用户密码" class="headerlink" title="root修改普通用户密码"></a>root修改普通用户密码</h3><p><code>-&gt; sudo passwd user_name</code></p>
+<h3 id="root查看普通用户密码"><a href="#root查看普通用户密码" class="headerlink" title="root查看普通用户密码"></a>root查看普通用户密码</h3><p>密码是无法被查看的，即使是root也不行，因此普通用户要是遗忘了密码，可以参照上一步，让管理员使用root权限修改密码，然后再将新密码告知普通用户</p>
+<h3 id="普通用户修改自己的密码"><a href="#普通用户修改自己的密码" class="headerlink" title="普通用户修改自己的密码"></a>普通用户修改自己的密码</h3><p><code>-&gt; passwd</code></p>
+<h2 id="2-查看当前用户及用户组"><a href="#2-查看当前用户及用户组" class="headerlink" title="2. 查看当前用户及用户组"></a>2. 查看当前用户及用户组</h2><h3 id="可以查看所有用户的列表"><a href="#可以查看所有用户的列表" class="headerlink" title="可以查看所有用户的列表"></a>可以查看所有用户的列表</h3><p><code>-&gt; cat /etc/passwd</code></p>
+<h3 id="可以查看当前活跃的用户列表"><a href="#可以查看当前活跃的用户列表" class="headerlink" title="可以查看当前活跃的用户列表"></a>可以查看当前活跃的用户列表</h3><p><code>-&gt; w</code></p>
+<h3 id="查看用户组"><a href="#查看用户组" class="headerlink" title="查看用户组"></a>查看用户组</h3><p><code>-&gt; cat /etc/group</code></p>
+<h3 id="查看当前登录用户名"><a href="#查看当前登录用户名" class="headerlink" title="查看当前登录用户名"></a>查看当前登录用户名</h3><p><code>-&gt; who am i</code></p>
+<h3 id="查看用户属于哪一个用户组"><a href="#查看用户属于哪一个用户组" class="headerlink" title="查看用户属于哪一个用户组"></a>查看用户属于哪一个用户组</h3><p><code>-&gt; groups username</code></p>
+<h1 id="开始搭建"><a href="#开始搭建" class="headerlink" title="开始搭建"></a>开始搭建</h1><p>需求：创建三个用户，其中一个为sftp管理员，其余两个分别为指定目录的访问用户。sftp管理员对其他用户的sftp根目录下的内容具有读写权限，限制其他用户只能访问其自己的根目录且仅有读权限；相关的sftp用户不能登录到Linux系统中。</p>
+<h2 id="1-确认openssh的版本"><a href="#1-确认openssh的版本" class="headerlink" title="1. 确认openssh的版本"></a>1. 确认openssh的版本</h2><p><code>-&gt; ssh -V</code><br><img src="/Users/zhuangzhuang/Blog/source/images/sftp-ssh.png" srcset="/img/loading.gif"></p>
+<h2 id="2-切换到管理员-root"><a href="#2-切换到管理员-root" class="headerlink" title="2. 切换到管理员(root)"></a>2. 切换到管理员(root)</h2><blockquote>
+<p>也可以不切换在下面的命令行前加<code>sudo</code></p>
+</blockquote>
+<p><code>-&gt; sudo -i</code></p>
+<h2 id="3-创建sftp管理组及用户组"><a href="#3-创建sftp管理组及用户组" class="headerlink" title="3. 创建sftp管理组及用户组"></a>3. 创建sftp管理组及用户组</h2><blockquote>
+<p>添加管理组 bytedance_admin</p>
+</blockquote>
+<p><code>-&gt; groupadd bytedance_admin </code></p>
+<blockquote>
+<p>添加用户组 bytedance</p>
+</blockquote>
+<p><code>-&gt; groupadd bytedance </code></p>
+<h2 id="4-创建sftp管理用户及普通用户"><a href="#4-创建sftp管理用户及普通用户" class="headerlink" title="4. 创建sftp管理用户及普通用户"></a>4. 创建sftp管理用户及普通用户</h2><blockquote>
+<p><code>/bin/false</code> 目的是不让用户登录 也可以使用<code>/bin/nologin</code></p>
+</blockquote>
+<p><code>-&gt; useradd -g bytedance -s /bin/false bob</code></p>
+<p><code>-&gt; useradd -g bytedance -s /bin/false john</code></p>
+<p><code>-&gt; useradd -g bytedance_admin -s /bin/false king</code></p>
+<blockquote>
+<p>为每一位用户设置密码</p>
+</blockquote>
+<p><code>-&gt; passwd king</code></p>
+<p><code>-&gt; passwd bob</code></p>
+<p><code>-&gt; passwd john</code></p>
+<h2 id="5-分别创建对应用户的bytedance根目录并指定为其家目录"><a href="#5-分别创建对应用户的bytedance根目录并指定为其家目录" class="headerlink" title="5. 分别创建对应用户的bytedance根目录并指定为其家目录"></a>5. 分别创建对应用户的bytedance根目录并指定为其家目录</h2><p><code>-&gt; mkdir -pv /usr/bytedance/&#123;bob,john&#125;/share</code></p>
+<h2 id="6-配置sshd-config文件"><a href="#6-配置sshd-config文件" class="headerlink" title="6. 配置sshd_config文件"></a>6. 配置sshd_config文件</h2><p><code>-&gt; vi /etc/ssh/sshd_config</code></p>
+<p>找到如下这行，用#符号注释掉，大致在文件末尾处。 </p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment"># Subsystem sftp /usr/libexec/openssh/sftp-server</span><br><br><span class="hljs-string">Subsystem</span> <span class="hljs-string">sftp</span> <span class="hljs-string">internal-sftp</span>     <span class="hljs-comment">#这行指定使用sftp服务使用系统自带的internal-sftp</span><br><br><span class="hljs-string">Match</span> <span class="hljs-string">Group</span> <span class="hljs-string">bytedance</span>     <span class="hljs-comment">#这行用来匹配bytedance组的用户，如果要匹配多个组，多个组之间用逗号分割；</span><br><br>	<span class="hljs-string">ChrootDirectory</span> <span class="hljs-string">/usr/bytedance/%u</span>        <span class="hljs-comment">#用chroot将用户的根目录指定到%h，%h代表用户home目录，这样用户就只能在用户目录下活动。也可用%u，%u代表用户名。</span><br><br>	<span class="hljs-string">ForceCommand</span> <span class="hljs-string">internal-sftp</span>    <span class="hljs-comment">#指定sftp命令 </span><br><br>	<span class="hljs-string">AllowTcpForwarding</span> <span class="hljs-literal">no</span><br><br>	<span class="hljs-string">X11Forwarding</span> <span class="hljs-literal">no</span><br><br><span class="hljs-string">Match</span> <span class="hljs-string">User</span> <span class="hljs-string">bytedance_admin</span>        <span class="hljs-comment">#匹配用户了，多个用户名之间也是用逗号分割</span><br><br>	<span class="hljs-string">ChrootDirectory</span> <span class="hljs-string">/usr/bytedance</span><br><br>	<span class="hljs-string">ForceCommand</span> <span class="hljs-string">internal-sftp</span><br><br>	<span class="hljs-string">AllowTcpForwarding</span> <span class="hljs-literal">no</span><br><br>	<span class="hljs-string">X11Forwarding</span> <span class="hljs-literal">no</span><br><br></code></pre></td></tr></table></figure>
+<h2 id="7-设置Chroot目录的权限"><a href="#7-设置Chroot目录的权限" class="headerlink" title="7. 设置Chroot目录的权限"></a>7. 设置Chroot目录的权限</h2><h3 id="chown和chmod-命令"><a href="#chown和chmod-命令" class="headerlink" title="chown和chmod 命令"></a>chown和chmod 命令</h3><blockquote>
+<p>chmod修改的是文件的读、写、执行。</p>
+<p>chown修改的是文件的用户或者组的权限。</p>
+</blockquote>
+<h3 id="具体步骤"><a href="#具体步骤" class="headerlink" title="具体步骤"></a>具体步骤</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment">#修改普通用户的根目录属组</span><br><br>chown root:bytedance <span class="hljs-regexp">/usr/</span>bytedance/&#123;bob,john&#125;<br></code></pre></td></tr></table></figure>
+<p><img src="/Users/zhuangzhuang/Blog/source/images/sftp-chown.png" srcset="/img/loading.gif"></p>
+<p>第一个root表示文件所有者 第二个bytedance表示文件所在的群组</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment">#修改普通用户的根目录权限</span><br>-&gt; chmod <span class="hljs-number">755</span> <span class="hljs-regexp">/usr/</span>bytedance/&#123;bob,john&#125;  <br><br><span class="hljs-comment">#修改管理员的根目录属组</span><br>-&gt; chown root:bytedance_admin <span class="hljs-regexp">/usr/</span>bytedance/<br><br><span class="hljs-comment">#修改管理员根目录的权限</span><br>-&gt; chmod <span class="hljs-number">755</span> <span class="hljs-regexp">/usr/</span>bytedance/<br><br><span class="hljs-comment">#修改各普通用户下的share目录的属主为管理员，属组为普通用户组</span><br>-&gt; chown king:bytedance <span class="hljs-regexp">/usr/</span>bytedance<span class="hljs-regexp">/&#123;bob,john&#125;/</span>share/ <br><br><span class="hljs-comment">#各share目录管理员的权限为读写，普通bytedance组仅有读权限，其他用户没有权限访问</span><br>-&gt; chmod <span class="hljs-number">750</span> <span class="hljs-regexp">/usr/</span>bytedance<span class="hljs-regexp">/&#123;bob,john&#125;/</span>share/<br><br></code></pre></td></tr></table></figure>
+<p>chmod 后面的数字含义参考</p>
+<p><a target="_blank" rel="noopener" href="https://chmodcommand.com/">https://chmodcommand.com/</a></p>
+<h2 id="8-关闭selinux"><a href="#8-关闭selinux" class="headerlink" title="8. 关闭selinux"></a>8. 关闭selinux</h2><p><code>-&gt; vim /etc/selinux/config</code></p>
+<p><code>SELINUX=permissive</code></p>
+<p><code>-&gt; setenforce 0</code></p>
+<p>如果提示 <code>setenforce: command not found</code></p>
+<p>解决方案:</p>
+<ul>
+<li><p><code>apt-get install selinux-utils</code></p>
+</li>
+<li><p>添加环境变量<br><code>/usr/sbin/setenforce</code></p>
+</li>
+</ul>
+<h2 id="9-重启sshd服务"><a href="#9-重启sshd服务" class="headerlink" title="9. 重启sshd服务"></a>9. 重启sshd服务</h2><p><code>-&gt; service sshd restart</code></p>
+<p>如果提示<br><code>Job for ssh.service failed because the control process exited with error codesee systemctl status ssh.service and journalctl -xe for details.</code><br>解决方案：</p>
+<ul>
+<li>按照提示<code>systemctl status ssh.service</code><ul>
+<li><img src="/Users/zhuangzhuang/Blog/source/images/sftp-sshd.png" srcset="/img/loading.gif"></li>
+</ul>
+</li>
+<li><code>/usr/sbin/sshd -T</code><ul>
+<li>根据具体情况分析</li>
+<li><img src="/Users/zhuangzhuang/Blog/source/images/sftp-sshd02.png" srcset="/img/loading.gif"></li>
+<li>这里我的情况是把Match User写到了前面，导致后面的参数读取失败</li>
+</ul>
+</li>
+</ul>
+<p><strong>Tips:</strong><br>请务必解决上述问题，不然sshd重启出错将会导致之后本地无法通过ssh连接开发机</p>
+<h2 id="10-验证sftp登录"><a href="#10-验证sftp登录" class="headerlink" title="10. 验证sftp登录"></a>10. 验证sftp登录</h2><figure class="highlight capnproto"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs capnproto"><span class="hljs-comment">#管理员登录，能对share目录下的文件进行读写操作</span><br><br>-&gt; sftp king<span class="hljs-symbol">@127</span>.<span class="hljs-number">0.0</span>.<span class="hljs-number">1</span><br><br>Connecting to <span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span>...<br>king<span class="hljs-symbol">@127</span>.<span class="hljs-number">0.0</span>.<span class="hljs-number">1</span>&#x27;s password: <br><span class="hljs-comment">#输入之前的密码</span><br><br>sftp&gt; <br><br><span class="hljs-comment">#普通用户登录，对share目录下的文件只能进行读操作</span><br><br>-&gt; sftp bob<span class="hljs-symbol">@127</span>.<span class="hljs-number">0.0</span>.<span class="hljs-number">1</span><br><br>bob<span class="hljs-symbol">@127</span>.<span class="hljs-number">0.0</span>.<span class="hljs-number">1</span>&#x27;s password: <br><br>sftp&gt; ls<br>share<br><br></code></pre></td></tr></table></figure>
+<p>验证登录出现<code>sftp&gt;</code> 基本就说明了sftp服务器搭建成功了，剩下需要注意的就是权限问题了。此时也可以通过相关的ftp client 如：FileZilla FTP Client 和xftp 来连接到对应的sftp服务器了。</p>
+<h1 id="设置记录sftp服务器的登录及操作日志"><a href="#设置记录sftp服务器的登录及操作日志" class="headerlink" title="设置记录sftp服务器的登录及操作日志"></a>设置记录sftp服务器的登录及操作日志</h1><h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/6b588a712513">https://www.jianshu.com/p/6b588a712513</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/06/28/MySQL%E7%AC%94%E8%AE%B0/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">MySQL笔记</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>
