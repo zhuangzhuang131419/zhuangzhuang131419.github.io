@@ -416,7 +416,7 @@
 <h4 id="读写quorum"><a href="#读写quorum" class="headerlink" title="读写quorum"></a>读写quorum</h4><p>如果有<em>n</em>个副本，写入需要<em>w</em>个节点确认，读取必须至少查询<em>r</em>个节点，则只要<em>w + r &gt; n</em>，读取的节点中一定会包含最新值。（抽屉原理）</p>
 <p>我们只需要确保在<em>r</em>次的查询中有查到最新值，就可以通过版本号来确定。</p>
 <h3 id="Quorum一致性的局限性"><a href="#Quorum一致性的局限性" class="headerlink" title="Quorum一致性的局限性"></a>Quorum一致性的局限性</h3><h3 id="检测并发写"><a href="#检测并发写" class="headerlink" title="检测并发写"></a>检测并发写</h3><p>一个核心问题是，由于网络延迟不稳定或者局部失效，请求在不同的节点上可能会呈现不同的顺序</p>
-
+<img src="/2021/01/27/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8B-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/%E5%B9%B6%E5%8F%91%E5%86%99%E5%85%A5%E6%97%B6%E7%BC%BA%E4%B9%8F%E9%A1%BA%E5%BA%8F%E4%BF%9D%E8%AF%81.png" srcset="/img/loading.gif" class="" title="并发写入时缺乏顺序保证">
 
 <p>如果节点每当收到新的写请求时就简单的覆盖原有的逐渐，那么这些节点将永远无法达成一致。</p>
 <p>下面来介绍一些解决冲突的技巧：</p>

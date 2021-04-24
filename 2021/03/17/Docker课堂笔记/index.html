@@ -393,7 +393,7 @@
 </blockquote>
 <p>Union 文件系统是 Docker 镜像的基础。镜像可以通过分层来进行继承，基于基础镜像（没有父镜像），可以制作各种具体的应用镜像。</p>
 <p>特性：一次同时加载多个文件系统，但从外面看起来，只能看到一个文件系统，联合加载会把各层文件系统叠加起来，这样最终的文件系统会包含所有底层的文件和目录</p>
-<h3 id="Docker镜像加载原理"><a href="#Docker镜像加载原理" class="headerlink" title="Docker镜像加载原理"></a>Docker镜像加载原理</h3>
+<h3 id="Docker镜像加载原理"><a href="#Docker镜像加载原理" class="headerlink" title="Docker镜像加载原理"></a>Docker镜像加载原理</h3><img src="/2021/03/17/Docker%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/Docker%E5%B1%82%E7%BA%A7%E7%BB%93%E6%9E%84.png" srcset="/img/loading.gif" class="" title="Docker层级结构">
 
 <p>Docker的镜像实际上由一层一层的文件系统组成，这种层级的文件系统UnionFS。</p>
 <p>bootfs(boot file system)主要包含bootloader和kernel。bootloader主要是引导加载kernel, Linux刚启动时会加载bootfs文件系统，<strong>在Docker镜像的最底层是bootfs</strong>。这一层与我们典型的Linux/Unix系统是一样的，包含boot加载器和内核。当boot加载完成之后整个内核就都在内存中了，此时内存的使用权已由bootfs转交给内核，此时系统也会卸载bootfs。</p>
