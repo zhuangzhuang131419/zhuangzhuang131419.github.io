@@ -1,0 +1,692 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="zhuangzhuang">
+  <meta name="keywords" content="">
+  <title>Ray分布式计算框架——Using Ray - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"zhuangzhuang131419.github.io","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Ray分布式计算框架——Using Ray">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-03-23 09:54" pubdate>
+        2021年3月23日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      44
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Ray分布式计算框架——Using Ray</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Using-Ray"><a href="#Using-Ray" class="headerlink" title="Using Ray"></a>Using Ray</h1><h2 id="Starting-Ray"><a href="#Starting-Ray" class="headerlink" title="Starting Ray"></a>Starting Ray</h2><ul>
+<li>什么是 Ray runtime (内存管理)<ul>
+<li>Ray programs are able to parallelize and distribute by leveraging an underlying Ray runtime.</li>
+<li>The Ray runtime consists of multiple services/processes started in the background for communication, data transfer, scheduling, and more.</li>
+<li>The Ray runtime can be started on a laptop, a single server, or multiple servers.</li>
+</ul>
+</li>
+<li>启动Ray runtime的几种方式<ul>
+<li>隐式的通过<code>ray.init()</code><ul>
+<li>不需要指定<code>address</code></li>
+<li>直接在本机启动一个runtime，本机成为一个<strong>head node</strong>。</li>
+<li>当运行<code>ray.init()</code>的进程终止了，runtime也就终止了。也可以使用<code>ray.shutdown()</code>强制终止。</li>
+</ul>
+</li>
+<li>显示的通过CLI</li>
+<li>显示的通过cluster launch<ul>
+<li><code>ray up</code>使用Ray cluster launcher在云上启动一个集群，创建一个指定的<strong>head node</strong>和一些<strong>worker node</strong>。</li>
+<li>想要和现有的集群连接，调用<code>ray.init</code>并且指定集群的ip地址。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Using-Actors"><a href="#Using-Actors" class="headerlink" title="Using Actors"></a>Using Actors</h2><p>一个 <code>actor</code> 实际上就是一个有状态的 <code>worker</code>. 当一个新的 actor 被实例化，那么一个新的 worker 就诞生了，同时这个 actor 的 method 就被安排在那个特定的 worker 上。 actor 可以访问并修改那个 worker 的状态. </p>
+<ul>
+<li>Worker 和 Actor 的区别<ul>
+<li>“Ray worker” 就是一个 Python <code>进程</code></li>
+<li>“Ray worker” 要么被用来运行多个 Ray task 或者开始时对应一个专门的 actor</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>Task: 当 Ray 在一台机器上运行的时候，会自动开始几个 <code>Ray workers</code>. 他们被用来执行 <code>task</code> (类似一个进程池)</p>
+</blockquote>
+<blockquote>
+<p>Actor: 一个 Ray Actor 也是一个 “Ray worker” 只不过是在 runtime 实例化的. 所有的 methods 都运行在同一个进程里，使用相同的资源. 与 <code>Task</code> 不同的是，运行 Ray Actor 的进程不会重复使用并且会在 Actor 被删除后终止。</p>
+</blockquote>
+<p>下面将介绍两种actor同步的方式</p>
+<h2 id="AsyncIO-Concurrency-for-Actors"><a href="#AsyncIO-Concurrency-for-Actors" class="headerlink" title="AsyncIO / Concurrency for Actors"></a>AsyncIO / Concurrency for Actors</h2><p>Ray 提供了两种 concurrency 的办法 <code>async execution</code> 和 <code>threading</code>. </p>
+<p>Python 的 <code>Global Interpreter Lock (GIL)</code> 只允许在某一时刻运行一个thread, 那么我们就无法实现真正意义上的 parallelism. 一些常见的库，比如 Numpy, Cython, Tensorflow, PyTorch 在调用 C/C++ 函数的时候会释放 GIL. 但是<code>async execution</code> 和 <code>threading</code>无法绕开 GIL.</p>
+<h3 id="AsyncIO-for-Actors"><a href="#AsyncIO-for-Actors" class="headerlink" title="AsyncIO for Actors"></a>AsyncIO for Actors</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904088677662728">Python 中 async 与 await 的用法</a></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-keyword">import</span> ray<br><span class="hljs-keyword">import</span> asyncio<br>ray.init()<br><br><span class="hljs-meta">@ray.remote</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AsyncActor</span>:</span><br>    <span class="hljs-comment"># multiple invocation of this method can be running in</span><br>    <span class="hljs-comment"># the event loop at the same time</span><br>    <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">run_concurrent</span>(<span class="hljs-params">self</span>):</span><br>        print(<span class="hljs-string">&quot;started&quot;</span>)<br>        <span class="hljs-keyword">await</span> asyncio.sleep(<span class="hljs-number">2</span>) <span class="hljs-comment"># concurrent workload here</span><br>        print(<span class="hljs-string">&quot;finished&quot;</span>)<br><br>actor = AsyncActor.remote()<br><br><span class="hljs-comment"># regular ray.get</span><br>ray.get([actor.run_concurrent.remote() <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>)])<br><br><span class="hljs-comment"># async ray.get</span><br><span class="hljs-keyword">await</span> actor.run_concurrent.remote()<br></code></pre></td></tr></table></figure>
+<h3 id="Threaded-Actors"><a href="#Threaded-Actors" class="headerlink" title="Threaded Actors"></a>Threaded Actors</h3><p>有时候使用 asyncio 并不是一个理想的解决方案。比如你可能有一个method在进行大量的计算任务并阻塞了event loop, 且不能通过 <code>await</code> 去停止。这就对 Async Actor 的整体性能有影响，因为 Async Actor 在某一时刻只能执行一个任务并且依赖<code>await</code> 去进行上下文切换。</p>
+<p>可以使用 <code>max_concurrency</code> Actor 来代替, 类似线程池。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-meta">@ray.remote</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ThreadedActor</span>:</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">task_1</span>(<span class="hljs-params">self</span>):</span> print(<span class="hljs-string">&quot;I&#x27;m running in a thread!&quot;</span>)<br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">task_2</span>(<span class="hljs-params">self</span>):</span> print(<span class="hljs-string">&quot;I&#x27;m running in another thread!&quot;</span>)<br><br>a = ThreadedActor.options(max_concurrency=<span class="hljs-number">2</span>).remote()<br>ray.get([a.task_1.remote(), a.task_2.remote()])<br></code></pre></td></tr></table></figure>
+<p>每个 threaded actor 的 <code>Invocation</code> 都会在线程池中运行。线程池的大小是由 <code>max_concurrency</code> 控制的。</p>
+<h2 id="GPU-Support"><a href="#GPU-Support" class="headerlink" title="GPU Support"></a>GPU Support</h2><p>Ray可以在<code>ray.remote</code>修饰器中对远程函数和对象中指定GPU的需求</p>
+<h3 id="Starting-Ray-with-GPUs"><a href="#Starting-Ray-with-GPUs" class="headerlink" title="Starting Ray with GPUs"></a>Starting Ray with GPUs</h3><p>Ray会自动监测本机上可用的GPU数量。但我们也可以通过<code>ray.init(num_gpus=N)</code>或者<code>ray start --num-gpus=N</code>来重写。</p>
+<p>Tips: Ray没有对设置超过实际数量GPU的操作采取保护机制。设置过多的GPU可能会导致GPU不存在的报错。</p>
+<h3 id="Using-Remote-Functions-with-GPUs"><a href="#Using-Remote-Functions-with-GPUs" class="headerlink" title="Using Remote Functions with GPUs"></a>Using Remote Functions with GPUs</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><br><span class="hljs-meta">@ray.remote(<span class="hljs-params">num_gpus=<span class="hljs-number">1</span></span>)</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">use_gpu</span>():</span><br>    print(<span class="hljs-string">&quot;ray.get_gpu_ids(): &#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(ray.get_gpu_ids()))<br>    print(<span class="hljs-string">&quot;CUDA_VISIBLE_DEVICES: &#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(os.environ[<span class="hljs-string">&quot;CUDA_VISIBLE_DEVICES&quot;</span>]))<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+<h2 id="Serialization"><a href="#Serialization" class="headerlink" title="Serialization"></a>Serialization</h2><p>因为 Ray 进程不是内存空间共享的，数据在 <code>workers</code> 和 <code>nodes</code> 之间传输需要序列化和反序列化。Ray 使用 <code>Plasma object store</code> 高效的把对象传输给不同的 <code>nodes</code> 和 <code>processes</code>.</p>
+<h3 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h3><p>Ray 使用 <code>Pickle protocol version 5</code> 作为序列化协议。</p>
+<h3 id="Plasma-Object-Store"><a href="#Plasma-Object-Store" class="headerlink" title="Plasma Object Store"></a>Plasma Object Store</h3><p><strong>Plasma</strong> 是一个基于 Apache Arrow 开发的内对象存储。所有的对象在 <strong>Plasma object store</strong> 中都是不可变的并且保存在共享内存中。</p>
+<p>每个 node 都有自己的 object store. 当数据存入 object store, 它不会自动的广播通知其他的 node. 数据一直保留在本地直到在别的 node 被别的 task 或者 actor 请求。</p>
+<h3 id="Numpy-Arrays"><a href="#Numpy-Arrays" class="headerlink" title="Numpy Arrays"></a>Numpy Arrays</h3><ul>
+<li>Numpy array中存储的都是只读的对象，同一节点上的所有Ray Worker都可以读取对象存储中的numpy array而无需复制（零复制读取）。</li>
+<li>工作进程中的每个numpy array对象都持有一个指向共享内存中相关数组的指针。</li>
+<li>对只读对象的任何写入都需要用户首先将其复制到本地进程内存中。</li>
+</ul>
+<h2 id="Memory-Management"><a href="#Memory-Management" class="headerlink" title="Memory Management"></a>Memory Management</h2><p>Ray 当中的内存管理</p>
+
+
+<p>我们把 Ray 的内存分成两个部分: <code>Ray system memory</code> 和 <code>Application memory</code>.</p>
+<ul>
+<li>Ray system memory (这部分的内存是 Ray 内部在使用)<ul>
+<li>Redis<ul>
+<li>存储在集群中的一系列 nodes 和 actors</li>
+<li>存储这部分用到的内存很小</li>
+</ul>
+</li>
+<li>Raylet<ul>
+<li>C++ raylet 进程在每个 node 上运行所需要的空间</li>
+<li>这部分不能够被控制，但是用到的内存空间也很小</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Application memory (这部分内存是我们的应用在使用)<ul>
+<li>Worker heap<ul>
+<li>应用所使用的的内存 (e.g., in Python code or TensorFlow)</li>
+<li>需要用应用的 <em>resident set size</em> 减去 <em>shared memory usage</em> 来衡量。</li>
+</ul>
+</li>
+<li>Object store memory<ul>
+<li>当应用通过 <code>ray.put</code> 创建对象并且返回的值来自 remote function</li>
+</ul>
+</li>
+<li>Object store shared memory<ul>
+<li>当应用通过 <code>ray.get</code> 读取对象</li>
+<li>如果一个对象已经存在在一个 node 中, 这将不会导致额外的内存分配。这样可以使得一些比较大的对象在各个 actors 和 tasks 中共享的更有效率。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="Object-生命周期"><a href="#Object-生命周期" class="headerlink" title="Object 生命周期"></a>Object 生命周期</h3>
+
+
+
+<p>Object的所有者是初始化<code>ObjectRef</code>，<strong>并且</strong>提交了task或者调用了<code>ray up</code>的worker。</p>
+<ul>
+<li>Ray 如果确认所有者还存在，Object最后会解析为它的值</li>
+<li>如果所有者不存在，试图获取Object值得操作不会悬停，而是抛出异常，即使存在Object物理拷贝</li>
+</ul>
+<p>每个worker储存它所属的Object的引用次数。引用仅仅在以下情况被统计：</p>
+<ul>
+<li>传递一个<code>ObjectRef</code>或者包含<code>ObjectRef</code>这个参数的task</li>
+<li>Task返回一个<code>ObjectRef</code>或者包含<code>ObjectRef</code>的返回</li>
+</ul>
+<h3 id="对象管理"><a href="#对象管理" class="headerlink" title="对象管理"></a>对象管理</h3>
+
+<p>通常，小的对象存储在它自己的进程里，而大的对象储存在分布式对象存储里。</p>
+<p>在进程中的对象能够通过直接内存拷贝的方式快速解析，但是这可能会带来更多的内存占用。如果对象被很多进程引用，就会造成额外的拷贝操作。</p>
+<p>而解析一个分布式内存的对象至少需要一个worker之间的IPC（进程间通信）。如果worker本地共享不存在这个对象的拷贝，还会产生一个RPC通信。因为共享内存存储是通过“共享内存机制”实现的，一个节点上的多个worker可能引用同一块对象的拷贝。采用“零拷贝反序列化”的方式就可以降低总内存占用。这种用法意味着一个进程可以应用一个超过单台机器内存容量的对象，因为对象的多个拷贝可以储存在不同的节点上。</p>
+<h3 id="对象解析"><a href="#对象解析" class="headerlink" title="对象解析"></a>对象解析</h3><p>object的值能够通过一个叫<code>ObjectRef</code>来解析。<code>ObjectRef</code>包含了两个字段：</p>
+<ul>
+<li>一个唯一的20-byte的标识符。这是产生这个object的task id和object id的组合</li>
+<li>object所有者进程的地址。包含worker进程的唯一ID，IP地址和端口，和本地raylet的ID</li>
+</ul>
+
+
+<ol>
+<li>在GCS查找Object的地址</li>
+<li>选择一个地址并且发出了一个获取Object的请求</li>
+<li>获得了这个Object</li>
+</ol>
+<h3 id="使用ray-memory命令行"><a href="#使用ray-memory命令行" class="headerlink" title="使用ray memory命令行"></a>使用<code>ray memory</code>命令行</h3><p>当一个Ray应用在运行的时候使用<code>ray memory</code>会返回所有当前被集群中driver, actor和task持有的的<code>ObjectRef</code>的索引。</p>
+<p>此输出中的每个条目都对应于一个ObjectRef，该ObjectRef当前将对象固定在对象存储中，以及引用的位置（在driver、worker等中）、引用的类型（有关引用类型的详细信息）、对象的大小（以字节为单位），实例化对象的进程ID和IP地址，以及在应用程序中创建引用的位置。</p>
+<h4 id="Local-ObjectRef-Reference"><a href="#Local-ObjectRef-Reference" class="headerlink" title="Local ObjectRef Reference"></a>Local ObjectRef Reference</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">@ray.remote</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">f</span>(<span class="hljs-params">arg</span>):</span><br>    <span class="hljs-keyword">return</span> arg<br><br>a = ray.put(<span class="hljs-literal">None</span>)<br>b = f.remote(<span class="hljs-literal">None</span>)<br></code></pre></td></tr></table></figure>
+
+
+
+
+<p>有两个<code>ObjectRef</code>，都是<code>LOCAL_REFERENCE</code>。但是其中一个的Reference是<code>put object</code>（对应a），另一个是<code>task call</code>（对应b）</p>
+<h4 id="Objects-pinned-in-memory"><a href="#Objects-pinned-in-memory" class="headerlink" title="Objects pinned in memory"></a>Objects pinned in memory</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br>a = ray.put(np.zeros(<span class="hljs-number">1</span>))<br>b = ray.get(a)<br><span class="hljs-keyword">del</span> a<br></code></pre></td></tr></table></figure>
+
+
+
+
+<p>在这种情况下，对象仍然固定在对象存储中，因为反序列化副本（存储在b中）直接指向对象存储中的内存。</p>
+<h4 id="Pending-task-reference"><a href="#Pending-task-reference" class="headerlink" title="Pending task reference"></a>Pending task reference</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">@ray.remote</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">f</span>(<span class="hljs-params">arg</span>):</span><br>    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>        <span class="hljs-keyword">pass</span><br><br>a = ray.put(<span class="hljs-literal">None</span>)<br>b = f.remote(a)<br></code></pre></td></tr></table></figure>
+
+
+<p>我们发现同一个ObjectID在worker和driver中都出现了分别是<code>USED_BY_PENDING_TASK</code>和<code>PINNED_IN_MEMORY</code>。因为Python <code>arg</code>直接引用了plasma中的内存。</p>
+<h4 id="Serialized-ObjectRef-references"><a href="#Serialized-ObjectRef-references" class="headerlink" title="Serialized ObjectRef references"></a>Serialized ObjectRef references</h4><p>我们对a进行一个封装，这个例子中是作为一个list传入的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">@ray.remote</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">f</span>(<span class="hljs-params">arg</span>):</span><br>    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>        <span class="hljs-keyword">pass</span><br><br>a = ray.put(<span class="hljs-literal">None</span>)<br>b = f.remote([a])<br></code></pre></td></tr></table></figure>
+
+
+
+
+<p>这时候就变成了<code>LOCAL_REFERENCE</code></p>
+<h4 id="Captured-ObjectRef-references"><a href="#Captured-ObjectRef-references" class="headerlink" title="Captured ObjectRef references"></a>Captured ObjectRef references</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">a = ray.put(<span class="hljs-literal">None</span>)<br>b = ray.put([a])<br><span class="hljs-keyword">del</span> a<br></code></pre></td></tr></table></figure>
+
+
+
+
+<p>在内存中a是<code>CAPTURED_IN_OBJECT</code>的类型</p>
+<h3 id="Raylet"><a href="#Raylet" class="headerlink" title="Raylet"></a>Raylet</h3><p>我们可以抽象一个相对简单的 Worker 和 GCS 的关系:</p>
+
+
+<p>Raylet 在中间的作用非常关键，包含了以下重要内容</p>
+<ul>
+<li>Node Manager<ul>
+<li>基于 boost::asio 的异步通信模块，主要是通信的连接和消息处理管理</li>
+</ul>
+</li>
+<li>Object Manager<ul>
+<li>Object Store 的管理</li>
+</ul>
+</li>
+<li>gcs_client 或者 gcs server<ul>
+<li>gcs_client 是连接 GCS 客户端。如果设置 RAY_GCS_SERVICE_ENABLED 为 true 的话，这个 Server 就是作为 GCS 启动</li>
+</ul>
+</li>
+</ul>
+<h4 id="Raylet-的启动过程"><a href="#Raylet-的启动过程" class="headerlink" title="Raylet 的启动过程"></a>Raylet 的启动过程</h4>
+
+<ol>
+<li>Raylet 的初始化，这里包含有很多参数。包括 Node Manager 和 gcs client 的初始化</li>
+<li>注册 GCS 准备接收消息。一旦有消息进来，就进入 Node Manager 的 ProcessClientMessage 过程。(TODO ProcessClientMessage的通信模型)</li>
+</ol>
+<h2 id="Placement-Groups-置放群组"><a href="#Placement-Groups-置放群组" class="headerlink" title="Placement Groups (置放群组)"></a>Placement Groups (置放群组)</h2><p><strong>Placement Groups</strong> 允许用户跨多个<code>nodes</code>原子性的保存一组资源.(i.e., gang scheduling). <strong>Placement Groups</strong> 可以被用不同的策略来调度打包 <code>Ray tasks</code> 和 <code>actors</code>.</p>
+<blockquote>
+<p>这里的原子性意味着如果有一个 bundle 不适合当前所在的 node, 那么整个 Placement Group 都不会被创建.</p>
+</blockquote>
+<p><strong>Placement Groups</strong> 有以下应用</p>
+<ul>
+<li>Gang Scheduling: 应用程序要求所有任务/参与者都安排在同一时间开始。</li>
+<li>Maximizing data locality: 您希望将task和actor安排在数据附近，以避免对象传输开销。</li>
+<li>Load balancing: 为了提高应用程序可用性并避免资源过载，您希望尽可能将参与者或任务放置到不同的物理机器中。</li>
+</ul>
+<h4 id="关键概念"><a href="#关键概念" class="headerlink" title="关键概念"></a>关键概念</h4><ul>
+<li><strong>bundle</strong> : 资源的集合<ul>
+<li>一个 bundle 必须适合一个在集群中的 node</li>
+<li>然后 Bundles 会根据 <code>placement group strategy</code> 在集群中跨 nodes 放置</li>
+</ul>
+</li>
+<li><strong>placement group</strong> : bundle 的集合<ul>
+<li>每一个 bundle 都被给予了一个在 placement group 的编号</li>
+<li>然后 Bundles 会根据 <code>placement group strategy</code> 在集群中跨 nodes 放置</li>
+<li>等 placement group 创建了后，<code>tasks</code> 和 <code>actors</code> 可以根据 placement group 或者个人 bundles 来调度。</li>
+</ul>
+</li>
+</ul>
+<h4 id="策略类型"><a href="#策略类型" class="headerlink" title="策略类型"></a>策略类型</h4><ul>
+<li>STRICT_PACK<ul>
+<li>所有bundles都必须放在集群上的单个节点中。</li>
+</ul>
+</li>
+<li>PACK<ul>
+<li>所有提供的bundle都尽量打包到单个节点上。如果严格打包不可行（即某些bundle不适合节点），则可以将bundle放在其他节点上。</li>
+</ul>
+</li>
+<li>STRICT_SPREAD<ul>
+<li>每个bundle必须安排在单独的节点中。</li>
+</ul>
+</li>
+<li>SPREAD<ul>
+<li>每个bundle将以最大努力的方式分布到单独的节点上。如果严格展开不可行，则可以将bundle放置在重叠的节点上。</li>
+</ul>
+</li>
+</ul>
+<h4 id="容错"><a href="#容错" class="headerlink" title="容错"></a>容错</h4><p>如果包含placement group的某些bundle的节点死亡，GCS将在不同的节点上重新调度所有束。这意味着placement group的初始创建是“原子的”，但一旦创建，就可能存在部分placement group。</p>
+<p>Placement group可以容忍工作节点故障（死区节点上的包被重新调度）。但是，放置组目前无法容忍头部节点故障（GCS故障），这是Ray的单点故障。</p>
+<h2 id="Advanced-Usage"><a href="#Advanced-Usage" class="headerlink" title="Advanced Usage"></a>Advanced Usage</h2><h4 id="Synchronization"><a href="#Synchronization" class="headerlink" title="Synchronization"></a>Synchronization</h4><ul>
+<li>Inter-process synchronization using FileLock</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-keyword">import</span> ray<br><span class="hljs-keyword">from</span> filelock <span class="hljs-keyword">import</span> FileLock<br><br><span class="hljs-meta">@ray.remote</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">write_to_file</span>(<span class="hljs-params">text</span>):</span><br>    <span class="hljs-comment"># Create a filelock object. Consider using an absolute path for the lock.</span><br>    <span class="hljs-keyword">with</span> FileLock(<span class="hljs-string">&quot;my_data.txt.lock&quot;</span>):<br>        <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;my_data.txt&quot;</span>,<span class="hljs-string">&quot;a&quot;</span>) <span class="hljs-keyword">as</span> f:<br>            f.write(text)<br><br>ray.init()<br>ray.get([write_to_file.remote(<span class="hljs-string">&quot;hi there!\n&quot;</span>) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>)])<br><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;my_data.txt&quot;</span>) <span class="hljs-keyword">as</span> f:<br>    print(f.read())<br><br><span class="hljs-comment">## Output is:</span><br><br><span class="hljs-comment"># hi there!</span><br><span class="hljs-comment"># hi there!</span><br><span class="hljs-comment"># hi there!</span><br></code></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/26487659">理解 Python 关键字 “with” 与上下文管理器</a></p>
+<ul>
+<li>Multi-node synchronization using SignalActor</li>
+</ul>
+<blockquote>
+<p>当你有多个 tasks 需要等待同一个条件的时候，你可以使用一个 <code>SingnalActor</code> 来调度。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-comment"># Also available via `from ray.test_utils import SignalActor`</span><br><span class="hljs-keyword">import</span> ray<br><span class="hljs-keyword">import</span> asyncio<br><br><span class="hljs-meta">@ray.remote(<span class="hljs-params">num_cpus=<span class="hljs-number">0</span></span>)</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SignalActor</span>:</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self</span>):</span><br>        self.ready_event = asyncio.Event()<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">send</span>(<span class="hljs-params">self, clear=<span class="hljs-literal">False</span></span>):</span><br>        self.ready_event.<span class="hljs-built_in">set</span>()<br>        <span class="hljs-keyword">if</span> clear:<br>            self.ready_event.clear()<br><br>    <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">wait</span>(<span class="hljs-params">self, should_wait=<span class="hljs-literal">True</span></span>):</span><br>        <span class="hljs-keyword">if</span> should_wait:<br>            <span class="hljs-keyword">await</span> self.ready_event.wait()<br><br><span class="hljs-meta">@ray.remote</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">wait_and_go</span>(<span class="hljs-params">signal</span>):</span><br>    ray.get(signal.wait.remote())<br><br>    print(<span class="hljs-string">&quot;go!&quot;</span>)<br><br>ray.init()<br>signal = SignalActor.remote()<br>tasks = [wait_and_go.remote(signal) <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>)]<br>print(<span class="hljs-string">&quot;ready...&quot;</span>)<br><span class="hljs-comment"># Tasks will all be waiting for the singals.</span><br>print(<span class="hljs-string">&quot;set..&quot;</span>)<br>ray.get(signal.send.remote())<br><br><span class="hljs-comment"># Tasks are unblocked.</span><br>ray.get(tasks)<br><br><span class="hljs-comment">##  Output is:</span><br><span class="hljs-comment"># ready...</span><br><span class="hljs-comment"># get set..</span><br><br><span class="hljs-comment"># (pid=77366) go!</span><br><span class="hljs-comment"># (pid=77372) go!</span><br><span class="hljs-comment"># (pid=77367) go!</span><br><span class="hljs-comment"># (pid=77358) go!</span><br></code></pre></td></tr></table></figure>
+<ul>
+<li>Message passing using Ray Queue</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-keyword">import</span> ray<br><span class="hljs-keyword">from</span> ray.util.queue <span class="hljs-keyword">import</span> Queue<br><br>ray.init()<br><span class="hljs-comment"># You can pass this object around to different tasks/actors</span><br>queue = Queue(maxsize=<span class="hljs-number">100</span>)<br><br><span class="hljs-meta">@ray.remote</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">consumer</span>(<span class="hljs-params">queue</span>):</span><br>    next_item = queue.get(block=<span class="hljs-literal">True</span>)<br>    print(<span class="hljs-string">f&quot;got work <span class="hljs-subst">&#123;next_item&#125;</span>&quot;</span>)<br><br>consumers = [consumer.remote(queue) <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">2</span>)]<br><br>[queue.put(i) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>)]<br></code></pre></td></tr></table></figure>
+<ul>
+<li>Dynamic Remote Parameters</li>
+</ul>
+<h4 id="Dynamic-Custom-Resources"><a href="#Dynamic-Custom-Resources" class="headerlink" title="Dynamic Custom Resources"></a>Dynamic Custom Resources</h4><blockquote>
+<p>我们可以动态的去调整资源的需求或者返回在运行时调用<code>.option</code> 返回 <code>ray.remote</code> 的值</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-meta">@ray.remote(<span class="hljs-params">num_cpus=<span class="hljs-number">4</span></span>)</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Counter</span>(<span class="hljs-params"><span class="hljs-built_in">object</span></span>):</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self</span>):</span><br>        self.value = <span class="hljs-number">0</span><br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">increment</span>(<span class="hljs-params">self</span>):</span><br>        self.value += <span class="hljs-number">1</span><br>        <span class="hljs-keyword">return</span> self.value<br><br>a1 = Counter.options(num_cpus=<span class="hljs-number">1</span>, resources=&#123;<span class="hljs-string">&quot;Custom1&quot;</span>: <span class="hljs-number">1</span>&#125;).remote()<br>a2 = Counter.options(num_cpus=<span class="hljs-number">2</span>, resources=&#123;<span class="hljs-string">&quot;Custom2&quot;</span>: <span class="hljs-number">1</span>&#125;).remote()<br>a3 = Counter.options(num_cpus=<span class="hljs-number">3</span>, resources=&#123;<span class="hljs-string">&quot;Custom3&quot;</span>: <span class="hljs-number">1</span>&#125;).remote()<br></code></pre></td></tr></table></figure>
+<h1 id=""><a href="#" class="headerlink" title=""></a></h1>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Ray/">Ray</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/04/01/k8s-operator/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">k8s operator</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/03/17/Docker%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/">
+                        <span class="hidden-mobile">Docker课堂笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

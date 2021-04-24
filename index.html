@@ -181,30 +181,26 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/01/27/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8B-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/">《数据密集型应用系统设计》-读书笔记2</a>
+        <a href="/2021/04/22/%E3%80%8A%E7%8E%B0%E4%BB%A3%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E3%80%8B-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">《现代操作系统》-读书笔记</a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/01/27/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8B-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/">
+        <a href="/2021/04/22/%E3%80%8A%E7%8E%B0%E4%BB%A3%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E3%80%8B-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">
           
           
             
           
-          第二部分：分布式数据系统
-扩展性
-当数据量或者读写负载巨大，严重超出了单台机器的处理上限，需要将负载分散到多台机器上。
+          进程与线程进程进程模型
+在进程模型中，计算机上所有可运行的软件，通常也包括操作系统，被组织成若干顺序进程，简称进程。
 
 
-容错和高可用性
-当单台机器出现故障，还希望应用系统可以继续工作，这是需要采用多台机器提供冗余。
+一个进程就是一个正在执行程序的实例，包括程序计数器、寄存器和变量当前值。
+
+一个进程是某种类型的一个活动，它有程序、输入、输出以及状态。单个处理器可以被若干进程共享，它使用某种调度算法决定何时停止一个进程的工作，并转而为另一个进程提供服务。
 
 
-延迟考虑
-如果客户遍布世界各地，通常需要考虑在全球范围内部署服务，以方便用户就近访问最近数据中心所提供的服务。
-
-
-
-系统扩展能力当负载增加需要更强的处理能力时，最简单的办法就
+进程的创建
+4种主要事件会导致进
         </a>
       </p>
 
@@ -212,8 +208,261 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-01-27 13:02" pubdate>
-              2021-01-27
+            <time datetime="2021-04-22 11:41" pubdate>
+              2021-04-22
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+            
+              <a href="/tags/%E7%8E%B0%E4%BB%A3%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">现代操作系统</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/04/01/k8s-operator/">k8s operator</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/04/01/k8s-operator/">
+          
+          
+            
+          
+          Operator概述基本概念首先介绍一下本文涉及的基本概念
+
+**CRD(Custom Resource Definition)**： 允许用户自定义Kubernetes资源，是一个类型。
+
+**CR(Custom Resource)**： CRD的一个具体实例
+
+webhook： 本质上是一种HTTP回调，会注册到apiserver上。在apiserver特定事件发生时，会查询已注册的webho
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-04-01 11:34" pubdate>
+              2021-04-01
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/kubernetes/">kubernetes</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/03/23/Ray%E5%88%86%E5%B8%83%E5%BC%8F%E8%AE%A1%E7%AE%97%E6%A1%86%E6%9E%B6%E2%80%94%E2%80%94Using-Ray/">Ray分布式计算框架——Using Ray</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/03/23/Ray%E5%88%86%E5%B8%83%E5%BC%8F%E8%AE%A1%E7%AE%97%E6%A1%86%E6%9E%B6%E2%80%94%E2%80%94Using-Ray/">
+          
+          
+            
+          
+          Using RayStarting Ray
+什么是 Ray runtime (内存管理)
+Ray programs are able to parallelize and distribute by leveraging an underlying Ray runtime.
+The Ray runtime consists of multiple services/processes starte
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-23 09:54" pubdate>
+              2021-03-23
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Ray/">Ray</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/03/17/Docker%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/">Docker课堂笔记</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/03/17/Docker%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/">
+          
+          
+            
+          
+          Docker简介Docker安装Docker的基本组成镜像
+ Docker 镜像（Image）就是一个只读的模板。镜像可以用来创建 Docker 容器，一个镜像可以创建很多容器。
+
+容器
+ Docker 利用容器（Container）独立运行的一个或一组应用。容器是用镜像创建的运行实例。
+
+
+它可以被启动、开始、停止、删除。每个容器都是相互隔离的、保证安全的平台。
+
+可以把容器看做是一个简易版的 
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-17 13:45" pubdate>
+              2021-03-17
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Docker/">Docker</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/03/16/k8s%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/">k8s课堂笔记</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/03/16/k8s%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/">
+          
+          
+            
+          
+          第一部分 k8s基本概念k8s概述和特性k8s概述
+k8s是谷歌在2014年开业的容器化集群管理系统
+使用k8s进行容器化应用部署
+使用k8s利于应用扩展
+k8s目标实施让部署容器化应用更加简洁和高效
+
+k8s特性自动装箱
+基于容器对应用运行环境的资源配置要求自动部署应用容器
+
+自我修复
+当容器失败时，会对容器进行重启
+当所部署的 Node 节点有问题时，会对容器进行重新部署和重新调度
+当容器未通
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-16 20:02" pubdate>
+              2021-03-16
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/kubernetes/">kubernetes</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/kubernetes/">kubernetes</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/03/08/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%AE%9E%E7%8E%B0%EF%BC%881%EF%BC%89%E2%80%94%E2%80%94Redis/">分布式锁的实现（1）——Redis</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/03/08/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%AE%9E%E7%8E%B0%EF%BC%881%EF%BC%89%E2%80%94%E2%80%94Redis/">
+          
+          
+            
+          
+          分布式锁一直是一个经常听到的名词，但是一直没有将它与普通的锁区分开来。这次打算来一次整理，具体了解一下分布式锁。
+分布式锁背景首先，分布式锁和我们平常讲到的锁原理基本一样，目的就是确保在多个线程并发时，只有一个线程在同一刻操作这个业务或者说方法、变量。
+由于客观存在的业务量的需求，我们会把请求平均分配在多台服务器中。这里就可以把多台服务器理解成一个集群。分布式锁可以把整个集群就当做是一个应用一样去
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-08 16:34" pubdate>
+              2021-03-08
             </time>
           </div>
         
@@ -229,53 +478,9 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+              <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/">分布式锁</a>
             
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">数据密集型应用系统设计</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/01/25/Elasticsearch-%E5%88%9D%E6%AD%A5%E6%8E%A2%E7%B4%A2/">Elasticsearch 初步探索</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/01/25/Elasticsearch-%E5%88%9D%E6%AD%A5%E6%8E%A2%E7%B4%A2/">
-          
-          
-            
-          
-          前一段时间在听左耳朵耗子前辈的分享，开始决定渐渐解除对知乎和微信公众号的依赖，决定去向官网的英文文档以及一些paper靠拢。学习，仍然是一件很长的事情。
-前一段时间在啃《数据密集型应用系统设计》，由于所学尚浅，其中有诸多不甚理解之处。在仁飞导师的建议下，决定先从es入手，再回头看这本堪称“圣经”的书。
-导论
-定义：Elastic search is a highly scalable open-s
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-01-25 15:17" pubdate>
-              2021-01-25
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Elasticsearch/">Elasticsearch</a>
+              <a href="/tags/Redis/">Redis</a>
             
           </div>
         
@@ -289,17 +494,18 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/01/25/hello-world/">Hello World</a>
+        <a href="/2021/03/05/Google%E4%B8%89%E9%A9%BE%E9%A9%AC%E8%BD%A6%EF%BC%883%EF%BC%89%E2%80%94%E2%80%94MapReduce/">Google三驾马车（3）——MapReduce</a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/01/25/hello-world/">
+        <a href="/2021/03/05/Google%E4%B8%89%E9%A9%BE%E9%A9%AC%E8%BD%A6%EF%BC%883%EF%BC%89%E2%80%94%E2%80%94MapReduce/">
           
           
             
           
-          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick
+          这是我认为在三驾马车中相对比较简单的MapReduce，之前跟着MIT6.824中的lab1中模拟了一遍。顺便推荐一下这个神课，网上的资料也非常齐全，算是我的分布式系统入门课程。
+MapReduce我们一般使用MapReduce作为一个算法的框架来处理海量的数据。假设我们有1TB的数据，我们可能会统计单词数，或者建立倒排索引。这时候就会用到这个MapReduce的框架。
+什么是Map和Reduce
         </a>
       </p>
 
@@ -307,91 +513,8 @@ Quick
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-01-25 14:51" pubdate>
-              2021-01-25
-            </time>
-          </div>
-        
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/01/18/LSM-Tree%E5%88%9D%E6%8E%A2/">LSM-Tree初探</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/01/18/LSM-Tree%E5%88%9D%E6%8E%A2/">
-          
-          
-            
-          
-          在阅读《数据密集型应用系统设计》的时候，接触到了LSM-Tree。觉得书中讲述的十分简略，没能深入理解这个存储结构。打算单独拎出来写一篇笔记。
-LSM-Tree背景传统关系型数据库使用B-Tree或者一些变体作为存储结构，但这有一个缺点：有的数据逻辑上相离很近但是物理上相离甚远，这就会导致大量的磁盘随机读写。而随机读写比顺序读写要慢很多，为了提升IO性能，我们需要一种能将随机操作变为顺序操作的机制
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-01-18 11:25" pubdate>
-              2021-01-18
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/">分布式系统</a>
-            
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/01/13/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8B-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B01/">《数据密集型应用系统设计》- 读书笔记1</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/01/13/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8B-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B01/">
-          
-          
-            
-          
-          [TOC]
-第二章 数据模型与查询语言第三章 数据存储与检索数据库核心：数据结构适当的索引可以加速度取查询，但每个索引都会减慢写速度
-哈希索引假设数据存储全部采用追加式文件组成。
-
-保存内存中的hash map, 把每个键一一映射到数据文件中特定的字节偏移量，这样就可以找到每个值的位置。
-
-Bitcask （Riak 中的默认存储引擎）就是采用哈希索引的。它非常适合每个键的值频繁更新的场景。
-如何
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-01-13 10:05" pubdate>
-              2021-01-13
+            <time datetime="2021-03-05 15:45" pubdate>
+              2021-03-05
             </time>
           </div>
         
@@ -407,9 +530,9 @@ Bitcask （Riak 中的默认存储引擎）就是采用哈希索引的。它非�
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+              <a href="/tags/Google/">Google</a>
             
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">数据密集型应用系统设计</a>
+              <a href="/tags/%E8%AE%BA%E6%96%87/">论文</a>
             
           </div>
         
@@ -423,17 +546,21 @@ Bitcask （Riak 中的默认存储引擎）就是采用哈希索引的。它非�
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/01/12/MySQL%E5%AE%9E%E6%88%98-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">MySQL实战-读书笔记</a>
+        <a href="/2021/03/05/Google%E4%B8%89%E9%A9%BE%E9%A9%AC%E8%BD%A6%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94BigTable/">Google三驾马车（2）——BigTable</a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/01/12/MySQL%E5%AE%9E%E6%88%98-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">
+        <a href="/2021/03/05/Google%E4%B8%89%E9%A9%BE%E9%A9%AC%E8%BD%A6%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94BigTable/">
           
           
             
           
-          实习期间在导师的力荐下读到了这部极客网的 MySQL 课程，实在受益匪浅。初次速读，很多东西不能深刻的记在脑中，不能完全消化，先记录下来，日后再度翻阅。这份资料值得多次品味。
-18.为什么有的 SQL 语句逻辑相同，性能差异巨大案例一：123456789CREATE TABLE `tradelog` (    `id`            int(11)     NOT     NULL,   
+          这一篇是Google的另一个经典论文“Big Table”。这跟上一篇文章同属一个系列的YouTube视频——深入浅出Big Table
+BigTable如何在文件内快速查询我们在GFS中已经讲到了文件的读写，那么我们如何在文件内快速的查询呢。
+
+
+把key排好序后，就可以用二分查找再加上范围查找。
+如何保存一个很大的表我们的基本思路是将大表拆成小表（tablet），在元数据（metadata）中
         </a>
       </p>
 
@@ -441,8 +568,8 @@ Bitcask （Riak 中的默认存储引擎）就是采用哈希索引的。它非�
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-01-12 14:35" pubdate>
-              2021-01-12
+            <time datetime="2021-03-05 13:57" pubdate>
+              2021-03-05
             </time>
           </div>
         
@@ -450,7 +577,7 @@ Bitcask （Riak 中的默认存储引擎）就是采用哈希索引的。它非�
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+              <a href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/">分布式系统</a>
             
           </div>
         
@@ -458,9 +585,9 @@ Bitcask （Riak 中的默认存储引擎）就是采用哈希索引的。它非�
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E6%9E%81%E5%AE%A2/">极客</a>
+              <a href="/tags/Google/">Google</a>
             
-              <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+              <a href="/tags/%E8%AE%BA%E6%96%87/">论文</a>
             
           </div>
         
@@ -474,18 +601,21 @@ Bitcask （Riak 中的默认存储引擎）就是采用哈希索引的。它非�
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/01/05/MySQL-%E7%B4%A2%E5%BC%95/">MySQL-索引</a>
+        <a href="/2021/03/04/Google%E4%B8%89%E9%A9%BE%E9%A9%AC%E8%BD%A6%EF%BC%881%EF%BC%89%E2%80%94%E2%80%94GFS/">Google三驾马车（1）——GFS</a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/01/05/MySQL-%E7%B4%A2%E5%BC%95/">
+        <a href="/2021/03/04/Google%E4%B8%89%E9%A9%BE%E9%A9%AC%E8%BD%A6%EF%BC%881%EF%BC%89%E2%80%94%E2%80%94GFS/">
           
           
             
           
-          B树和B+树的具体结构在此不做赘述。好不容易弄明白了索引的底层实现，结果被面试官问为什么要使用B+索引，用Hash不香嘛。下了面试一查，发现居然还有Hash索引，真是吃了没有文化的亏呀。防不胜防，在此补作一笔。
-首先要明白索引(index)是在存储引擎层面实现的，而不是server层面
-什么是索引索引（Index）是帮助数据库高效获取数据的数据结构。索引是在基于数据库表创建的，它包含一个表中某些列
+          最近阅读了号称Google分布式系统的三驾马车中的”The Google File System“。由于水平尚浅，即便读的是中译仍觉得倍感吃力，偶然间发现这个YouTube上的讲解视频——深入浅出Google File System，可谓豁然开朗，打算回头再重读原文，收获颇丰。
+架构的层次
+
+
+
+最底层是一个文件系统（GFS），往上需要你把数据模型抽象出来以便使用（BigTable），再往上就是算
         </a>
       </p>
 
@@ -493,8 +623,8 @@ Bitcask （Riak 中的默认存储引擎）就是采用哈希索引的。它非�
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-01-05 14:26" pubdate>
-              2021-01-05
+            <time datetime="2021-03-04 20:12" pubdate>
+              2021-03-04
             </time>
           </div>
         
@@ -502,10 +632,19 @@ Bitcask （Riak 中的默认存储引擎）就是采用哈希索引的。它非�
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+              <a href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/">分布式系统</a>
             
           </div>
         
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Google/">Google</a>
+            
+              <a href="/tags/%E8%AE%BA%E6%96%87/">论文</a>
+            
+          </div>
         
       </div>
     </article>
@@ -517,20 +656,18 @@ Bitcask （Riak 中的默认存储引擎）就是采用哈希索引的。它非�
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/01/04/MySQL-%E4%BA%8B%E5%8A%A1/">MySQL-事务</a>
+        <a href="/2021/03/01/%E4%B8%80%E8%87%B4%E6%80%A7%E5%A4%A7%E4%B8%80%E7%BB%9F/">一致性大一统</a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/01/04/MySQL-%E4%BA%8B%E5%8A%A1/">
+        <a href="/2021/03/01/%E4%B8%80%E8%87%B4%E6%80%A7%E5%A4%A7%E4%B8%80%E7%BB%9F/">
           
           
             
           
-          数据库ACID特性原子性 Atomicity一个事务必须被视为一个不可分割的最小工作单元，整个事务中的所有操作要么全部提交成功，要么全部回滚失败。
-一致性 Consistency数据库总是从一个一致性状态转换到另一个一致性状态。
-隔离性 Isolation一个事务在做提交之前，对其他事物是不可见的。
-持久性一旦事务提交，其所作的修改就会永久的保存在数据库中。
-MVCC 多版本并发控制我们在数据库表
+          在写这篇文章之前，对一致性的理解尚处于一种非常混乱的地步。很多名字搅在一起serializable, linearizable, sequential… 并没有一个很好的理解每一种模型之间的不同以及每一个模型背后的底层逻辑。这里准备整合一下网上的资料，阅读一些提出模型的论文来一个深度的理解。
+[TOC]
+一致性模型下图向我们展示了在并发系统中常见的一致性模型之间的关系。箭头显示一致性模型之间的关系
         </a>
       </p>
 
@@ -538,8 +675,8 @@ MVCC 多版本并发控制我们在数据库表
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-01-04 16:55" pubdate>
-              2021-01-04
+            <time datetime="2021-03-01 11:07" pubdate>
+              2021-03-01
             </time>
           </div>
         
@@ -547,7 +684,7 @@ MVCC 多版本并发控制我们在数据库表
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+              <a href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/">分布式系统</a>
             
           </div>
         
@@ -555,91 +692,9 @@ MVCC 多版本并发控制我们在数据库表
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/MySQL/">MySQL</a>
+              <a href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/">一致性</a>
             
           </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/12/30/ZooKeeper%E5%88%9D%E6%8E%A2/">ZooKeeper初探</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/12/30/ZooKeeper%E5%88%9D%E6%8E%A2/">
-          
-          
-            
-          
-          ZooKeeper 是什么
-ZooKeeper 是一个分布式协调服务 (service for coordinating processes of distributed applications)
-
-
-协调: 在一个并发的环境里，我们为了避免多个运行单元对共享数据同时进行修改，造成数据损坏的情况出现，我们就必须依赖像锁这样的协调机制.
-我们在进程内还有各种各样的协调机制(一般我们称之为同步机制)
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-12-30 11:24" pubdate>
-              2020-12-30
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/">分布式系统</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/12/08/Ray-%E6%96%B0%E6%89%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF/">Ray 新手常见错误</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/12/08/Ray-%E6%96%B0%E6%89%8B%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF/">
-          
-          
-            
-          
-          Delay ray.get()调用 get 会产生一个副作用, 会阻塞 driver 程序去做别的操作，这样就会影响并行性.
-首先看一个普通的例子:
-123456789101112131415import timedef do_some_work(x):    time.sleep(1) # Replace this with work you need to do.    return xsta
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-12-08 18:06" pubdate>
-              2020-12-08
-            </time>
-          </div>
-        
-        
         
       </div>
     </article>
@@ -649,7 +704,7 @@ ZooKeeper 是一个分布式协调服务 (service for coordinating processes of 
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="iconfont icon-arrowright"></i></a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
   

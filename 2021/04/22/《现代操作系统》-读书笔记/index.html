@@ -1,0 +1,705 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="zhuangzhuang">
+  <meta name="keywords" content="">
+  <title>《现代操作系统》-读书笔记 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"zhuangzhuang131419.github.io","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="《现代操作系统》-读书笔记">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-04-22 11:41" pubdate>
+        2021年4月22日 中午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      31
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">《现代操作系统》-读书笔记</h1>
+            
+            <div class="markdown-body">
+              <h1 id="进程与线程"><a href="#进程与线程" class="headerlink" title="进程与线程"></a>进程与线程</h1><h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><h3 id="进程模型"><a href="#进程模型" class="headerlink" title="进程模型"></a>进程模型</h3><blockquote>
+<p>在进程模型中，计算机上所有可运行的软件，通常也包括操作系统，被组织成若干<strong>顺序进程</strong>，简称<strong>进程</strong>。</p>
+</blockquote>
+<ul>
+<li><p>一个进程就是一个正在执行程序的实例，包括程序计数器、寄存器和变量当前值。</p>
+</li>
+<li><p>一个进程是某种类型的一个活动，它有程序、输入、输出以及状态。单个处理器可以被若干进程共享，它使用某种调度算法决定何时停止一个进程的工作，并转而为另一个进程提供服务。</p>
+</li>
+</ul>
+<h3 id="进程的创建"><a href="#进程的创建" class="headerlink" title="进程的创建"></a>进程的创建</h3><ul>
+<li><p>4种主要事件会导致进程的创建</p>
+<ul>
+<li>系统初始化</li>
+<li>正在运行的程序执行了创建进程的系统调用</li>
+<li>用户请求创建一个新进程</li>
+<li>一个批处理作业的初始化</li>
+</ul>
+</li>
+<li><p>停留在后台处理诸如电子邮件、Web页面、新闻、打印之类活动的进程称为<strong>守护进程（daemon）</strong></p>
+</li>
+<li><p>在UNIX系统中，只有一个系统调用可以用来创建新进程：<code>fork</code></p>
+<ul>
+<li>进程创建之后，父进程和子进程有各自不同的地址空间。修改对其他进程是不可见的。</li>
+<li>在UNIX中，子进程的初始地址空间是父进程的一个副本，不可写的内存区是共享的。或者，子进程共享父进程的所有内存，但这种情况下内存通过<strong>写时复制</strong>共享。</li>
+<li><strong>可写的内存是不可以共享的</strong>。</li>
+</ul>
+</li>
+</ul>
+<h3 id="进程的终止"><a href="#进程的终止" class="headerlink" title="进程的终止"></a>进程的终止</h3><ul>
+<li>以下条件会引起一个进程的终止：<ul>
+<li>正常退出（自愿）</li>
+<li>出错退出（自愿）</li>
+<li>严重错误（非自愿）</li>
+<li>被其他进程杀死（非自愿）</li>
+</ul>
+</li>
+</ul>
+<h3 id="进程的层次结构"><a href="#进程的层次结构" class="headerlink" title="进程的层次结构"></a>进程的层次结构</h3><ul>
+<li>进程只有一个父进程。</li>
+<li>在UNIX中，进程和它的所有子进程以及后裔共同组成一个进程组。</li>
+</ul>
+<h3 id="进程的状态"><a href="#进程的状态" class="headerlink" title="进程的状态"></a>进程的状态</h3><img src="/2021/04/22/%E3%80%8A%E7%8E%B0%E4%BB%A3%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E3%80%8B-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E8%BF%9B%E7%A8%8B%E7%9A%84%E7%8A%B6%E6%80%81.png" srcset="/img/loading.gif" class="" title="进程的状态">
+
+<ul>
+<li>进程的三种状态是：<ul>
+<li>运行态：该时刻进程实际占用CPU</li>
+<li>就绪态：可运行，但因为其他进程正在运行而暂时停止</li>
+<li>阻塞态：除非某种外部事件发生，否则进程不能运行</li>
+</ul>
+</li>
+</ul>
+<h3 id="进程的实现"><a href="#进程的实现" class="headerlink" title="进程的实现"></a>进程的实现</h3><ul>
+<li>操作系统维护着一张表格，即进程表。每个进程占用一个进程表项。</li>
+<li>该表项包含了进程状态的重要信息，包括程序计数器、堆栈指针、内存非配状况、所打开文件的状态、账号和调度信息吗，以及其他在进程由运行态转换到就绪态或阻塞态时必须保存的信息，从而保证该进程随后能再次启动，就像从未被中断过一样。</li>
+<li>与每一I/O类关联的是一个称作<strong>中断向量</strong>的位置。<ul>
+<li>中断向量包含中断服务程序的入口地址。</li>
+<li>中断发生后操作系统最底层的工作步骤：<ol>
+<li>中断硬件将程序计数器、程序状态字等压入堆栈</li>
+<li>硬件从中断向量装入新的程序计数器</li>
+<li>汇编语言过程保存寄存器值</li>
+<li>汇编语言过程设置新的堆栈</li>
+<li>C中断服务例程运行</li>
+<li>调度程序决定下一个将运行的进程</li>
+<li>C过程返回至汇编代码</li>
+<li>汇编语言过程开始运行新的当前进程</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="多道程序设计模型"><a href="#多道程序设计模型" class="headerlink" title="多道程序设计模型"></a>多道程序设计模型</h3><h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><blockquote>
+<p>在传统的操作系统中，每个进程有一个地址空间和一个控制线程。</p>
+</blockquote>
+<h3 id="线程的使用"><a href="#线程的使用" class="headerlink" title="线程的使用"></a>线程的使用</h3><ul>
+<li>引入线程的原因<ul>
+<li>需要一种并行实体拥有共享同一个地址空间和所有可用数据的能力</li>
+<li>线程比进程更轻量级，所以它们比进程更容易创建和销毁。</li>
+<li>如果存在大量的计算和大量的I/O处理，拥有多个线程允许活动彼此重叠进行，可以提升性能</li>
+</ul>
+</li>
+<li>构造服务器的三种方法：<ul>
+<li>多线程：并行性、阻塞系统调用</li>
+<li>单线程进程：无并行性、阻塞系统调用</li>
+<li>有限状态机：并行性、非阻塞系统调用、中断</li>
+</ul>
+</li>
+</ul>
+<h3 id="经典的线程模型"><a href="#经典的线程模型" class="headerlink" title="经典的线程模型"></a>经典的线程模型</h3><ul>
+<li>各个线程都可以访问进程地址空间中的每一个内存地址。（线程之间是没有保护的）</li>
+<li>每个进程中的内容<ul>
+<li>地址空间</li>
+<li>全局变量</li>
+<li>打开文件</li>
+<li>子进程</li>
+<li>即将发生的定时器</li>
+<li>信号与信号处理程序</li>
+<li>账户能力</li>
+</ul>
+</li>
+<li>每个线程中的内容<ul>
+<li>程序计数器</li>
+<li>寄存器</li>
+<li>堆栈</li>
+<li>状态</li>
+</ul>
+</li>
+<li>资源管理的单位是进程而非线程</li>
+</ul>
+<blockquote>
+<p>Q: UNIX中的fork系统调用。如果父进程有多个线程，那么它的子进程也应该拥有这些线程吗？</p>
+<p>A: 如果不是，则该子进程可能会工作不正常；如果是，父进程在read系统调用上被阻塞了会发生什么情况？</p>
+</blockquote>
+<h4 id="常见的线程调用"><a href="#常见的线程调用" class="headerlink" title="常见的线程调用"></a>常见的线程调用</h4><ul>
+<li><code>thread_create</code><ul>
+<li>进程通常会从当前的单个线程开始。这个线程可以通过调用<code>thread_create</code>创建新的线程</li>
+</ul>
+</li>
+<li><code>thread_exit</code><ul>
+<li>当一个线程完成工作，可以通过调用<code>thread_exit</code>退出</li>
+</ul>
+</li>
+<li><code>thread_join</code><ul>
+<li>一个线程可以等待一个特定的线程退出。</li>
+</ul>
+</li>
+<li><code>thread_yielf</code><ul>
+<li>它允许线程自动放弃CPU从而让另一个线程运行。</li>
+</ul>
+</li>
+</ul>
+<h3 id="POSIX线程"><a href="#POSIX线程" class="headerlink" title="POSIX线程"></a>POSIX线程</h3><table>
+<thead>
+<tr>
+<th>线程调用</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>pthread_create</td>
+<td>创建一个新线程</td>
+</tr>
+<tr>
+<td>pthread_exit</td>
+<td>结束调用的线程</td>
+</tr>
+<tr>
+<td>pthread_join</td>
+<td>等待一个特定的线程退出</td>
+</tr>
+<tr>
+<td>pthread_yield</td>
+<td>释放CPU来运行另外一个线程</td>
+</tr>
+<tr>
+<td>pthread_attr_init</td>
+<td>创建并初始化一个线程的属性结构</td>
+</tr>
+<tr>
+<td>pthread_attr_destroy</td>
+<td>删除一个线程的属性结构</td>
+</tr>
+</tbody></table>
+<h3 id="在用户空间中实现线程"><a href="#在用户空间中实现线程" class="headerlink" title="在用户空间中实现线程"></a>在用户空间中实现线程</h3><p>把整个线程包放在用户空间中，内核对线程包一无所知。</p>
+<img src="/2021/04/22/%E3%80%8A%E7%8E%B0%E4%BB%A3%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E3%80%8B-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E7%94%A8%E6%88%B7%E7%BA%A7%E7%BA%BF%E7%A8%8B%E5%8C%85%E5%92%8C%E5%86%85%E6%A0%B8%E7%AE%A1%E7%90%86%E7%9A%84%E7%BA%BF%E7%A8%8B%E5%8C%85.png" srcset="/img/loading.gif" class="" title="用户级线程包和内核管理的线程包">
+
+<ul>
+<li>在用户空间管理线程时，每个进程需要有其专用的<strong>线程表</strong></li>
+<li>使用用户级线程包的优点：<ul>
+<li>进行一个线程切换比陷入内核要快</li>
+<li>允许每个进程有自己定制的调度算法</li>
+</ul>
+</li>
+<li>使用用户级线程包的缺点：<ul>
+<li>难以实现阻塞系统调用（要允许每个线程使用阻塞调用，还要避免被阻塞的线程影响其他的线程）</li>
+<li>如果一个线程开始运行，那么在该进程中的其他线程就不能运行，除非第一个线程自动放弃CPU<ul>
+<li>在一个单独的进程内部，没有时钟中断，所以不可能用轮转调度的方式调度线程</li>
+</ul>
+</li>
+<li>我们通常在经常发生线程阻塞的应用中才希望使用多个线程。对于那些基本上是CPU密集型而且极少有阻塞的应用程序而言，没有使用多线程的意义。</li>
+</ul>
+</li>
+</ul>
+<h3 id="在内核中实现线程"><a href="#在内核中实现线程" class="headerlink" title="在内核中实现线程"></a>在内核中实现线程</h3><ul>
+<li>当某个线程希望创建一个新线程或撤销一个已有线程时，它进行了一个系统调用，这个系统调用通过对线程表的更新完成线程创建或撤销工作。</li>
+<li>当一个线程阻塞时，内核根据其选择，可以运行同一个进程中的另一个线程或者运行另一个进程中的线程。而在用户级线程中，运行时系统始终运行自己进程中的线程，直到内核剥夺它的CPU为止。</li>
+<li>信号是发给进程而不是线程的。</li>
+</ul>
+<h3 id="混合实现"><a href="#混合实现" class="headerlink" title="混合实现"></a>混合实现</h3><p>使用内核级线程，然后将用户级线程与某些或者全部内核线程多路复用起来。</p>
+<img src="/2021/04/22/%E3%80%8A%E7%8E%B0%E4%BB%A3%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E3%80%8B-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E7%94%A8%E6%88%B7%E7%BA%A7%E7%BA%BF%E7%A8%8B%E4%B8%8E%E5%86%85%E6%A0%B8%E7%BA%BF%E7%A8%8B%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8.png" srcset="/img/loading.gif" class="" title="用户级线程与内核线程多路复用">
+
+<ul>
+<li>内核只识别内核级线程，并对其进行调度</li>
+<li>其中一些内核级线程会被多个用户级线程多路复用</li>
+</ul>
+<h3 id="调度程序激活机制"><a href="#调度程序激活机制" class="headerlink" title="调度程序激活机制"></a>调度程序激活机制</h3><blockquote>
+<p>调度程序激活工作的目标是模拟内核线程的功能，但是为线程包提供通常在用户空间中才能实现的更好的性能和更大的灵活性。</p>
+</blockquote>
+<ul>
+<li>如果用户线程从事某种系统调用时是安全的，那就不应该进行专门的非阻塞调用或者进行提前检查</li>
+</ul>
+<h3 id="使单进程代码多线程化"><a href="#使单进程代码多线程化" class="headerlink" title="使单进程代码多线程化"></a>使单进程代码多线程化</h3><p>把单进程的代码多线程化会碰到以下问题：</p>
+<ul>
+<li>针对全局变量（对线程而言是全局变量，并不是对整个程序是全局的）<ul>
+<li>禁用全局变量</li>
+<li>为每个线程赋予其私有的全局变量</li>
+<li>可以引入新的库过程，以便创建、设置和读取这些线程范围的全局变量</li>
+</ul>
+</li>
+<li>有许多库并不是可重入的<ul>
+<li>为每个过程提供一个包装器，该包装器设置一个二进制位从而标志某个库处于使用中</li>
+</ul>
+</li>
+<li>对于信号的捕捉应该用什么线程</li>
+</ul>
+<h2 id="进程间通信"><a href="#进程间通信" class="headerlink" title="进程间通信"></a>进程间通信</h2><ul>
+<li>一个进程如何把信息传递给另一个</li>
+<li>确保两个或更多的进程在关键活动中不会出现交叉</li>
+<li>与正确的顺序有关</li>
+</ul>
+<h3 id="竞争条件"><a href="#竞争条件" class="headerlink" title="竞争条件"></a>竞争条件</h3><blockquote>
+<p>两个或多个进程读写某些共享数据，而最后的结果取决于进程运行的精确时序，称为<strong>竞争条件</strong>。</p>
+</blockquote>
+<h3 id="临界区"><a href="#临界区" class="headerlink" title="临界区"></a>临界区</h3><ul>
+<li>可以通过<strong>互斥</strong>的手段来避免<strong>竞争条件（condition race）</strong>。</li>
+<li>把对共享内存进行访问的片段称作<strong>临界区域（critical region）</strong>。使两个进程不可能同时处于临界区中，就能够避免竞争条件。</li>
+</ul>
+<h3 id="忙等待的互斥"><a href="#忙等待的互斥" class="headerlink" title="忙等待的互斥"></a>忙等待的互斥</h3><p>有以下几种实现互斥的方案：</p>
+<h4 id="屏蔽中断"><a href="#屏蔽中断" class="headerlink" title="屏蔽中断"></a>屏蔽中断</h4><p>使每个进程在刚刚进入临界区后立即屏蔽所有中断，并在就要离开之前在打开中断。CPU只有发生时钟中断或其他中断时才会进行进程切换，这样，在屏蔽中断之后CPU将不会被切换到其他进程。</p>
+<p>缺点：</p>
+<p>屏蔽中断对于操作系统本身而言是一项很有用的技术，但对于用户进程则不是一种合适的通用互斥机制。</p>
+<h4 id="锁变量"><a href="#锁变量" class="headerlink" title="锁变量"></a>锁变量</h4><p>进入临界区之前，先读取锁变量的值。</p>
+<p>缺点：</p>
+<p>可能会导致领个进程进入临界区</p>
+<h3 id="严格轮换法"><a href="#严格轮换法" class="headerlink" title="严格轮换法"></a>严格轮换法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// Thread A</span><br><span class="hljs-keyword">while</span> (<span class="hljs-keyword">true</span>) &#123;<br>  <span class="hljs-keyword">while</span> (turn != <span class="hljs-number">0</span>) &#123;<br>    critical_region();<br>  &#125;<br>  turn = <span class="hljs-number">1</span>;<br>  noncritical_region();<br>&#125;<br><br><br><span class="hljs-comment">// Thread B</span><br><span class="hljs-keyword">while</span> (<span class="hljs-keyword">true</span>) &#123;<br>  <span class="hljs-keyword">while</span> (turn != <span class="hljs-number">1</span>) &#123;<br>    critical_region();<br>  &#125;<br>  turn = <span class="hljs-number">0</span>;<br>  noncritical_region();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+<ul>
+<li>连续测试一个变量直到某个值出现为止，称为<strong>忙等待（busy waiting）</strong>。</li>
+<li>但这种方式非常消耗CPU资源，只有在有理由认为等待时间是非常短的情况下，才使用忙等待。用于忙等待的锁，称为<strong>自旋锁（spin lock）</strong>。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>只能轮流，在一个进程比另一个进程慢很多的情况下，轮流进入临界区并不是一个好办法。</li>
+</ul>
+<h3 id="Peterson解法"><a href="#Peterson解法" class="headerlink" title="Peterson解法"></a>Peterson解法</h3><h3 id="TSL指令"><a href="#TSL指令" class="headerlink" title="TSL指令"></a>TSL指令</h3><p>一种硬件支持的方案：</p>
+<p><code>TSL RX, LOCK</code> 称为<strong>测试并加锁（test and set lock）</strong></p>
+<ul>
+<li>它将一个内存字lock读到寄存器RX中，然后在该内存地址上存一个非零值。</li>
+<li>这是一个原子操作。</li>
+</ul>
+<p>锁住存储总线不同于屏蔽中断</p>
+<ul>
+<li>屏蔽中断，然后在读内存字之后跟着写操作并不能阻止总线上的第二个处理器在读操作和写操作之间访问该内存字。</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs shell">enter_region:<br><span class="hljs-meta">	#</span><span class="bash"> 复制锁到寄存器并将锁设为1</span><br>	TSL REGISTER, LOCK<br><span class="hljs-meta">	#</span><span class="bash"> 锁是零嘛？</span><br>	CMP REGISTER, #0<br><span class="hljs-meta">	#</span><span class="bash"> 若不是零，说明锁已被设置，所以循环</span><br>	JNE enter_region<br><span class="hljs-meta">	#</span><span class="bash"> 返回调用者，进入临界区</span><br>	<br>leave_region:<br><span class="hljs-meta">	#</span><span class="bash"> 在锁中存入0</span><br>	MOVE LOCK, #0<br><span class="hljs-meta">	#</span><span class="bash"> 返回调用者</span><br>	RET<br></code></pre></td></tr></table></figure>
+
+
+
+
+<h3 id="睡眠与唤醒"><a href="#睡眠与唤醒" class="headerlink" title="睡眠与唤醒"></a>睡眠与唤醒</h3><blockquote>
+<p>优先级反转问题：</p>
+<p>一台计算机有两个进程，H优先级较高，L优先级较低。调度规定，只要H处于就绪态它就可以运行。在某一时刻，L处于临界区中，此时H变到就绪态，准备运行。现在H开始忙等待，但由于当H就绪时L不会被调度，也就无法离开临界区，所以H将永远忙等待下去。</p>
+</blockquote>
+<p><code>sleep</code>是一个将引起调用进程阻塞的系统调用，即被挂起，直到另一个进程将其唤醒。</p>
+<p><code>wakeup</code>调用有一个参数，即要被唤醒的进程。</p>
+<h4 id="生产者-消费者问题"><a href="#生产者-消费者问题" class="headerlink" title="生产者-消费者问题"></a>生产者-消费者问题</h4>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%8E%B0%E4%BB%A3%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">现代操作系统</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/04/01/k8s-operator/">
+                        <span class="hidden-mobile">k8s operator</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

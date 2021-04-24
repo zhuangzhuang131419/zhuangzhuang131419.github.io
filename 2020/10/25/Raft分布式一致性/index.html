@@ -184,7 +184,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      0 字
+      1.1k 字
     </span>
   
 
@@ -194,7 +194,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      11
        分钟
     </span>
   
@@ -227,12 +227,150 @@
             <h1 style="display: none">Raft分布式一致性</h1>
             
             <div class="markdown-body">
-              
+              <p>这篇文章就是简单描述一下Raft的原理</p>
+<h1 id="背景介绍"><a href="#背景介绍" class="headerlink" title="背景介绍"></a>背景介绍</h1><p>首先假设我们有一个单节点的系统，我们可以认为这个节点是一个存储了一个值的数据库服务器</p>
+<img src="/2020/10/25/Raft%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7/raft1.png" srcset="/img/loading.gif" class="" title="raft1">
+
+<p>我们同时还有一个客户端可以发送值给这个节点</p>
+<img src="/2020/10/25/Raft%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7/raft2.png" srcset="/img/loading.gif" class="" title="raft2">
+
+<p>在单节点的情况下，非常容易达成一致，也就是共识（consensus）</p>
+<img src="/2020/10/25/Raft%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7/raft3.gif" srcset="/img/loading.gif" class="" title="raft3">
+
+<p>但是我们如何在多节点的情况下达成共识？这就是<strong>distributed consensus</strong>问题。<strong>Raft</strong>就是一个用来实现<strong>distributed consensus</strong>的协议。</p>
+<img src="/2020/10/25/Raft%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7/raft4.png" srcset="/img/loading.gif" class="" title="raft4">
+
+
+
+<h1 id="Raft-原理"><a href="#Raft-原理" class="headerlink" title="Raft 原理"></a>Raft 原理</h1><p>一个节点有三种状态：<em>Follower</em>, <em>Leader</em>, <em>Candidate</em>。</p>
+<h2 id="整体流程"><a href="#整体流程" class="headerlink" title="整体流程"></a>整体流程</h2><h3 id="Leader-Election"><a href="#Leader-Election" class="headerlink" title="Leader Election"></a>Leader Election</h3><ol>
+<li><p>刚开始所有的节点都处于<em>Follower</em>状态。</p>
+<img src="/2020/10/25/Raft%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7/raft5.png" srcset="/img/loading.gif" class="" title="raft5">
+</li>
+<li><p>当这些<em>followers</em>没有感知到<em>leader</em>，它们就会变成<em>candidate</em>。</p>
+<img src="/2020/10/25/Raft%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7/raft6.png" srcset="/img/loading.gif" class="" title="raft6">
+</li>
+<li><p>然后，<em>candidate</em>向其他节点拉票</p>
+<img src="/2020/10/25/Raft%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7/raft7.gif" srcset="/img/loading.gif" class="" title="raft7">
+</li>
+<li><p>其他节点发起投票回复。</p>
+<img src="/2020/10/25/Raft%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7/raft8.gif" srcset="/img/loading.gif" class="" title="raft8">
+</li>
+<li><p><em>candidate</em>如果收到了半数节点以上的票，就会成为<em>leader</em>。</p>
+
+
+
+
+</li>
+</ol>
+<h3 id="Log-Replication"><a href="#Log-Replication" class="headerlink" title="Log Replication"></a>Log Replication</h3><ol>
+<li><p>接下来所有对系统的更改都要经过<em>leader</em>。每一个改动都被作为一条entry添加到节点的日志(log)中，现在这条log entry还是未提交的，所以不会更新节点里的值。</p>
+<img src="/2020/10/25/Raft%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7/raft10.gif" srcset="/img/loading.gif" class="" title="raft10">
+</li>
+<li><p>为了提交这个entry，<em>leader</em>把自己的log entry复制了一份给其他的<em>follower</em>。</p>
+<img src="/2020/10/25/Raft%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7/raft11.gif" srcset="/img/loading.gif" class="" title="raft11">
+</li>
+<li><p>然后<em>leader</em>等待直到超过半数的节点已经写入了entry。(每个<em>follower</em>写入entry就会通知<em>leader</em>)</p>
+<img src="/2020/10/25/Raft%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7/raft12.gif" srcset="/img/loading.gif" class="" title="raft12">
+</li>
+<li><p>现在<em>leader</em>的log entry可以提交了，并把节点的值修改为“5”</p>
+<img src="/2020/10/25/Raft%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7/raft13.png" srcset="/img/loading.gif" class="" title="raft13">
+</li>
+<li><p><em>leader</em>然后通知所有的<em>followers</em> log entry已经提交了。</p>
+<img src="/2020/10/25/Raft%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7/raft14.gif" srcset="/img/loading.gif" class="" title="raft14">
+</li>
+<li><p>现在这个集群对系统的状态达成了共识。</p>
+<img src="/2020/10/25/Raft%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7/raft15.png" srcset="/img/loading.gif" class="" title="raft15">
+
+
+
+</li>
+</ol>
+<h2 id="具体细节"><a href="#具体细节" class="headerlink" title="具体细节"></a>具体细节</h2><h3 id="Leader-Election-1"><a href="#Leader-Election-1" class="headerlink" title="Leader Election"></a>Leader Election</h3><p>Raft中有控制选举的两个超时机制: election timeout</p>
+<h4 id="Election-Timeout"><a href="#Election-Timeout" class="headerlink" title="Election Timeout"></a>Election Timeout</h4><blockquote>
+<p>指一个<em>follower</em>等待直到成为<em>candidate</em>的时间。</p>
+</blockquote>
+<p>一般是150mm~300mm之间的一个随机数。</p>
+<p>选举超时后，一个<em>follower</em>成为<em>candidate</em>开始一个新的选举周期并投票给自己</p>
+<img src="/2020/10/25/Raft%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7/raft16.gif" srcset="/img/loading.gif" class="" title="raft16">
+
+<p>同时向其他的节点发起拉票请求</p>
+<img src="/2020/10/25/Raft%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7/raft17.png" srcset="/img/loading.gif" class="" title="raft17">
+
+<p>如果收到拉票请求的节点在这个周期还没有投过票，那么他就会把票投给当前的<em>candidate</em>并重置自己的election timeout</p>
+<img src="/2020/10/25/Raft%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7/raft18.gif" srcset="/img/loading.gif" class="" title="raft18">
+
+<p>一旦一个<em>candidate</em>获得超过了半数的选票就会成为<em>leader</em>。<em>leader</em>开始发送<em>Append Entries</em>消息给<em>followers</em>。这些消息以<em>heartbreak timeout</em>为间隔发送，<em>followers</em> 然后回复这些消息。这个选举周期一直到一个<em>follower</em>停止接收心跳并且成为一个<em>candidate</em>。</p>
+<img src="/2020/10/25/Raft%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7/raft19.gif" srcset="/img/loading.gif" class="" title="raft19">
+
+<h4 id="Leader-Stop"><a href="#Leader-Stop" class="headerlink" title="Leader Stop"></a>Leader Stop</h4><p>当一个<em>leader</em>停止后，会重新选举出<em>leader</em>。节点B现在是第二周期的<em>leader</em>。</p>
+<img src="/2020/10/25/Raft%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7/raft20.gif" srcset="/img/loading.gif" class="" title="raft20">
+
+<h4 id="Split-Vote"><a href="#Split-Vote" class="headerlink" title="Split Vote"></a>Split Vote</h4><p>如果两个节点同时成为<em>candidate</em>，那么会发生split vote。两个节点在同一个周期同时发起选举。</p>
+<img src="/2020/10/25/Raft%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7/raft21.gif" srcset="/img/loading.gif" class="" title="raft21">
+
+<p>并且每个<em>candidate</em>都先于另一个接触到其中一个<em>follower</em></p>
+<img src="/2020/10/25/Raft%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7/raft22.gif" srcset="/img/loading.gif" class="" title="raft22">
+
+<p>现在每个<em>candidate</em>有两票并且在这个周期收不到更多的票了</p>
+<img src="/2020/10/25/Raft%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7/raft23.gif" srcset="/img/loading.gif" class="" title="raft23">
+
+<p>那么节点就等待直到一个新的选举。节点C在第五周期收获了绝大多数的投票成为了<em>leader</em>。</p>
+<img src="/2020/10/25/Raft%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7/raft24.gif" srcset="/img/loading.gif" class="" title="raft24">
+
+<h3 id="Log-Replication-1"><a href="#Log-Replication-1" class="headerlink" title="Log Replication"></a>Log Replication</h3><p>一旦我们确定了<em>leader</em>，下一步就是给所有的结点复制所有的改动。运用用于心跳的相同的Append Entry消息来完成。</p>
+<img src="/2020/10/25/Raft%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7/raft25.gif" srcset="/img/loading.gif" class="" title="raft25">
+
+<ol>
+<li><p>首先一个客户端向<em>leader</em>发送一个改动，这个改动被追加到<em>leader</em>的日志中。</p>
+<img src="/2020/10/25/Raft%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7/raft26.gif" srcset="/img/loading.gif" class="" title="raft26">
+</li>
+<li><p>然后这次改动会在下一次心跳的时候通知所有的<em>followers</em></p>
+<img src="/2020/10/25/Raft%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7/raft27.gif" srcset="/img/loading.gif" class="" title="raft27">
+</li>
+<li><p>一旦超过半数的<em>follower</em>确认了，那么这次改动就被提交上去了并且给客户端发送一个回应。</p>
+<img src="/2020/10/25/Raft%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7/raft28.gif" srcset="/img/loading.gif" class="" title="raft28">
+
+
+
+</li>
+</ol>
+<p>例：客户端现在发送一个”ADD 2”请求</p>
+<img src="/2020/10/25/Raft%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7/raft29.gif" srcset="/img/loading.gif" class="" title="raft29">
+
+
+
+<h4 id="Partition"><a href="#Partition" class="headerlink" title="Partition"></a>Partition</h4><p>Raft可以同样在网络分区中保持特性。假设现在把A, B和C, D, E区分开来。由于网络分区，我们现在有在不同周期有两个<em>leader</em>。</p>
+<img src="/2020/10/25/Raft%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7/raft30.gif" srcset="/img/loading.gif" class="" title="raft30">
+
+<p>现在我们额外增加一个客户端并尝试同时去分别更新两个<em>leader</em>。节点B不能收到超过半数的回复，所以无法提交log entry。</p>
+<img src="/2020/10/25/Raft%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7/raft31.gif" srcset="/img/loading.gif" class="" title="raft31">
+
+<p>另一个客户端尝试去把节点C更新为8。因为可以复制给超过半数的节点，所以成功了。</p>
+<img src="/2020/10/25/Raft%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7/raft32.gif" srcset="/img/loading.gif" class="" title="raft32">
+
+<p>现在我们修复网络分区。节点B看到了更高的周期所以进行下一步，</p>
+<img src="/2020/10/25/Raft%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7/raft33.gif" srcset="/img/loading.gif" class="" title="raft33">
+
+<p>节点A, B会回滚他们未提交的log entry并且匹配新<em>leader</em>的日志。</p>
+<img src="/2020/10/25/Raft%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7/raft34.gif" srcset="/img/loading.gif" class="" title="raft34">
+
+
+
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p><a target="_blank" rel="noopener" href="http://thesecretlivesofdata.com/raft/">图解Raft流程</a></p>
+
             </div>
             <hr>
             <div>
               <div class="post-metas mb-3">
                 
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/">分布式系统</a>
+                    
+                  </div>
                 
               </div>
               

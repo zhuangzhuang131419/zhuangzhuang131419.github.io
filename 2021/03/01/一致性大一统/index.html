@@ -1,0 +1,556 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="zhuangzhuang">
+  <meta name="keywords" content="">
+  <title>一致性大一统 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"zhuangzhuang131419.github.io","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="一致性大一统">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-03-01 11:07" pubdate>
+        2021年3月1日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.8k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      40
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">一致性大一统</h1>
+            
+            <div class="markdown-body">
+              <p>在写这篇文章之前，对一致性的理解尚处于一种非常混乱的地步。很多名字搅在一起serializable, linearizable, sequential… 并没有一个很好的理解每一种模型之间的不同以及每一个模型背后的底层逻辑。这里准备整合一下网上的资料，阅读一些提出模型的论文来一个深度的理解。</p>
+<p>[TOC]</p>
+<h1 id="一致性模型"><a href="#一致性模型" class="headerlink" title="一致性模型"></a>一致性模型</h1><p>下图向我们展示了在并发系统中常见的一致性模型之间的关系。箭头显示一致性模型之间的关系。例如，严格可串行化（Strict Serializable）意味着可串行化（Serializable）和可线性化（Linearizable），可线性化意味着序列一致性（Sequential）等等。颜色显示每个模型对于异步网络上的分布式系统的可用性。</p>
+<img src="/2021/03/01/%E4%B8%80%E8%87%B4%E6%80%A7%E5%A4%A7%E4%B8%80%E7%BB%9F/consistency-model.png" srcset="/img/loading.gif" class="" title="一致性模型">
+
+
+
+<h1 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h1><h2 id="系统-（Systems）"><a href="#系统-（Systems）" class="headerlink" title="系统 （Systems）"></a>系统 （Systems）</h2><p><em>分布式系统</em> 是<em>并发系统</em> 的一种类型，许多关于并发控制的文献直接应用于分布式系统。实际上，我们将要讨论的大多数概念最初都是针对单节点并发系统。但是，在可用性和性能方面存在一些重要的差异。</p>
+<p>系统具有随时间变化的逻辑状态。例如，一个简单的系统可以是一个整数变量，状态为0、3和42。互斥只有两种状态：locked 或 unlocked。键值存储的状态可能是键到值的映射，例如：<code>&#123;cat: 1, dog: 1&#125;</code> 或 <code>&#123;cat: 4&#125;</code>。</p>
+<h2 id="进程（Processes）"><a href="#进程（Processes）" class="headerlink" title="进程（Processes）"></a>进程（Processes）</h2><p>进程是执行计算和运行操作的逻辑单线程程序。进程从来都不是异步的我们通过独立的进程来模拟异步计算。我们说“逻辑单线程”是为了强调，虽然一个进程一次只能做一件事，但它的实现可能会分布在多个线程、操作系统进程甚至物理节点上，只要这些组件提供了一致的单线程程序的假象。</p>
+<h2 id="操作（Operations）"><a href="#操作（Operations）" class="headerlink" title="操作（Operations）"></a>操作（Operations）</h2><p>操作是从一个状态到另一个状态的转换。例如，一个单变量系统可能有<code>read</code>和<code>write</code>这样的操作，分别获取和设置该变量的值。计数器可能具有<code>increments</code>、<code>decrements</code>和<code>reads</code>等操作。SQL存储可能有<code>selects</code>和<code>updates</code>等操作。</p>
+<h3 id="函数，参数和返回（Functions-Arguments-amp-Return-Values）"><a href="#函数，参数和返回（Functions-Arguments-amp-Return-Values）" class="headerlink" title="函数，参数和返回（Functions, Arguments &amp; Return Values）"></a>函数，参数和返回（Functions, Arguments &amp; Return Values）</h3><p>理论上，我们可以给每次状态转移一个唯一的名字。一个锁有两种状态：<code>lock</code>和<code>unlock</code>。一个整形的寄存器有无数种<code>read</code>和<code>write</code>：<code>read-the-value-1</code>, <code>read-the-value-2</code> 和 <code>write-1</code>,<code>write-2</code>…</p>
+<p>为了让它更容易理解，我们把这些转换分解为<code>read</code>, <code>write</code>, <code>cas</code>, <code>increment</code>等 <em>函数（ function）</em>以及参数化这些函数的值（values）。在单寄存器系统中，write 1这个操作可以写成：</p>
+<p><code>&#123;:f :write, :value 1&#125;</code></p>
+<p>给定一个键值存储，我们可以将键“a”的值增加3，如下所示：</p>
+<p><code>&#123;:f :increment, :value[&quot;a&quot; 3]&#125;</code></p>
+<p>在事务存储中，值可以是一个复杂的事务。在这里，我们读取a的当前值，找到2，并将b设置为3，在一个状态转换中：</p>
+<p><code>&#123;:f :txn, :value [[:read &quot;a&quot; 2] [:write &quot;b&quot; 3]]&#125;</code></p>
+<h3 id="调用和完成时间（Invocation-amp-Completion-Time）"><a href="#调用和完成时间（Invocation-amp-Completion-Time）" class="headerlink" title="调用和完成时间（Invocation &amp; Completion Time）"></a>调用和完成时间（Invocation &amp; Completion Time）</h3><p>一般来说，操作都需要时间。在多线程程序中，操作可能是函数调用。在分布式系统中，操作可能意味着向服务器发送请求并接收响应。</p>
+<p>为了对此进行建模，我们说每个操作都有一个<em>调用（ invocation）</em>时间，如果它完成了，则有一个更大的完成时间<em>（ completion time）</em>，这两个时间都由一个理想的，完美同步的，全局可访问的时钟给出。我们将这些时钟称为提供实时（real-time）顺序，而不是只跟踪因果顺序的时钟。</p>
+<h3 id="并发（Concurrency）"><a href="#并发（Concurrency）" class="headerlink" title="并发（Concurrency）"></a>并发（Concurrency）</h3><p>由于操作需要时间，两个操作可能会在某个时间点重合。例如，给定两个操作A和B，A可以开始，B可以开始，A可以完成，然后B可以完成。如果有一段时间A和B都在执行，那么我们说两个操作A和B是 <em>并发</em> 的。</p>
+<p>进程是单线程的，这意味着由同一进程执行的两个操作永远不会并发。</p>
+<h3 id="崩溃（Crashes）"><a href="#崩溃（Crashes）" class="headerlink" title="崩溃（Crashes）"></a>崩溃（Crashes）</h3><p>如果一个操作因为一些意外（可能是因为超时或者一个关键的组件崩溃了）没有执行成功，那么这个操作就 <em>没有完成时间（completion time）</em> 。并且通常必须在调用后被视为与每个操作并发。它可以执行也可以不执行。</p>
+<p>具有某个操作的进程处于这种状态时，实际上会被卡住，并且永远不能再次调用另一个操作。如果它调用另一个操作，它将违反我们的单线程约束：进程一次只做一件事。</p>
+<h2 id="Histories（历史）"><a href="#Histories（历史）" class="headerlink" title="Histories（历史）"></a>Histories（历史）</h2><p><em>历史（ history）</em> 是操作的集合，包括它们的并发结构。</p>
+<p>一些论文将其表示为一组操作，其中每个操作包含两个数字，表示它们的调用和完成时间；通过比较进程之间的时间窗口来推断并发结构。</p>
+<p>Jepsen将历史表示为调用和完成操作的有序列表，有效地将每个操作一分为二。这种表示法对于迭代历史的算法更为方便，它保持了并发操作和可能状态的表示。</p>
+<h1 id="一致性模型-1"><a href="#一致性模型-1" class="headerlink" title="一致性模型"></a>一致性模型</h1><p><em>一致性模型</em> 是一组历史。我们使用一致性模型来定义系统中哪些历史是“好的”，哪些是“合法的”。当我们说一个历史“违反了可序列化性”或“不可序列化”时，我们的意思是该历史不在可序列化历史的集合中。</p>
+<p>如果A是B的子集，则一致性模型A意味着模型B。例如，线性化意味着序列一致性，因为每个可线性化的历史也是序列一致的。这允许我们在层次结构中关联一致性模型。</p>
+<p>非正式地说，我们将更小、更严格的一致性模型称为“更强”，将更大、更宽松的一致性模型称为“较弱”。</p>
+<p>并非所有的一致性模型都具有直接可比性。通常，两个模型允许不同的行为，但都不包含另一个。</p>
+<h2 id="一致性（Consistency）"><a href="#一致性（Consistency）" class="headerlink" title="一致性（Consistency）"></a>一致性（Consistency）</h2><p>数据库和分布式系统中都有一致性的概念，但是英文的文献也没有翻译出它们的区别，都是统一翻译成“Consistency”。</p>
+<ul>
+<li><p>在数据库事务中的ACID中，C是Consistency，这里这个C主要强调应用逻辑的一致性，比如应用定义的约束，包括外键等。</p>
+<ul>
+<li>主要强调读是否能读到最新，以及并发场景下操作执行的时序关系，主要包括线性一致性（Linearizability），顺序一致性（Sequential Consistency），因果一致性（Causal Consistency）等；</li>
+</ul>
+</li>
+<li><p>分布式系统的CAP以及一致性协议，也称为一致性。</p>
+<ul>
+<li>主要强调“共识”，分布式中的多个节点对某个事情（leader选举，事务提交）达成一致，常见的共识算法包括paxos协议，raft协议。</li>
+</ul>
+</li>
+</ul>
+<h2 id="正确性（Correctness）"><a href="#正确性（Correctness）" class="headerlink" title="正确性（Correctness）"></a>正确性（Correctness）</h2><blockquote>
+<p>Given some <em>rules</em> which realte the operations and state, the history of operations in the system should always follow those rules.</p>
+</blockquote>
+<p>要求我们的系统从头到尾必须遵循同一种一致性模型，那么我们就可以说这个系统具有正确性。</p>
+<p>一致性模型的限制从最宽松到最严格可以被分为不同的档位。最宽松的一致性模型，允许所有的行为（即你的输出是什么都可以）。为了描述并发，就可以调整模型的限制。</p>
+<h2 id="严格可串行化-（Strict-Serializability）"><a href="#严格可串行化-（Strict-Serializability）" class="headerlink" title="严格可串行化 （Strict Serializability）"></a>严格可串行化 （Strict Serializability）</h2><p>非正式地说，严格序列化意味着操作似乎以某种顺序发生，与这些操作的实时顺序一致；例如，如果操作A在操作B开始之前完成，那么A应该在序列化顺序中出现在B之前。</p>
+<p>严格串行化是一种 <em>事务</em> 模型：操作（通常称为“事务”）可以包括按顺序执行的几个基本操作。严格的可序列化性保证了操作以原子方式进行：事务的子操作看起来不会与其他事务的子操作交织在一起。</p>
+<p>它也是一个 <em>多对象</em> 属性：操作可以作用于系统中的多个对象。实际上，严格的序列化不仅适用于事务中涉及的特定对象，而且适用于整个系统——操作可能作用于谓词，如“所有cats的集合”。</p>
+<p>严格的序列化功能不能完全或停滞可用；在网络分区的情况下，某些或所有节点将无法取得进展。</p>
+<p>严格可串行化意味着可串行化和线性化。您可以将严格的可串行化看作是可串行化的事务性多对象操作的总顺序，再加上线性化的实时约束。或者，您可以将严格可序列化的数据库视为可线性化的对象，其中对象的状态是整个数据库。</p>
+<h3 id="Formally"><a href="#Formally" class="headerlink" title="Formally"></a>Formally</h3><blockquote>
+<p>A history is serializable if it is equivalent to one in which transactions appear to execute sequentiallly, i.e., without interleaving. A (partial) precedence order can be defined on non-overlapping pairs of transactions in the obvious way. A history is strictly serializable if the transcations’ order in the sequential history is compatibel with their precedence order.</p>
+</blockquote>
+<h2 id="顺序一致性-（Sequential-Consistency）"><a href="#顺序一致性-（Sequential-Consistency）" class="headerlink" title="顺序一致性 （Sequential Consistency）"></a>顺序一致性 （Sequential Consistency）</h2><p>这个是出现在1979年的论文中</p>
+<p>进程的操作可能会在调用之前或是调用之后生效，但仍然保证一个约束——任意进程中的操作必须按照进程中定义的顺序发生。</p>
+<p>顺序一致性的性质：</p>
+<ol>
+<li>不要求操作按照真实的时间序发生。</li>
+<li>不同进程间的操作执行先后顺序也没有强制要求，但必须是原子的。</li>
+<li>单个进程内的操作顺序必须和编码时的顺序一致。</li>
+</ol>
+<h2 id="线性一致性-（Linearizability）"><a href="#线性一致性-（Linearizability）" class="headerlink" title="线性一致性 （Linearizability）"></a>线性一致性 （Linearizability）</h2><blockquote>
+<p>An operation cannot take effect <em>before</em> its invocation. </p>
+<p>No operation may take effect <em>after</em> its completion.</p>
+</blockquote>
+<p>假设：</p>
+<ul>
+<li>有一个全局的状态于每个进程进行通信</li>
+<li>与这个全局状态交互的操作都是<strong>原子的</strong></li>
+<li><strong>每个操作会在它调用和完成之间的某个时间点原子生效</strong></li>
+</ul>
+<p>这样的模型就被称为<strong>线性一致性模型</strong>。尽管操作都是并发且耗时的，但每一个操作都会在某地以严格的线性顺序发生。相比于<strong>顺序一致性</strong>添加了时间维度。（顺序一致性中只有偏序关系）</p>
+<p>“全局单点状态”并不一定是一个单独的节点，同样的，操作也并不一定全是原子的，状态也可以被分片成横跨多台机器，或者分多步完成——只要从进程的角度看来，外部记录的表现与<strong>一个原子的单点状态等效</strong>。一旦一个操作完成，它或它之后的某一状态将对<strong>所有参与者可见</strong>。</p>
+<p>我们可以利用线性一致性的原子性约束来<strong>安全地修改状态</strong>。我们定义一个类似<code>CAS（compare-and-set）</code>的操作，当且仅当寄存器持有某个值的时候，我们可以往它写入新值。 <code>CAS</code>操作可以作为互斥量，信号量，通道，计数器，列表，集合，映射，树等等的实现基础，使得这些共享数据结构变得可用。线性一致性保证了变更的<strong>安全交错</strong>。</p>
+<p>此外，线性一致性的时间界限保证了操作完成后，所有变更都对其他参与者可见。于是线性一致性禁止了过时的读。每次读都会读到某一介于<code>调用时间</code>与<code>完成时间</code>的状态，但永远不会读到读请求调用之前的状态。线性一致性同样禁止了<strong>非单调</strong>的读，比如一个读请求先读到了一个新值，后读到一个旧值。</p>
+<p>保证：</p>
+<ol>
+<li><em>对于观察者来说，所有的读和写都在一个单调递增的时间线上串行地向前推进。</em></li>
+<li><em>所有的读总能返回最近的写操作的值</em>。</li>
+</ol>
+<img src="/2021/03/01/%E4%B8%80%E8%87%B4%E6%80%A7%E5%A4%A7%E4%B8%80%E7%BB%9F/%E7%BA%BF%E6%80%A7%E4%B8%80%E8%87%B4%E6%80%A7%E5%92%8C%E9%A1%BA%E5%BA%8F%E4%B8%80%E8%87%B4%E6%80%A7.png" srcset="/img/loading.gif" class="" title="线性一致性和顺序一致性">
+
+
+
+<h2 id="因果一致性（Casual-Consistency）"><a href="#因果一致性（Casual-Consistency）" class="headerlink" title="因果一致性（Casual Consistency）"></a>因果一致性（Casual Consistency）</h2><p>我们不必对一个进程中的<strong>每个</strong>操作都施加顺序约束。只有<strong>因果相关</strong>的操作必须按顺序发生。同样拿帖子举例子：一篇帖子下的所有评论必须以同样的顺序展示给所有人，并且只有帖子可见<strong>后</strong>，帖子下的回复才可见<em>（也就是说帖子和帖子下的评论有因果关系）</em>。如果我们将这些因果关系编码成类似“我依赖于操作X”的形式，作为每个操作明确的一部分，数据库就可以将这些操作延迟直到它们的依赖都就绪后才可见。</p>
+<p>因果一致性比同一进程下对每个操作严格排序的一致性<em>（即顺序一致性）</em>来的更宽松——属于同一进程但不同因果关系链的操作能以相对的顺序执行<em>（也就是说按因果关系隔离，无因果关系的操作可以并发执行）</em>，这能防止许多不直观的行为发生。</p>
+<img src="/2021/03/01/%E4%B8%80%E8%87%B4%E6%80%A7%E5%A4%A7%E4%B8%80%E7%BB%9F/%E5%9B%A0%E6%9E%9C%E4%B8%80%E8%87%B4%E6%80%A7.png" srcset="/img/loading.gif" class="" title="因果一致性">
+
+<p>每个线程自己认为所看到的是符合逻辑的就行。但不能保证每个线程看到的逻辑都是一样的。</p>
+<h2 id="串行一致性-（Serializable-Consistency）"><a href="#串行一致性-（Serializable-Consistency）" class="headerlink" title="串行一致性 （Serializable Consistency）"></a>串行一致性 （Serializable Consistency）</h2><p>这是一个非常容易搞混的概念。原因在于数据库的隔离级别中有一个最高的隔离级别是可串行化（Serializable），这个是纯粹数据库领域的概念与分布式系统并没有交集。</p>
+<p>对于数据库而言，Serializable是指在并发场景下，多个并发事务最终执行的序列与某个串行执行的序列相同（无事务并发，事务的执行没有重叠）。可以通过多种方式来实现，具体可见《数据密集型应用系统设计》读书笔记。</p>
+<p>串行一致性允许对操作顺序执行任意的重排（只要操作顺序是原子序的）。</p>
+<h3 id="Linearizability-vs-Serializability"><a href="#Linearizability-vs-Serializability" class="headerlink" title="Linearizability vs. Serializability"></a>Linearizability vs. Serializability</h3><ul>
+<li>Linearizability: single-operation, single-object, real-time order<ul>
+<li>它对单个对象（例如，分布式寄存器或数据项）上的一组单个操作（通常是读写）的行为提供实时（即挂钟）保证。</li>
+</ul>
+</li>
+<li>Serializability: multi-operation, multi-object, arbitrary total order<ul>
+<li>它保证在多个项目上执行一组事务（通常包含读写操作）等同于事务的<strong>某些</strong>串行执行（总排序）。</li>
+</ul>
+</li>
+<li>Serializability对事务的排序施加任何实质性约束，这一点与Linearizabililty不一样。<ul>
+<li>Serializability是不可组合的，它并不意味着任何类型的确定顺序，它只是要求存在一些等效的串行执行。</li>
+</ul>
+</li>
+</ul>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p><a target="_blank" rel="noopener" href="https://jepsen.io/consistency">Consistency Models</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.bailis.org/blog/linearizability-versus-serializability/">Linearizability vs. Serializablity</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/">分布式系统</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E4%B8%80%E8%87%B4%E6%80%A7/">一致性</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/03/04/Google%E4%B8%89%E9%A9%BE%E9%A9%AC%E8%BD%A6%EF%BC%881%EF%BC%89%E2%80%94%E2%80%94GFS/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Google三驾马车（1）——GFS</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/02/02/%E3%80%8A%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E3%80%8B-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B03/">
+                        <span class="hidden-mobile">《数据密集型应用系统设计》-读书笔记3</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

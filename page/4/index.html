@@ -181,17 +181,26 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2020/06/29/LeetCode%E9%82%A3%E4%BA%9B%E4%BA%8B/">LeetCode那些事</a>
+        <a href="/2020/08/20/Docker%E9%82%A3%E4%BA%9B%E4%BA%8B/">Docker那些事</a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2020/06/29/LeetCode%E9%82%A3%E4%BA%9B%E4%BA%8B/">
+        <a href="/2020/08/20/Docker%E9%82%A3%E4%BA%9B%E4%BA%8B/">
           
           
             
           
-          Q146 LRU CacheDesign and implement a data structure for Least Recently Used (LRU) cache. It should support the following operations: get and put.
-get(key) - Get the value (will always be positive) of 
+          容器生态系统容器核心技术容器核心技术指的是能够让 Container 在 host 上运行起来的技术
+容器规范
+我们熟知的Docker只是容器的一种
+
+OCI 发布了以下两个规范
+
+runtime spec
+image format spec有了这两个规范，不同组织和厂商开发的容器能够在不同的runtime上运行
+
+容器runtimeJava 程序 -&gt; 容器
+JVM -&gt; runti
         </a>
       </p>
 
@@ -199,8 +208,8 @@ get(key) - Get the value (will always be positive) of
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2020-06-29 13:47" pubdate>
-              2020-06-29
+            <time datetime="2020-08-20 21:31" pubdate>
+              2020-08-20
             </time>
           </div>
         
@@ -216,22 +225,18 @@ get(key) - Get the value (will always be positive) of
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2020/06/28/MySQL%E7%AC%94%E8%AE%B0/">MySQL笔记</a>
+        <a href="/2020/08/05/%E7%90%86%E8%A7%A3GoLang%E4%B8%AD%E7%9A%84Context/">理解GoLang中的Context</a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2020/06/28/MySQL%E7%AC%94%E8%AE%B0/">
+        <a href="/2020/08/05/%E7%90%86%E8%A7%A3GoLang%E4%B8%AD%E7%9A%84Context/">
           
           
             
           
-          
-数据库三大范式第一范式每个列都不可以再拆分
-第二范式第一范式 + 非主键完全依赖于主键，而不能是依赖于主键的一部分
-第三范式第二范式 + 非主键列只依赖于主键，不依赖于其他非主键
-https://www.cnblogs.com/linjiqin/archive/2012/04/01/2428695.html
-
-B树和B+树平衡二叉树我们知道，二叉树的查找的时间复杂度是O(logN)，其查找效率与
+          背景在实际的业务开发中，经常会有碰到一个在父协程中启动一个子协程的情况。一直没有弄明白这个子协程的关闭到底是否依赖与父协程，并且应该如何与父协程进行通信。今天在此补作一笔。
+子协程的退出问题先说结论，子协程是不会随着父协程的结束而结束，可以通过GoLang的MPG模型来理解，在此不做赘述。具体可以通过代码来发现
+1234567891011121314151617func main() &#123;
         </a>
       </p>
 
@@ -239,26 +244,12 @@ B树和B+树平衡二叉树我们知道，二叉树的查找的时间复杂度�
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2020-06-28 17:38" pubdate>
-              2020-06-28
+            <time datetime="2020-08-05 17:22" pubdate>
+              2020-08-05
             </time>
           </div>
         
         
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/MySQL/">MySQL</a>
-            
-          </div>
         
       </div>
     </article>
@@ -270,19 +261,22 @@ B树和B+树平衡二叉树我们知道，二叉树的查找的时间复杂度�
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2020/06/27/sftp%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA/">sftp服务器搭建</a>
+        <a href="/2020/07/23/RPC%E6%A1%86%E6%9E%B6/">RPC框架</a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2020/06/27/sftp%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA/">
+        <a href="/2020/07/23/RPC%E6%A1%86%E6%9E%B6/">
           
           
             
           
-          背景1. Linux管理员(root)修改和查看普通用户的密码root修改普通用户密码-&gt; sudo passwd user_name
-root查看普通用户密码密码是无法被查看的，即使是root也不行，因此普通用户要是遗忘了密码，可以参照上一步，让管理员使用root权限修改密码，然后再将新密码告知普通用户
-普通用户修改自己的密码-&gt; passwd
-2. 查看当前用户及用户组可以查看所有
+          RPC 定义RPC是一种技术思想而非一种规范或协议，常见的RPC技术和框架有
+
+应用级的服务框架：阿里的Dubbo/Dubbox, Google的gRPC, Spring Boot/Spring Cloud
+远程通信协议：RMI, Socket, SOAP(HTTP XML), REST(HTTP JSON)
+通信框架：MINA和Netty
+
+RPC采用客户机/服务器模式。请求程序就是一个客户机，
         </a>
       </p>
 
@@ -290,8 +284,267 @@ root查看普通用户密码密码是无法被查看的，即使是root也不行
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2020-06-27 21:36" pubdate>
-              2020-06-27
+            <time datetime="2020-07-23 17:14" pubdate>
+              2020-07-23
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/07/14/http%E5%92%8Chttps%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/">http和https的那些事</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/07/14/http%E5%92%8Chttps%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/">
+          
+          
+            
+          
+          HTTPHTTP 基本概念HTTP（超文本传输协议，HyperText Transfer Protocol)是互联网上应用最为广泛的一种网络协议。所有的WWW文件都必须遵守这个标准。设计HTTP最初的目的是为了提供一种发布和接收HTML页面的方法。是用于从WWW服务器传输超文本到本地浏览器的传输协议。默认使用80端口，HTTP客户端发起一个请求，建立一个到服务器指定端口（默认是80端口）的TCP连
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-07-14 09:56" pubdate>
+              2020-07-14
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/07/13/kite%E6%A1%86%E6%9E%B6%E5%92%8Cgin%E6%A1%86%E6%9E%B6/">kite框架和gin框架</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/07/13/kite%E6%A1%86%E6%9E%B6%E5%92%8Cgin%E6%A1%86%E6%9E%B6/">
+          
+          
+            
+          
+          
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-07-13 14:04" pubdate>
+              2020-07-13
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/07/11/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/">字符编码</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/07/11/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/">
+          
+          
+            
+          
+          
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-07-11 11:12" pubdate>
+              2020-07-11
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/07/10/IO%E9%82%A3%E4%BA%9B%E4%BA%8B/">IO那些事</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/07/10/IO%E9%82%A3%E4%BA%9B%E4%BA%8B/">
+          
+          
+            
+          
+          本来计划七月OKR了解一下经常面经中看到但是不很了解的“I/O多路复用”，发现自己在整理序列化，反序列化的时候连基本的I/O也没有整明白，于是搜集资料准备好好梳理一下
+为什么使用I/O
+当我们的程序需要从硬盘，网络，或其他应用程序中读取或写入数据时候，数据传输量可能很大，而我们的内存或带宽有限，无法一次性读取获取写入大量数据。
+而流（Stream）可以实现一点一点的逐步传输数据。
+想想我们是怎样下
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-07-10 12:43" pubdate>
+              2020-07-10
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/07/10/%E5%BA%8F%E5%88%97%E5%8C%96%E5%92%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">序列化和反序列化</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/07/10/%E5%BA%8F%E5%88%97%E5%8C%96%E5%92%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
+          
+          
+            
+          
+          鉴于面试的时候被这个问题虐的实在太惨了，每次都只能说自己只是使用过，遂今天深挖一下这个底层的实现原理。
+序列化与反序列化是一个标准，它是编程语言的一种共性，只是有些编程语言是内置的（如Java，PHP等），有些语言是通过第三方库来实现的（如C/C++）。
+使用场景
+对象的持久化（将对象内容保存到数据库或文件中）
+远程数据传输（将对象发送给其他计算机系统）
+
+序列化协议的选择
+通用性
+是否只能用于J
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-07-10 11:43" pubdate>
+              2020-07-10
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/07/05/%E8%BF%9B%E7%A8%8B%E9%97%B4%E7%9A%84%E9%80%9A%E4%BF%A1/">进程间的通信</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/07/05/%E8%BF%9B%E7%A8%8B%E9%97%B4%E7%9A%84%E9%80%9A%E4%BF%A1/">
+          
+          
+            
+          
+          管道管道，英文为pipe。这是一个我们在学习Linux命令行的时候就会引入的一个很重要的概念。它的发明人是道格拉斯.麦克罗伊，这位也是UNIX上早期shell的发明人。他在发明了shell之后，发现系统操作执行命令的时候，经常有需求要将一个程序的输出交给另一个程序进行处理，也因此，管道应运而生了。Golang中的Channel也是管道的思想。 
+管道可以分为两类：匿名管道和命名管道。
+常见的Lin
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-07-05 15:07" pubdate>
+              2020-07-05
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/07/03/%E9%9D%A2%E8%AF%95%E9%82%A3%E4%BA%9B%E4%BA%8B/">面试那些事</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/07/03/%E9%9D%A2%E8%AF%95%E9%82%A3%E4%BA%9B%E4%BA%8B/">
+          
+          
+            
+          
+          字节跳动岗位：后端开发工程师 地点：杭州一面
+go里面线程，进程，协程的区别
+完全二叉树与搜索二叉树的概念
+Java中JVM 内存，垃圾回收机制。（面试官抠的比较细，要求讲到复制算法适用新生代，标记清楚算法适用年老代）
+MySQL的索引原理
+b树与b+树的区别
+InnoDB 和 MyISAM的区别  (聚簇索引和非聚簇索引)
+Redis的基本数据结构(string, hash, set, list
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-07-03 17:39" pubdate>
+              2020-07-03
             </time>
           </div>
         
@@ -305,7 +558,7 @@ root查看普通用户密码密码是无法被查看的，即使是root也不行
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/3/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+      <a class="extend prev" rel="prev" href="/page/3/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
   
